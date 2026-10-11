@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .tt{font-size:22px;font-weight:800;fill:#0f172a}
+    .st{font-size:13px;fill:#475569}
+    .eje{font-size:14.5px;font-weight:700;fill:#0f172a}
+    .q{font-size:11.5px;fill:#475569}
+    .hn{font-size:12.5px;font-weight:700}
+    .hs{font-size:10.5px}
+    .hw{font-size:10.5px;font-style:italic;fill:#475569}
+    .nt{font-size:9.5px;fill:#475569}
+    .lg{font-size:12px;fill:#334155}
+  </style>
+  <rect width="1120" height="560" rx="16" fill="#f8fafc"/>
+
+  <text x="20" y="40" class="tt">El revisor por dentro: cada eje, de dónde saca sus reglas</text>
+  <text x="20" y="62" class="st">un solo agente · contexto limpio · no edita · 6 ejes · cada hallazgo con fichero:línea, eje y fuente · termina con veredicto</text>
+
+  <g>
+    <rect x="330" y="80" width="120" height="78" rx="10" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="390" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">convenios-codigo</text>
+    <text x="390" y="118" text-anchor="middle" class="hs" fill="#1e3a8a">skill</text>
+    <text x="390" y="146" text-anchor="middle" class="hw">siempre</text>
+
+    <rect x="461" y="80" width="120" height="78" rx="10" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="521" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">diseno-ui</text>
+    <text x="521" y="118" text-anchor="middle" class="hs" fill="#1e3a8a">skill</text>
+    <text x="521" y="146" text-anchor="middle" class="hw">si hay UI</text>
+
+    <rect x="592" y="80" width="120" height="78" rx="10" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="652" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">fuentes-oficiales</text>
+    <text x="652" y="118" text-anchor="middle" class="hs" fill="#1e3a8a">skill</text>
+    <text x="652" y="146" text-anchor="middle" class="hw">si usa el stack</text>
+
+    <rect x="723" y="80" width="120" height="78" rx="10" fill="#e2e8f0" stroke="#64748b"/>
+    <text x="783" y="102" text-anchor="middle" class="hn" fill="#334155">seguridad</text>
+    <text x="783" y="118" text-anchor="middle" class="hs" fill="#334155">checklist (10 puntos)</text>
+    <text x="783" y="146" text-anchor="middle" class="hw">siempre</text>
+
+    <rect x="854" y="80" width="120" height="78" rx="10" fill="#ffedd5" stroke="#ea580c"/>
+    <text x="914" y="102" text-anchor="middle" class="hn" fill="#7c2d12">sensor</text>
+    <text x="914" y="118" text-anchor="middle" class="hs" fill="#7c2d12">comprobar.py</text>
+    <text x="914" y="146" text-anchor="middle" class="hw">siempre, el primero</text>
+
+    <rect x="985" y="80" width="115" height="78" rx="10" fill="#f1f5f9" stroke="#475569"/>
+    <text x="1042" y="102" text-anchor="middle" class="hn" fill="#0f172a">el propio agente</text>
+    <text x="1042" y="118" text-anchor="middle" class="hs" fill="#334155">sus preguntas</text>
+    <text x="1042" y="146" text-anchor="middle" class="hw">siempre</text>
+  </g>
+
+  <g>
+    <rect x="20" y="168" width="1080" height="52" rx="6" fill="#ffffff"/>
+    <rect x="20" y="220" width="1080" height="52" rx="6" fill="#f1f5f9"/>
+    <rect x="20" y="272" width="1080" height="52" rx="6" fill="#ffffff"/>
+    <rect x="20" y="324" width="1080" height="52" rx="6" fill="#f1f5f9"/>
+    <rect x="20" y="376" width="1080" height="52" rx="6" fill="#ffffff"/>
+    <rect x="20" y="428" width="1080" height="52" rx="6" fill="#f1f5f9"/>
+  </g>
+  <text x="34" y="190" class="eje">1 · Convenios</text><text x="34" y="208" class="q">¿escrito como dicen los convenios?</text>
+  <text x="34" y="242" class="eje">2 · Corrección</text><text x="34" y="260" class="q">¿hace lo pedido, también en los casos raros?</text>
+  <text x="34" y="294" class="eje">3 · Seguridad</text><text x="34" y="312" class="q">¿se puede abusar de esto?</text>
+  <text x="34" y="346" class="eje">4 · Rendimiento</text><text x="34" y="364" class="q">¿irá lento con datos reales?</text>
+  <text x="34" y="398" class="eje">5 · Arquitectura</text><text x="34" y="416" class="q">¿está en su sitio y sin duplicar?</text>
+  <text x="34" y="450" class="eje">6 · Legibilidad</text><text x="34" y="468" class="q">¿lo entenderá otro dentro de un año?</text>
+
+  <g>
+    <circle cx="390" cy="194" r="9" fill="#2563eb"/>
+    <circle cx="521" cy="194" r="9" fill="#2563eb"/>
+    <circle cx="914" cy="190" r="7" fill="#fff" stroke="#ea580c" stroke-width="2.5"/><text x="914" y="212" text-anchor="middle" class="nt">avisos</text>
+    <circle cx="652" cy="242" r="9" fill="#2563eb"/><text x="652" y="264" text-anchor="middle" class="nt">trampas de versión</text>
+    <circle cx="914" cy="242" r="9" fill="#ea580c"/><text x="914" y="264" text-anchor="middle" class="nt">errores</text>
+    <circle cx="1042" cy="242" r="7" fill="#fff" stroke="#475569" stroke-width="2.5"/><text x="1042" y="264" text-anchor="middle" class="nt">casos borde</text>
+    <circle cx="783" cy="294" r="9" fill="#64748b"/><text x="783" y="316" text-anchor="middle" class="nt">eje 3 · #n</text>
+    <circle cx="914" cy="294" r="7" fill="#fff" stroke="#ea580c" stroke-width="2.5"/><text x="914" y="316" text-anchor="middle" class="nt">reglas de seguridad</text>
+    <circle cx="1042" cy="350" r="9" fill="#475569"/><text x="1042" y="368" text-anchor="middle" class="nt">N+1, sin paginar</text>
+    <circle cx="390" cy="398" r="7" fill="#fff" stroke="#2563eb" stroke-width="2.5"/><text x="390" y="420" text-anchor="middle" class="nt">dónde va la lógica</text>
+    <circle cx="521" cy="398" r="7" fill="#fff" stroke="#2563eb" stroke-width="2.5"/><text x="521" y="420" text-anchor="middle" class="nt">componente canónico</text>
+    <circle cx="1042" cy="398" r="9" fill="#475569"/><text x="1042" y="420" text-anchor="middle" class="nt">duplicados, tamaño</text>
+    <circle cx="390" cy="450" r="7" fill="#fff" stroke="#2563eb" stroke-width="2.5"/><text x="390" y="472" text-anchor="middle" class="nt">naming</text>
+    <circle cx="1042" cy="450" r="9" fill="#475569"/><text x="1042" y="472" text-anchor="middle" class="nt">restos, código muerto</text>
+  </g>
+
+  <circle cx="30" cy="512" r="8" fill="#334155"/><text x="44" y="517" class="lg">fuente principal del eje</text>
+  <circle cx="226" cy="512" r="6.5" fill="#fff" stroke="#334155" stroke-width="2.5"/><text x="240" y="517" class="lg">de apoyo</text>
+  <rect x="330" y="504" width="16" height="16" rx="4" fill="#dbeafe" stroke="#2563eb"/><text x="352" y="517" class="lg">skill (guía al escribir, checklist al revisar)</text>
+  <rect x="640" y="504" width="16" height="16" rx="4" fill="#e2e8f0" stroke="#64748b"/><text x="662" y="517" class="lg">checklist (solo revisar)</text>
+  <rect x="820" y="504" width="16" height="16" rx="4" fill="#ffedd5" stroke="#ea580c"/><text x="842" y="517" class="lg">sensor fijo</text>
+  <rect x="940" y="504" width="16" height="16" rx="4" fill="#f1f5f9" stroke="#475569"/><text x="962" y="517" class="lg">juicio del agente</text>
+  <text x="20" y="545" class="q">Informe: 🔴 bloqueante · 🟠 importante · 🟡 menor · 💭 pregunta (no demostrable) · ✅ bien hecho → veredicto: aprobable / con cambios / no aprobable</text>
+</svg>

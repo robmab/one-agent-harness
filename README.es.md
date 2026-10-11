@@ -46,9 +46,10 @@ one-agent-harness\
 ├─ AGENTS.plantilla.md                   → a la raíz del repo como AGENTS.md
 ├─ img\                                  esquemas SVG y el banner (route.svg)
 ├─ claude\                               ← lo que solo usa Claude
-│  ├─ CLAUDE.md                          instrucciones de arranque (las mete el hook SessionStart)
+│  ├─ CLAUDE.md                          el router: orden de trabajo, sensor y agente (lo mete el hook SessionStart)
 │  ├─ .claude-plugin\marketplace.json    marketplace "harness-proyecto" con el plugin "proyecto"
 │  └─ plugins\proyecto                   ⇒ JUNCTION a ..\..\personal (se crea al montar, §3.3)
+├─ copilot\proyecto.instructions.md      el router para Copilot: HARDLINK desde ~/.copilot (§3.6)
 └─ personal\                             ← lo que leen Claude Y Copilot
    ├─ skills\
    │  ├─ convenios-codigo\               RELLENAR  convenios del proyecto
@@ -60,7 +61,8 @@ one-agent-harness\
    │  └─ estilo-comentarios\             OPCIONAL  tu voz (comentarios y chat); fuera del core
    ├─ agents\
    │  └─ revisor.agent.md                LISTA     el único agente: revisión a fondo, convenios incluidos, no edita
-   ├─ scripts\comprobar.py               AJUSTAR   sensor: MARCADOR, PYTHON_PROYECTO y REGLAS
+   ├─ checklists\seguridad.md            AJUSTAR   la lee solo el revisor (eje 3); fuera de cualquier catálogo
+   ├─ scripts\comprobar.py               AJUSTAR   sensor: MARCADOR, PYTHON_PROYECTO y REGLAS; solo líneas cambiadas
    └─ hooks\hooks.json                   LISTA     PostToolUse: pasa comprobar.py tras cada edición
 ```
 
@@ -80,7 +82,8 @@ El **core** son 6 skills + 1 sensor + 1 agente, sobre `AGENTS.md` (ver [GUIA-SKI
 | Claude Code | `claude\CLAUDE.md` | hook `SessionStart` que hace `cat` del fichero |
 | Copilot (VS Code) | `AGENTS.md` y `.github/` del repo, si los hay | el propio repo |
 | Copilot (VS Code) | skills y agentes de `personal\` | junctions `~/.copilot/skills` y `~/.copilot/agents` |
-| Copilot (VS Code) | `comprobar.py` | no hay hook: lo lanza `verificar-antes-de-acabar` o tú |
+| Copilot (VS Code y CLI) | el router `copilot\<proyecto>.instructions.md` | hardlink en `~/.copilot/copilot-instructions.md`; se carga siempre |
+| Copilot (VS Code) | `comprobar.py` | no hay hook: se lo ordena el router ("DESPUÉS de cada cambio"), o lo lanzas tú |
 
 **Por qué así:** VS Code Copilot también lee `~/.claude/skills`, `~/.claude/agents` y `.claude/` del workspace. Lo que pongas ahí lo ve dos veces si además está en `.github/` o en `~/.copilot`. Los **plugins** de Claude, en cambio, Copilot no los descubre, y Claude no lee `~/.copilot`. Resultado: cada herramienta ve cada cosa una sola vez.
 
@@ -187,11 +190,24 @@ foreach ($d in 'skills','agents') {
 
 **Si ya apuntan a otro proyecto**, no se pueden enlazar dos veces: mira §5.
 
+**El router de Copilot** (`copilot\proyecto.instructions.md`; renómbralo a `<proyecto>.instructions.md`) lleva `applyTo: "**"`. Tanto el **chat de VS Code** como Copilot CLI leen `~/.copilot/copilot-instructions.md`, así que basta un hardlink ahí. No lo pongas también en `prompts\` del perfil: VS Code lo cargaría dos veces. Es un fichero suelto: una junction no vale (solo carpetas) y un symlink necesita admin o el modo desarrollador. Se enlaza con **hardlinks**, que no necesitan nada (mismo disco), y el original sigue en el harness:
+
+```powershell
+$r = '<HARNESS>\copilot\<proyecto>.instructions.md'
+foreach ($l in @("C:\Users\$u\.copilot\copilot-instructions.md")) {   # lo leen el chat de VS Code y Copilot CLI
+  if (Test-Path $l) { Remove-Item -LiteralPath $l }   # ficheros sueltos, no junctions
+  New-Item -ItemType HardLink -Path $l -Target $r
+}
+```
+
+En `~/.copilot` solo cabe uno: con varios proyectos, junta sus routers en ese fichero (cada bloque con su "solo si estás en el repo de X").
+
 ### 3.7 Verificar
 
 1. **Claude**, en una **sesión nueva** desde el repo (no un fork): "¿qué skills y agentes tienes, te ha llegado el hook y tienes AGENTS.md?". Deben salir `<proyecto>:*`, el texto de `CLAUDE.md` y `AGENTS.md`.
 2. **El sensor:** con una regla de `REGLAS` ya puesta, pídele a Claude que escriba en un fichero de prueba del repo algo que la incumpla. Justo tras la edición le debe llegar el `ERROR`. Luego, borra el fichero.
 3. **VS Code:** recarga la ventana. Deben salir las skills (`/entrevistame`…) y el agente `revisor` en el selector, **una sola vez**.
+4. **El router en VS Code:** paleta → "Chat: Configure Instructions" → debe salir `copilot-instructions` **una sola vez**. En un chat nuevo, "¿cuál es el único agente de revisión y en qué orden trabajas?" → `revisor` y las fases.
 
 ## 4. Día a día
 
@@ -201,7 +217,24 @@ foreach ($d in 'skills','agents') {
   - conocimiento que el modelo no puede saber,
   - o un fallo visto que se repite.
 
-  Si se puede comprobar con una regex, mejor una regla nueva en `REGLAS` que una skill.
+  Si se puede comprobar con una regex, mejor una regla nueva en `REGLAS` que una skill. **Antes de darla por buena, pásala por todo el repo (`--todo`) y por las líneas añadidas en el historial**: una regla con falsos positivos bloquea al agente o acaba ignorada.
+- **Checklist nueva para el revisor** (algo que solo sirve para revisar) → `personal\checklists\<nombre>.md` y una fila en la tabla de fuentes del `revisor`, con sus ejes.
+
+### Qué va en cada fichero de instrucciones
+
+Cada fichero tiene un papel; si se repite algo entre ellos, se gasta contexto en cada sesión y acaban contradiciéndose.
+
+| Fichero | Quién lo lee | Qué va | Qué NO va |
+|---|---|---|---|
+| `AGENTS.md` (raíz del repo) | Claude y Copilot, siempre | el índice del repo: qué es, comandos que no se pueden adivinar, qué skill o agente usar para qué. Corto: cada línea, por un fallo real | lo personal, el detalle de las skills, el orden de trabajo |
+| `claude\CLAUDE.md` (harness) | Claude, siempre (hook `SessionStart`) | el **router**: el orden de trabajo (entender → hacer → comprobar → revisar), el papel del sensor y del agente. Corto y condicionado a "si estás en el repo de X" | el *cuándo* de cada skill (ya está en su `description`); nada de lo que dice `AGENTS.md` |
+| `copilot\<proyecto>.instructions.md` (harness) | Copilot, siempre: el chat de VS Code y Copilot CLI (hardlink en `~/.copilot`) | el mismo router, sin prefijos, con el sensor lanzado a mano y en formato de órdenes **ANTES / DESPUÉS** (con modelos pequeños, la diferencia entre cumplirlo o no) | lo mismo que en `CLAUDE.md` |
+| `SKILL.md` de cada skill | el modelo, cuando la `description` encaja | el *qué* y el *cómo*; la `description`, el *cuándo* | reglas que valgan siempre (esas, a `AGENTS.md` o a los convenios) |
+
+Reglas:
+- **Ningún `CLAUDE.md` en el repo ni en una carpeta superior** (tampoco `~/.claude/CLAUDE.md` si el repo cuelga de tu home): Claude dejaría de cargar `AGENTS.md`. Por eso el router va por hook.
+- **Si algo cambia de pieza** (nueva skill, otro agente), se actualizan el router de Claude y el de Copilot; `AGENTS.md`, solo si es del repo.
+- **Si el modelo se salta una fase** en los logs, primero se mejora la `description` de la skill; si es el router, se reescribe esa orden en imperativo y atada al momento. El router solo crece con fallos vistos.
 
 ### Escribir una skill que funcione
 
@@ -243,6 +276,7 @@ Las herramientas no separan por proyecto. Ojo con esto:
 - **Marketplace:** `"strict": false` o `"version"` en la entrada de un plugin sin `plugin.json` rompió la carga de **todo** el marketplace, sin error visible.
 - **Hook en forks:** al bifurcar o retomar una conversación, si el texto del hook ya está en el historial no se vuelve a inyectar. En sesiones nuevas entra siempre.
 - **Borrar junctions sin cargarse el destino:** `(Get-Item ruta -Force).Delete()` o `rmdir ruta` (sin `/s`). Nunca `Remove-Item -Recurse` sobre una junction.
+- **Hardlinks del router de Copilot:** el original y el `~/.copilot` de cada usuario son el mismo fichero. Pero si un programa lo guarda *reemplazándolo* (borra y crea uno nuevo), el enlace se rompe sin avisar. Comprobación: `fsutil hardlink list <fichero>` lista todas las rutas; si falta alguna, recrea el hardlink (§3.6).
 - **Copiar el harness:** las junctions pueden llegar como carpetas normales o rotas. Bórralas y recréalas (§3.3).
 - **Hooks dentro del plugin:** `hooks\hooks.json` en la raíz del plugin se carga solo, y `${CLAUDE_PLUGIN_ROOT}` se resuelve bien a través de la junction.
 - **`py -3` y no `python`:** el lanzador está en `C:\Windows` y vale para todos los usuarios. Configura `PYTHON_PROYECTO` para compilar con el Python del proyecto y no con el del sistema.

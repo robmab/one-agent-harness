@@ -12,7 +12,7 @@ Esta guía es el **mapa de uso** de la plantilla: qué piezas trae, de qué tipo
 
 | Tipo | Pregunta | Qué cubre | Piezas |
 |---|---|---|---|
-| 🔵 **Conocimiento** | ¿qué tiene que saber? | lo que el modelo no puede deducir leyendo el código ni sabe de memoria | `convenios-codigo`, `diseno-ui`, `fuentes-oficiales`, `estilo-comentarios` |
+| 🔵 **Conocimiento** | ¿qué tiene que saber? | lo que el modelo no puede deducir leyendo el código ni sabe de memoria | `convenios-codigo`, `diseno-ui`, `fuentes-oficiales`; opcional: `estilo-comentarios` |
 | 🟢 **Proceso** | ¿cómo tiene que trabajar? | las manías del modelo: inventarse requisitos, parchear a ciegas, decir "hecho" sin probar | `entrevistame`, `depuracion-sistematica`, `verificar-antes-de-acabar` |
 | 🟠 **Control** | ¿quién lo comprueba? | mirar lo que ya está escrito, con una herramienta (fijo) o con otro modelo (juicio) | `comprobar` + hook, `revisor` |
 
@@ -62,6 +62,10 @@ Se puede ver también por de dónde sale el contenido:
 
 Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug, se pasa por `depuracion-sistematica`.
 
+**Este flujo es el que recibe el modelo**, en versión corta (el orden de las fases, el sensor y el agente): es el contenido de `claude\CLAUDE.md`, que el hook `SessionStart` inyecta en cada sesión de Claude, y de `copilot\<proyecto>.instructions.md`, que Copilot (chat de VS Code y CLI) carga siempre desde `~/.copilot` por hardlink. Es el **router**: dice *cuándo* entra cada pieza; el *qué* se queda en cada skill. No se repite en `AGENTS.md`: Claude cargaría los dos y el flujo saldría duplicado. El router entra siempre, pero solo marca el orden: que cargue cada skill sigue dependiendo de su `description` (o de escribir `/nombre`).
+
+**Cómo se escribe el router:** con órdenes cortas atadas a cada momento ("**ANTES** de escribir código: carga los convenios", "**DESPUÉS** de cada cambio: lanza el sensor", "**ANTES** de decir hecho: enseña la salida"). Probado con un modelo local: con un router descriptivo se saltaba convenios y sensor; con este formato los cumplió.
+
 ## 4. Fichas
 
 ### 🔵 `convenios-codigo` · RELLENAR
@@ -83,7 +87,7 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 ### 🔵 `estilo-comentarios` · OPCIONAL (fuera del core)
 - **Qué:** tu voz: cómo quieres los comentarios (longitud, tono, cuándo sí y cuándo no) y el tono del chat.
 - **Qué rellenar:** tus reglas, y en el detalle, **ejemplos reales tuyos**. Si no te importa cómo comenta el agente, bórrala.
-- **Entra:** Claude, por el hook `SessionStart`; Copilot, según el modelo (o `/estilo-comentarios`).
+- **Entra:** al empezar la sesión: en Claude, por el hook `SessionStart`; en Copilot, porque se lo pide su router. Si no, `/estilo-comentarios`.
 
 ### 🟢 `entrevistame` · LISTA
 - **Qué:** cuando un ticket no está claro, ni para el agente ni para ti. Primero **mira en el repo** qué hace hoy eso; luego hipótesis con %, **una pregunta cada vez con su suposición**, y un resumen con la línea "Fuera" obligatoria. Lo que solo sabe el cliente va a una lista de **preguntas para el cliente**.
@@ -103,7 +107,7 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 
 ### 🟠 `comprobar` + hook · AJUSTAR
 - **Qué:** `personal\scripts\comprobar.py`, solo con la librería estándar.
-  - Pasa las `REGLAS` (regex con `ERROR` o `AVISO`) por los ficheros.
+  - Pasa las `REGLAS` (regex con `ERROR` o `AVISO`) **solo por las líneas cambiadas** respecto a HEAD, no por el fichero entero: así el código antiguo no hace ruido y se pueden meter convenios de estilo (`var`, líneas largas…) sin miles de avisos. Para auditar un fichero completo, `--todo`.
   - Compila los `.py` con el Python del proyecto.
   - Pasa `node --check` por los `.js` que no lleven plantillas.
 - **Qué rellenar:**
@@ -119,10 +123,20 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
     (Sin argumentos revisa lo cambiado en git.)
 
 ### 🟠 `revisor` · LISTA
-- **Qué:** el **único agente** del harness. Hace una revisión a fondo con contexto limpio, en 6 ejes: **convenios**, corrección, seguridad, rendimiento, arquitectura y legibilidad.
-  - Antes pasa el comprobador y lee como **checklists** las skills de conocimiento que tocan: `convenios-codigo` siempre, `diseno-ui` si hay UI y `fuentes-oficiales` si se usan APIs del stack. Las que sigan sin rellenar, se las salta y lo dice.
-  - **No edita:** cada hallazgo va con `fichero:línea` y su arreglo propuesto (lo mecánico, como cambio exacto), y termina con un veredicto.
-- **Opcional:** las trampas del proyecto que hay que mirar siempre (cómo se declaran los permisos, el N+1 típico del ORM…) y otras checklists propias.
+- **Qué:** el **único agente** del harness. Revisa a fondo con contexto limpio, en 6 ejes. **No edita:** cada hallazgo va con `fichero:línea`, su eje y su fuente, y el arreglo propuesto (lo mecánico, como cambio exacto); termina con un veredicto. Las fuentes que sigan sin rellenar, se las salta y lo dice.
+
+![El revisor por dentro: cada eje y de dónde saca sus reglas](img/revisor.svg)
+
+- **Fuentes por eje:** el esquema de arriba es la tabla que lleva el propio agente. La regla es **aplicar cada fuente solo a sus ejes**:
+  - `convenios-codigo` → 1, 5 y 6;
+  - `diseno-ui` → 1 y 5;
+  - `fuentes-oficiales` → 2;
+  - `checklists\seguridad.md` → 3, citada como `eje 3 · #n`;
+  - el sensor → 2 (errores) y 1 (avisos).
+
+  Rendimiento y casi toda la legibilidad son juicio del agente.
+- **Skill o checklist:** "checklist" no es un tipo de fichero, sino cómo usa el revisor una fuente. Las skills de conocimiento hacen dos papeles: el agente principal las carga **antes** de escribir (guía) y el revisor las lee **después** como checklist. Lo que solo sirve para revisar (hoy, seguridad) va en `personal\checklists\`: no entra en ningún catálogo ni lo carga el agente principal. Si un día hace falta que guíe también al escribir, se sube a skill.
+- **Qué ajustar:** la columna "cómo se ve en el código" de `checklists\seguridad.md`. Opcional: las trampas del proyecto que hay que mirar siempre y otras checklists propias en `personal\checklists\`.
 - **Entra:** a mano, antes del commit o de la PR, o para revisar una rama.
 
 ## 5. Cómo entra cada pieza
@@ -130,16 +144,16 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 | Pieza | Claude Code | Copilot (VS Code) |
 |---|---|---|
 | `AGENTS.md` | siempre, al arrancar | siempre |
-| `estilo-comentarios` | hook `SessionStart` | según el modelo; si no, `/estilo-comentarios` |
+| `estilo-comentarios` | hook `SessionStart` | se lo pide el router al empezar; si no, `/estilo-comentarios` |
 | `convenios-codigo`, `diseno-ui` | sola, por su `description` | sola |
-| `fuentes-oficiales`, `depuracion-sistematica`, `verificar-antes-de-acabar` | sola, por su `description` | con modelos buenos, sola; con locales, a mano: `/nombre` |
+| `fuentes-oficiales`, `depuracion-sistematica`, `verificar-antes-de-acabar` | sola, por su `description` | sola, con el router marcando el momento; si un modelo local se la salta, `/nombre` |
 | `entrevistame` | cuando se lo pides o el ticket es ambiguo | ídem, o `/entrevistame` |
-| `comprobar` | **automático** tras cada edición | a mano o desde `verificar` |
+| `comprobar` | **automático** tras cada edición | se lo ordena el router tras cada cambio, o a mano |
 | `revisor` | a mano (subagente) | a mano (selector de agentes) |
 
 **Para saber si una skill ha entrado:**
 - **Claude:** sale "Habilidad ejecutada /<proyecto>:…" en la respuesta.
-- **Copilot:** despliega las referencias usadas de la respuesta y mira si aparece el `SKILL.md`.
+- **Copilot:** despliega las referencias usadas de la respuesta y mira si aparece el `SKILL.md`. Para el router: paleta de comandos → "Chat: Configure Instructions" → debe salir `copilot-instructions` (una sola vez).
 
 Si no entra cuando debería, **primero se mejora la `description`** (palabras concretas que enganchen); solo como último recurso se fuerza.
 

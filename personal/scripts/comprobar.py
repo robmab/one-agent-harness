@@ -4,7 +4,10 @@ Uso:
     py -3 comprobar.py [ficheros...]   # sin ficheros: los cambiados según git
     py -3 comprobar.py --hook          # modo hook PostToolUse de Claude (lee el JSON por stdin)
     py -3 comprobar.py --selftest      # valida REGLAS y prueba el motor con ficheros de ejemplo
+    py -3 comprobar.py --todo [...]    # auditoría: el fichero entero, no solo lo cambiado
 
+Las reglas solo miran las líneas cambiadas respecto a HEAD, para que el código antiguo no haga ruido; la
+sintaxis se comprueba siempre con el fichero entero.
 Salida: 0 si no hay errores (puede haber avisos), 1 si hay errores (2 en modo hook).
 Solo usa la librería estándar.
 """
@@ -76,17 +79,37 @@ def ficheros_cambiados(raiz):
     return [os.path.join(raiz, f) for f in sorted(salida)]
 
 
+def lineas_cambiadas(ruta, raiz):
+    # números de línea añadidos o modificados respecto a HEAD; None = mirar el fichero entero
+    rel = os.path.relpath(ruta, raiz)
+    res = subprocess.run(['git', '-C', raiz, 'diff', '-U0', 'HEAD', '--', rel], capture_output=True, text=True,
+                         encoding='utf-8', errors='replace')
+    if res.returncode:
+        return None
+    if not res.stdout.strip():
+        nuevo = subprocess.run(['git', '-C', raiz, 'ls-files', '--error-unmatch', '--', rel], capture_output=True)
+        return None if nuevo.returncode else set()  # sin trackear: entero; trackeado sin cambios: nada
+    cambiadas = set()
+    for m in re.finditer(r'^@@ -\S+ \+(\d+)(?:,(\d+))? @@', res.stdout, re.M):
+        inicio, num = int(m.group(1)), int(m.group(2) or 1)
+        cambiadas.update(range(inicio, inicio + num))
+    return cambiadas
+
+
 def relevante(ruta):
     r = ruta.replace('\\', '/')
     return r.endswith(EXTENSIONES) and not any(i in r for i in IGNORAR) and os.path.isfile(ruta)
 
 
-def comprobar(ruta, raiz):
+def comprobar(ruta, raiz, todo=False):
     hallazgos = []  # (nivel, linea, mensaje)
     ext = os.path.splitext(ruta)[1]
     with open(ruta, encoding='utf-8', errors='replace') as f:
         texto = f.read()
+    cambiadas = None if todo else lineas_cambiadas(ruta, raiz)
     for n, linea in enumerate(texto.splitlines(), 1):
+        if cambiadas is not None and n not in cambiadas:
+            continue
         for nivel, exts, patron, mensaje in REGLAS:
             if ext in exts and re.search(patron, linea):
                 hallazgos.append((nivel, n, mensaje))
@@ -220,7 +243,7 @@ def main():
         print('Nada que comprobar (ningún fichero de código cambiado).')
         return 0
 
-    lineas, errores, avisos = informe([(f, comprobar(f, raiz)) for f in ficheros], raiz)
+    lineas, errores, avisos = informe([(f, comprobar(f, raiz, "--todo" in sys.argv)) for f in ficheros], raiz)
     print('\n'.join(lineas) if lineas else 'Sin problemas.')
     print(f'\n{len(ficheros)} ficheros · {errores} errores · {avisos} avisos')
     return 1 if errores else 0

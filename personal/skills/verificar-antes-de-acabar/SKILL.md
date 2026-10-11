@@ -20,7 +20,8 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 
 | Afirmación | Prueba | No vale |
 |---|---|---|
-| Encaja con el stack y compila | `py -3 <HARNESS>\personal\scripts\comprobar.py [ficheros]` (sin ficheros, lo cambiado en git): 0 errores; los avisos, revísalos | "lo he hecho con cuidado" |
+| Encaja con el stack y compila | `py -3 <HARNESS>\personal\scripts\comprobar.py [ficheros]` (sin ficheros, lo cambiado en git; solo mira las líneas cambiadas): 0 errores; los avisos, revísalos | "lo he hecho con cuidado" |
+| Auditar un fichero **entero**, también lo antiguo ("audita este fichero", "¿qué incumple de los convenios?", antes de refactorizar) | el mismo comando con `--todo <fichero>`; si salen muchos, **resúmelos por regla** en vez de listarlos uno a uno | revisar solo lo cambiado |
 | Pasan los tests | <!-- RELLENAR: comando de tests --> con 0 fallos | "deberían pasar" |
 | La pantalla funciona | cargar la página con el server levantado y mirar la consola del navegador | que la plantilla compile |
 | Bug arreglado | repetir los pasos del síntoma original y que ya no salga | "he cambiado el código" |
