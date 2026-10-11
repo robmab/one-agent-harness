@@ -83,4 +83,4 @@ La línea **"Fuera"** no se salta: la mitad de los malentendidos son de lo que n
 - Guardar el resumen en un fichero del repo: se queda en el chat salvo que se pida.
 
 ---
-Adaptada de `interview-me` de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (MIT).
+Adaptada de `interview-me` de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT).

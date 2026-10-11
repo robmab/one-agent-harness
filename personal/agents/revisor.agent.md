@@ -88,4 +88,4 @@ Fuentes: {cuáles has cargado; cuáles saltadas por estar sin rellenar}
 Las secciones vacías no se ponen. Si no encuentras nada, dilo sin rellenar.
 
 ---
-Ejes y criterio adaptados de `code-review-and-quality` de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) (MIT).
+Ejes y criterio adaptados de `code-review-and-quality` de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT).

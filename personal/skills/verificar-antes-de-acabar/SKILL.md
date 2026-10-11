@@ -58,4 +58,4 @@ Si te pillas en una, para y vuelve al paso 1.
 | "Compila" o "el editor no se queja" | Compilar no es funcionar |
 
 ---
-Adaptada de `verification-before-completion` de [obra/superpowers](https://github.com/obra/superpowers) (MIT).
+Adaptada de `verification-before-completion` de [obra/superpowers](https://github.com/obra/superpowers) @ `bb92a77` (2026-10-10) (MIT).

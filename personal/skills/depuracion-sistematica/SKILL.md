@@ -61,4 +61,4 @@ Busca en el repo algo parecido que sí vaya. Apunta **todas** las diferencias, a
 Si te pillas en una, vuelve al paso 1.
 
 ---
-Adaptada de `systematic-debugging` de [obra/superpowers](https://github.com/obra/superpowers) (MIT).
+Adaptada de `systematic-debugging` de [obra/superpowers](https://github.com/obra/superpowers) @ `bb92a77` (2026-10-10) (MIT).

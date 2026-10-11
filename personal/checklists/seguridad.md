@@ -21,3 +21,5 @@
 <!-- RELLENAR (opcional): puntos propios del proyecto que ya hayan dado problemas. -->
 
 Cada hallazgo, en el informe del revisor, con su número de esta tabla: `(eje 3 · #2)`.
+
+Puntos adaptados de `security-and-hardening` de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT).

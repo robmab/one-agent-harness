@@ -243,7 +243,8 @@ Reglas:
 - **Corta:** 600 palabras como mucho, con tablas antes que párrafos. Si necesita más, un índice y ficheros al lado que se lean bajo demanda.
 - **Si es del proyecto**, la primera línea: "Si no estás en el repo de <PROYECTO>, ignora esta skill". Las skills de Claude valen en todos los proyectos.
 - **Que no escriba en el repo** (planes, intents, ficheros de trabajo) y que pida permiso para la BD.
-- **Si es adaptada,** el crédito al pie ("Adaptada de X de [repo] (MIT)") y su aviso de copyright en `THIRD-PARTY-NOTICES.md`.
+- **Si es adaptada,** el crédito al pie, con el commit de origen ("Adaptada de X de [repo] @ `sha` (fecha) (MIT)"), y su aviso de copyright en `THIRD-PARTY-NOTICES.md`.
+- **Revisar el upstream** (cada pocos meses): por cada skill adaptada, diff de su repo desde el commit del pie (`git diff <sha>..HEAD -- skills/<nombre>/`). Entra solo lo que pase el filtro de la GUIA-SKILLS §6; si se aplica algo, se actualiza el commit del pie.
 - **Probarla en las dos herramientas,** en sesión nueva y sin invocarla a mano: ¿entra sola cuando toca? Y comprobar el resultado, no solo que la cargue. Con modelos locales pequeños, contar con invocarla a mano (`/nombre`).
 
 ## 5. Convivir con otros proyectos

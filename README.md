@@ -260,7 +260,8 @@ Rules:
 - **Short:** 600 words max, tables over paragraphs. If it needs more, an index plus side files read on demand.
 - **If it's project-specific**, first line: "If you're not in the <PROYECTO> repo, ignore this skill". Claude skills apply across all projects.
 - **It must not write into the repo** (plans, intents, scratch files) and must ask before touching the database.
-- **If it's adapted,** credit at the bottom ("Adapted from X of [repo] (MIT)") and add its notice to `THIRD-PARTY-NOTICES.md`.
+- **If it's adapted,** credit at the bottom with the source commit ("Adapted from X of [repo] @ `sha` (date) (MIT)") and add its notice to `THIRD-PARTY-NOTICES.md`.
+- **Check upstream** (every few months): for each adapted skill, diff its repo since the commit in its footer (`git diff <sha>..HEAD -- skills/<name>/`). Only what passes the GUIA-SKILLS §6 filter gets in; if you apply something, update the commit in the footer.
 - **Test it in both tools,** in a new session and without invoking it by hand: does it kick in on its own when it should? And check the result, not just that it loaded. With small local models, expect to invoke it by hand (`/name`).
 
 ## 5. Coexisting with other projects
