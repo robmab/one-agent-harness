@@ -2,6 +2,12 @@
 
 🌐 **English** · [Español](README.es.md)
 
+<p align="center"><img src="img/route.svg" alt="A climber (the model) wearing a harness with six pieces of gear (the skills), an auto-locking belay device (the sensor) and a belayer (the agent). The release codenames are the bolts of the route: Anchor, Belay, Carabiner, Descender and Hexcentric at the summit" width="100%"></p>
+
+[![CI](https://github.com/robmab/one-agent-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/robmab/one-agent-harness/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/robmab/one-agent-harness)](https://github.com/robmab/one-agent-harness/releases)
+[![License: MIT](https://img.shields.io/github/license/robmab/one-agent-harness)](LICENSE)
+
 A template for setting up the AI harness of **any project**: skills, agents, an automatic sensor and instructions, shared by every Windows user on the PC and by Claude Code and GitHub Copilot (VS Code), **without touching the workspace** if you don't want to.
 
 It comes from a harness already built and tested on a real project (2026-10-10), with everything specific to that project removed.
@@ -25,7 +31,7 @@ It comes from a harness already built and tested on a real project (2026-10-10),
 | [INVESTIGACION](INVESTIGACION.md) *(ES)* | where it all comes from: what a harness is, repos analysed, skills adapted and discarded |
 | [SKILLS-OPCIONALES](SKILLS-OPCIONALES.md) *(ES)* | catalogue of optional skills: what each adds, when to add it, the noise it brings, and which ones are discouraged |
 | [AGENTS.plantilla.md](AGENTS.plantilla.md) *(ES)* | the index that goes at the root of the project repo |
-| [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | MIT licence and credits for the adapted skills (§8) |
+| [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | MIT licence and credits for the adapted skills (§9) |
 
 ![What reaches each tool and how](img/cableado.svg)
 
@@ -53,9 +59,11 @@ Optional, outside the core: `estilo-comentarios` (your own voice for code commen
 ```
 one-agent-harness\
 ├─ README.md · README.es.md · GUIA-SKILLS.md · INVESTIGACION.md · SKILLS-OPCIONALES.md
-├─ LICENSE · THIRD-PARTY-NOTICES.md
+├─ LICENSE · THIRD-PARTY-NOTICES.md · .gitattributes
+├─ .github\                             CI of this repo (not part of the template; drop it when copying)
+├─ VERSION                             template version this harness was copied from
 ├─ AGENTS.plantilla.md                   → to the repo root as AGENTS.md
-├─ img\                                  SVG diagrams
+├─ img\                                  SVG diagrams and the banner (route.svg)
 ├─ claude\                               ← used only by Claude
 │  ├─ CLAUDE.md                          startup instructions (injected by the SessionStart hook)
 │  ├─ .claude-plugin\marketplace.json    "harness-proyecto" marketplace with the "proyecto" plugin
@@ -101,10 +109,10 @@ Requirements: Claude Code (it uses Git Bash for hooks on Windows), VS Code with 
 
 ```powershell
 git clone <this-repo-url> '<HARNESS>'
-Remove-Item '<HARNESS>\.git' -Recurse -Force
+Remove-Item '<HARNESS>\.git', '<HARNESS>\.github' -Recurse -Force
 ```
 
-`.git` is removed so the project's harness isn't tied to the template. If you want to version it, run your own `git init` afterwards. If you already have the template locally, `Copy-Item <template> '<HARNESS>' -Recurse` works too (remove its `.git` as well).
+`.git` is removed so the project's harness isn't tied to the template, and `.github` because it only holds this repo's CI. Even simpler: download **Source code (zip)** from the [latest release](https://github.com/robmab/one-agent-harness/releases/latest), which already comes without either. **Keep `VERSION`:** it records which template release the harness came from, so later you can check what changed since (see the [releases](https://github.com/robmab/one-agent-harness/releases)). If you want to version it, run your own `git init` afterwards. If you already have the template locally, `Copy-Item <template> '<HARNESS>' -Recurse` works too (remove its `.git` as well).
 
 ### 3.2 Naming
 
@@ -148,7 +156,7 @@ Recommended order (most used first):
 3. **`comprobar.py`:**
    - `MARCADOR`: a file that only exists in that repo. **Mandatory if you work on other projects too** (§5).
    - `PYTHON_PROYECTO`, if there's Python.
-   - `REGLAS`: the traps from step 2 that a regex can catch.
+   - `REGLAS`: the traps from step 2 that a regex can catch. Then `py -3 <HARNESS>\personal\scripts\comprobar.py --selftest` checks they are well written.
 4. **`verificar-antes-de-acabar`:** the real test, lint and build commands.
 5. **`depuracion-sistematica`:** the application layers and their traps.
 6. **`diseno-ui`:** if there's a UI.
@@ -268,6 +276,14 @@ The tools don't separate projects. Watch out for this:
 5. **Global instructions:** via hook or user config, never with an instructions file in a folder above the repo.
 6. **Verify** in a new session that it sees everything and that the other tools don't start showing duplicates.
 
-## 8. Licence
+## 8. Checks (CI)
+
+On every push, [CI](.github/workflows/ci.yml) validates the template itself:
+- **Structure** ([`validate.py`](.github/scripts/validate.py)): skill and agent frontmatter (`name` equal to the folder, no `_`), no BOM, valid JSON, no `strict`/`version` in the marketplace, the hook's script exists, well-formed SVGs, `VERSION` in SemVer, Markdown links and anchors, and no real user paths.
+- **Sensor:** `comprobar.py --selftest` on Ubuntu and Windows (well-formed `REGLAS`, engine on sample files).
+
+Publishing a release also checks that `VERSION` matches the tag ([release.yml](.github/workflows/release.yml)). Locally: `python .github/scripts/validate.py`.
+
+## 9. Licence
 
 [MIT](LICENSE). Some skills and the `revisor` agent are adapted from [obra/superpowers](https://github.com/obra/superpowers) and [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), both MIT-licensed. Their copyright notices are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). If you adapt another external skill, add its notice there.

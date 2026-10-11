@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-label="one-agent-harness: a climber (the model) wearing a harness with six pieces of gear (the skills), an auto-locking belay device (the sensor) and a belayer (the agent); the release codenames are the bolts of the route: Anchor, Belay, Carabiner, Descender and Hexcentric at the summit" font-family="'Segoe UI', system-ui, Helvetica, Arial, sans-serif">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe6fb"/><stop offset="1" stop-color="#f4f8fc"/></linearGradient>
+  <linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2e8f0"/><stop offset="1" stop-color="#c3ccd8"/></linearGradient>
+  <clipPath id="frame"><rect width="1200" height="560" rx="24"/></clipPath>
+  <style>
+    .t{font-weight:800;fill:#0f172a}
+    .sub{font-size:16px;fill:#334155;font-weight:600}
+    .call{font-size:15px;font-weight:800}
+    .callsub{font-size:11.5px;fill:#475569}
+    .pv{font-size:10.5px;fill:#64748b;font-weight:600}
+    .pn{font-size:15px;font-weight:800;fill:#0f172a}
+    .ln{fill:none;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</defs>
+<g clip-path="url(#frame)">
+  <!-- cielo y fondo -->
+  <rect width="1200" height="560" fill="url(#sky)"/>
+  <g fill="#ffffff" opacity=".85">
+    <ellipse cx="560" cy="58" rx="48" ry="16"/><ellipse cx="532" cy="63" rx="28" ry="12"/><ellipse cx="586" cy="52" rx="26" ry="14"/>
+    <ellipse cx="180" cy="190" rx="42" ry="14"/><ellipse cx="156" cy="194" rx="24" ry="11"/><ellipse cx="204" cy="185" rx="22" ry="12"/>
+  </g>
+  <path d="M0 430 Q120 370 250 405 T520 395 T700 420 V560 H0 Z" fill="#dde6f0"/>
+
+  <!-- pared -->
+  <path d="M590 520 L640 445 L632 410 L690 330 L682 295 L740 215 L732 180 L790 110 L784 90 L840 60 L1200 60 V560 H560 Z" fill="url(#rock)" stroke="#334155" stroke-width="2.5" stroke-linejoin="round"/>
+  <g class="ln" stroke="#8a97a8" stroke-width="2">
+    <path d="M900 300 L940 360 L930 420"/>
+    <path d="M1060 200 L1090 270 L1078 330"/>
+    <path d="M1010 430 L1050 480"/>
+    <path d="M860 470 L880 520"/>
+    <path d="M960 70 L975 100"/>
+  </g>
+
+  <!-- suelo -->
+  <path d="M0 508 Q220 494 420 512 Q520 520 600 516 L1200 530 V560 H0 Z" fill="#dfe5ec" stroke="#334155" stroke-width="2.5" stroke-linejoin="round"/>
+  <g fill="#4d9b6a">
+    <circle cx="112" cy="506" r="12"/><circle cx="128" cy="500" r="14"/><circle cx="146" cy="507" r="11"/>
+    <circle cx="560" cy="512" r="11"/><circle cx="575" cy="505" r="13"/><circle cx="592" cy="512" r="10"/>
+  </g>
+
+  <!-- la vía: anclajes con los nombres en clave -->
+  <path class="ln" d="M705 358 L806 168 L905 128 L1000 108 L1150 60" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6"/>
+  <g fill="#475569"><circle cx="705" cy="356" r="4"/><circle cx="806" cy="168" r="4"/><circle cx="905" cy="128" r="4"/><circle cx="1000" cy="108" r="4"/></g>
+
+  <!-- v0.1 Anchor: el actual -->
+  <line x1="709" y1="356" x2="722" y2="360" stroke="#475569" stroke-width="1.5"/>
+  <rect x="722" y="343" width="86" height="38" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="765" y="357" class="pv" text-anchor="middle" fill="#c2410c">v0.1 · now</text>
+  <text x="765" y="374" class="pn" text-anchor="middle">Anchor</text>
+
+  <line x1="810" y1="168" x2="820" y2="166" stroke="#475569" stroke-width="1.5"/>
+  <rect x="820" y="149" width="78" height="38" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="859" y="163" class="pv" text-anchor="middle">v0.2 · next</text>
+  <text x="859" y="180" class="pn" text-anchor="middle">Belay</text>
+
+  <line x1="905" y1="124" x2="915" y2="114" stroke="#475569" stroke-width="1.5"/>
+  <rect x="880" y="76" width="98" height="38" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="929" y="90" class="pv" text-anchor="middle">v0.3</text>
+  <text x="929" y="107" class="pn" text-anchor="middle">Carabiner</text>
+
+  <line x1="1002" y1="112" x2="1010" y2="120" stroke="#475569" stroke-width="1.5"/>
+  <rect x="996" y="120" width="100" height="38" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="1046" y="134" class="pv" text-anchor="middle">v0.4</text>
+  <text x="1046" y="151" class="pn" text-anchor="middle">Descender</text>
+
+  <!-- cima: v0.5 Hexcentric -->
+  <line x1="1150" y1="60" x2="1150" y2="8" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+  <path d="M1150 10 L1186 20 L1150 30 Z" fill="#ea580c" stroke="#9a3412" stroke-width="1.5" stroke-linejoin="round"/>
+  <rect x="1034" y="12" width="108" height="38" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="1088" y="26" class="pv" text-anchor="middle">v0.5 · someday</text>
+  <text x="1088" y="43" class="pn" text-anchor="middle">Hexcentric</text>
+
+  <!-- cuerda: arnés → cinta del anclaje → aparato → asegurador -->
+  <rect x="703" y="360" width="4" height="9" rx="2" fill="#94a3b8"/>
+  <ellipse cx="705" cy="375" rx="4.5" ry="6.5" fill="none" stroke="#475569" stroke-width="2"/>
+  <path class="ln" d="M716 234 C730 290 712 330 705 377 Q692 425 660 464" stroke="#1d4ed8" stroke-width="3.5"/>
+  <path class="ln" d="M650 478 C600 500 520 470 474 432" stroke="#1d4ed8" stroke-width="3.5"/>
+  <path class="ln" d="M480 446 Q494 482 486 512" stroke="#1d4ed8" stroke-width="3.5"/>
+  <ellipse cx="478" cy="514" rx="15" ry="4.5" fill="none" stroke="#1d4ed8" stroke-width="3"/>
+
+  <!-- 1 sensor: aparato autoblocante -->
+  <circle cx="672" cy="458" r="3.5" fill="#475569"/>
+  <line x1="672" y1="461" x2="664" y2="466" stroke="#475569" stroke-width="2"/>
+  <g transform="rotate(-28 655 471)">
+    <rect x="643" y="463" width="24" height="16" rx="5" fill="#ea580c" stroke="#9a3412" stroke-width="2"/>
+    <circle cx="651" cy="471" r="2.5" fill="#9a3412"/>
+  </g>
+  <g class="ln" stroke="#f59e0b" stroke-width="2.5">
+    <path d="M630 452 L620 444"/><path d="M640 444 L636 432"/><path d="M676 484 L686 492"/><path d="M628 470 L616 470"/>
+  </g>
+  <text x="694" y="482" class="call" fill="#c2410c">1 sensor</text>
+  <text x="694" y="498" class="callsub">catches every slip, no model involved</text>
+
+  <!-- el escalador (el modelo) con su arnés -->
+  <path class="ln" d="M706 232 L690 268 L688 294" stroke="#334155" stroke-width="11"/>
+  <ellipse cx="692" cy="298" rx="10" ry="5" fill="#1e293b" transform="rotate(-15 692 298)"/>
+  <path class="ln" d="M716 232 Q744 246 726 268" stroke="#334155" stroke-width="11"/>
+  <ellipse cx="728" cy="272" rx="10" ry="5" fill="#1e293b" transform="rotate(-20 728 272)"/>
+  <path class="ln" d="M704 170 L716 196 L733 191" stroke="#f2c4a0" stroke-width="7"/>
+  <path d="M700 160 Q716 150 734 160 L730 226 L698 226 Z" fill="#5b6b86" stroke="#1e293b" stroke-width="2" stroke-linejoin="round"/>
+  <path class="ln" d="M730 165 L758 140 L776 122" stroke="#f2c4a0" stroke-width="7"/>
+  <path class="ln" d="M730 165 L742 155" stroke="#5b6b86" stroke-width="9"/>
+  <circle cx="777" cy="121" r="5" fill="#f2c4a0" stroke="#1e293b" stroke-width="1.5"/>
+  <circle cx="735" cy="191" r="5" fill="#f2c4a0" stroke="#1e293b" stroke-width="1.5"/>
+  <circle cx="722" cy="140" r="14" fill="#f2c4a0" stroke="#1e293b" stroke-width="2"/>
+  <path d="M708 138 Q710 121 727 123 Q739 126 737 138 Q727 130 708 138 Z" fill="#1e293b"/>
+  <rect x="696" y="221" width="36" height="10" rx="3" fill="#1e293b"/>
+  <circle cx="714" cy="235" r="4" fill="none" stroke="#1e293b" stroke-width="2"/>
+  <text x="700" y="112" class="callsub" text-anchor="end" font-style="italic">the model</text>
+
+  <!-- 6 skills colgadas del arnés -->
+  <g transform="translate(673 242) scale(1.45) translate(-673 -242)">
+  <path class="ln" d="M622 234 Q668 246 724 233" stroke="#1e293b" stroke-width="2.5"/>
+  <g fill="none" stroke="#64748b" stroke-width="1.6">
+    <ellipse cx="630" cy="241" rx="3" ry="4.5"/><ellipse cx="646" cy="243" rx="3" ry="4.5"/><ellipse cx="662" cy="244" rx="3" ry="4.5"/>
+    <ellipse cx="684" cy="243" rx="3" ry="4.5"/><ellipse cx="700" cy="241" rx="3" ry="4.5"/><ellipse cx="716" cy="238" rx="3" ry="4.5"/>
+  </g>
+  <!-- conocimiento: convenios (libro), diseño (rejilla), versiones (etiqueta) -->
+  <rect x="622" y="247" width="16" height="13" rx="2" fill="#2563eb" stroke="#1e3a8a" stroke-width="1.2"/>
+  <line x1="630" y1="248" x2="630" y2="259" stroke="#ffffff" stroke-width="1.4"/>
+  <rect x="638" y="249" width="16" height="16" rx="2" fill="#2563eb" stroke="#1e3a8a" stroke-width="1.2"/>
+  <g fill="#ffffff"><rect x="641" y="252" width="4" height="4"/><rect x="647" y="252" width="4" height="4"/><rect x="641" y="258" width="4" height="4"/><rect x="647" y="258" width="4" height="4"/></g>
+  <path d="M655 250 H669 V266 H655 L652 258 Z" fill="#2563eb" stroke="#1e3a8a" stroke-width="1.2" stroke-linejoin="round"/>
+  <text x="662" y="262" font-size="9" font-weight="800" fill="#ffffff" text-anchor="middle">v</text>
+  <!-- proceso: entrevistar (?), depurar (lupa), verificar (✓) -->
+  <path d="M676 249 H692 V261 H684 L679 266 V261 H676 Z" fill="#16a34a" stroke="#14532d" stroke-width="1.2" stroke-linejoin="round"/>
+  <text x="684" y="259" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">?</text>
+  <circle cx="699" cy="253" r="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2.5"/>
+  <line x1="703" y1="258" x2="708" y2="264" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="709" y="244" width="15" height="15" rx="3" fill="#16a34a" stroke="#14532d" stroke-width="1.2"/>
+  <path class="ln" d="M712 251 L715 255 L721 248" stroke="#ffffff" stroke-width="2"/>
+  </g>
+  <line x1="586" y1="226" x2="600" y2="236" stroke="#334155" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="582" y="222" class="call" text-anchor="end" fill="#0f172a">6 skills</text>
+  <text x="582" y="238" class="callsub" text-anchor="end"><tspan fill="#2563eb" font-weight="700">3 knowledge</tspan> · <tspan fill="#16a34a" font-weight="700">3 process</tspan></text>
+
+  <!-- 1 agente: el asegurador -->
+  <path class="ln" d="M436 448 L428 510" stroke="#334155" stroke-width="11"/>
+  <path class="ln" d="M448 448 L456 510" stroke="#334155" stroke-width="11"/>
+  <ellipse cx="426" cy="514" rx="11" ry="5" fill="#1e293b"/>
+  <ellipse cx="460" cy="514" rx="11" ry="5" fill="#1e293b"/>
+  <path d="M424 392 Q442 380 460 392 L462 450 L422 450 Z" fill="#ea580c" stroke="#9a3412" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="421" y="444" width="42" height="9" rx="3" fill="#1e293b"/>
+  <path class="ln" d="M456 400 L470 420 L472 430" stroke="#ea580c" stroke-width="9"/>
+  <path class="ln" d="M428 402 L450 428 L478 444" stroke="#ea580c" stroke-width="9"/>
+  <circle cx="473" cy="432" r="5" fill="#f2c4a0" stroke="#1e293b" stroke-width="1.5"/>
+  <circle cx="479" cy="445" r="5" fill="#f2c4a0" stroke="#1e293b" stroke-width="1.5"/>
+  <circle cx="443" cy="372" r="14" fill="#f2c4a0" stroke="#1e293b" stroke-width="2"/>
+  <path d="M427 370 Q429 351 446 352 Q461 354 460 370 Z" fill="#f97316" stroke="#9a3412" stroke-width="2" stroke-linejoin="round"/>
+  <text x="443" y="326" class="call" text-anchor="middle" fill="#c2410c">1 agent</text>
+  <text x="443" y="342" class="callsub" text-anchor="middle">fresh eyes from below, never climbs for you</text>
+
+  <!-- AGENTS.md: el panel de la vía -->
+  <rect x="203" y="452" width="9" height="60" fill="#8b5e34" stroke="#3b2a1f" stroke-width="1.5"/>
+  <path d="M148 430 H262 L280 446 L262 462 H148 Z" fill="#a16207" stroke="#3b2a1f" stroke-width="2" stroke-linejoin="round"/>
+  <text x="210" y="451" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">AGENTS.md</text>
+  <text x="210" y="482" class="callsub" text-anchor="middle" dx="62">start here</text>
+
+  <!-- título -->
+  <text x="40" y="74" class="t" font-size="46">one-agent-harness</text>
+  <text x="42" y="106" class="sub">agent = model + harness</text>
+  <text x="42" y="130" class="sub" font-weight="500"><tspan fill="#2563eb" font-weight="800">6 skills</tspan> · <tspan fill="#c2410c" font-weight="800">1 sensor</tspan> · <tspan fill="#c2410c" font-weight="800">1 agent</tspan> · many routes to climb</text>
+</g>
+</svg>

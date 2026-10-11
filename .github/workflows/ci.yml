@@ -1,0 +1,39 @@
+# Checks that the template is well-formed. Standard library only, no secrets.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structure:
+    name: Structure and links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Validate skills, agent, JSON, SVG, VERSION and Markdown links
+        run: python .github/scripts/validate.py
+
+  sensor:
+    name: Sensor (${{ matrix.os }})
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Compile the scripts
+        run: python -m py_compile personal/scripts/comprobar.py .github/scripts/validate.py
+      - name: Selftest (REGLAS well-formed, engine on sample files)
+        run: python personal/scripts/comprobar.py --selftest

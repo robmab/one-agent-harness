@@ -3,6 +3,7 @@
 Uso:
     py -3 comprobar.py [ficheros...]   # sin ficheros: los cambiados según git
     py -3 comprobar.py --hook          # modo hook PostToolUse de Claude (lee el JSON por stdin)
+    py -3 comprobar.py --selftest      # valida REGLAS y prueba el motor con ficheros de ejemplo
 
 Salida: 0 si no hay errores (puede haber avisos), 1 si hay errores (2 en modo hook).
 Solo usa la librería estándar.
@@ -146,11 +147,67 @@ def modo_hook():
     return 0
 
 
+def selftest():
+    import tempfile
+    fallos = []
+
+    # las REGLAS del proyecto, bien formadas
+    for i, regla in enumerate(REGLAS):
+        if len(regla) != 4:
+            fallos.append(f'REGLAS[{i}]: tiene que tener 4 campos (nivel, extensiones, regex, mensaje)')
+            continue
+        nivel, exts, patron, mensaje = regla
+        if nivel not in ('ERROR', 'AVISO'):
+            fallos.append(f'REGLAS[{i}]: el nivel tiene que ser ERROR o AVISO, no {nivel!r}')
+        if not isinstance(exts, tuple) or not exts or not all(isinstance(e, str) and e.startswith('.') for e in exts):
+            fallos.append(f'REGLAS[{i}]: las extensiones van en una tupla, p. ej. (\'.js\',) o (\'.py\', \'.js\')')
+        try:
+            re.compile(patron)
+        except re.error as e:
+            fallos.append(f'REGLAS[{i}]: la regex no compila: {e}')
+        if not mensaje:
+            fallos.append(f'REGLAS[{i}]: falta el mensaje (di qué poner en su lugar)')
+
+    # el motor, con reglas de ejemplo sobre ficheros temporales
+    demo = [('ERROR', ('.js',), r'\bv-slot\b', 'demo-error'), ('AVISO', ('.js',), r'console\.log\(', 'demo-aviso')]
+    casos = {
+        'malo.js': ('var x = "v-slot";\nconsole.log(x);\n', {'demo-error', 'demo-aviso'}, True),
+        'bien.js': ('var x = 1;\n', set(), False),
+        'roto.py': ('def f(:\n    pass\n', set(), True),
+        'bien.py': ('x = 1\n', set(), False),
+    }
+    guardadas = REGLAS[:]
+    REGLAS[:] = demo
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            for nombre, (texto, esperados, con_error) in casos.items():
+                ruta = os.path.join(d, nombre)
+                with open(ruta, 'w', encoding='utf-8') as f:
+                    f.write(texto)
+                hallazgos = comprobar(ruta, d)
+                mensajes = {m for _, _, m in hallazgos}
+                if not esperados <= mensajes:
+                    fallos.append(f'motor: en {nombre} faltan {sorted(esperados - mensajes)}')
+                if con_error != any(n == 'ERROR' for n, _, _ in hallazgos):
+                    fallos.append(f'motor: en {nombre} se esperaba {"algún" if con_error else "ningún"} ERROR, salió {hallazgos}')
+            if relevante(os.path.join(d, 'x.min.js')):
+                fallos.append('motor: los .min.* tendrían que ignorarse')
+    finally:
+        REGLAS[:] = guardadas
+    if es_proyecto(None):
+        fallos.append('motor: sin repo git no tendría que considerarse proyecto')
+
+    print('\n'.join(fallos) if fallos else f'selftest OK: {len(REGLAS)} reglas bien formadas y el motor funciona.')
+    return 1 if fallos else 0
+
+
 def main():
     for flujo in (sys.stdout, sys.stderr):
         flujo.reconfigure(encoding='utf-8')
     if '--hook' in sys.argv:
         return modo_hook()
+    if '--selftest' in sys.argv:
+        return selftest()
 
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     raiz = raiz_repo(args[0] if args else os.getcwd())

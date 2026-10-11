@@ -1,0 +1,11 @@
+# Normalize line endings in the repo.
+* text=auto
+*.md   text eol=lf
+*.py   text eol=lf
+*.json text eol=lf
+*.svg  text eol=lf
+*.yml  text eol=lf
+
+# Not part of the template: GitHub's "Source code" downloads leave them out.
+.github        export-ignore
+.gitattributes export-ignore

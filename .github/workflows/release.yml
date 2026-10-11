@@ -1,0 +1,41 @@
+# Checks a published release: VERSION must match the tag, and the template must pass
+# the structure checks at that tag. Runs when a release is published, or by hand for
+# an existing release (Actions > Release check > Run workflow).
+name: Release check
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag of the existing release to check (e.g. v0.1.0)
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.TAG }}
+      - name: VERSION matches the tag
+        run: |
+          v="$(tr -d '\r\n' < VERSION)"
+          if [ "v$v" != "$TAG" ]; then
+            echo "::error file=VERSION::VERSION is $v but the release tag is $TAG"
+            exit 1
+          fi
+          echo "VERSION $v matches $TAG" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Structure and links
+        run: python .github/scripts/validate.py
+      - name: Sensor selftest
+        run: python personal/scripts/comprobar.py --selftest

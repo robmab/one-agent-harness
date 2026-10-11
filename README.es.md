@@ -2,6 +2,12 @@
 
 🌐 [English](README.md) · **Español**
 
+<p align="center"><img src="img/route.svg" alt="Un escalador (el modelo) con un arnés del que cuelgan seis piezas (las skills), un aparato autoblocante (el sensor) y quien le asegura (el agente). Los nombres de las versiones son los anclajes de la vía: Anchor, Belay, Carabiner, Descender y Hexcentric en la cima" width="100%"></p>
+
+[![CI](https://github.com/robmab/one-agent-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/robmab/one-agent-harness/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/robmab/one-agent-harness)](https://github.com/robmab/one-agent-harness/releases)
+[![License: MIT](https://img.shields.io/github/license/robmab/one-agent-harness)](LICENSE)
+
 Plantilla para montar el harness de IA de **cualquier proyecto**: skills, agentes, un sensor automático e instrucciones, compartidos entre todos los usuarios de Windows del PC y entre Claude Code y GitHub Copilot (VS Code), **sin tocar el workspace** si no quieres.
 
 Sale de un harness ya montado y probado en un proyecto real (2026-10-10), quitando todo lo específico de ese proyecto.
@@ -23,7 +29,7 @@ Sale de un harness ya montado y probado en un proyecto real (2026-10-10), quitan
 | [INVESTIGACION](INVESTIGACION.md) | de dónde sale todo: qué es un harness, repos analizados, skills adaptadas y descartadas |
 | [SKILLS-OPCIONALES](SKILLS-OPCIONALES.md) | catálogo de skills opcionales: qué aporta cada una, cuándo meterla, qué ruido mete y cuáles se desaconsejan |
 | [AGENTS.plantilla.md](AGENTS.plantilla.md) | el índice que va en la raíz del repo del proyecto |
-| [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | licencia MIT y créditos de las skills adaptadas (§8) |
+| [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | licencia MIT y créditos de las skills adaptadas (§9) |
 
 ![Qué llega a cada herramienta y por dónde](img/cableado.svg)
 
@@ -34,9 +40,11 @@ Sale de un harness ya montado y probado en un proyecto real (2026-10-10), quitan
 ```
 one-agent-harness\
 ├─ README.md (inglés) · README.es.md · GUIA-SKILLS.md · INVESTIGACION.md · SKILLS-OPCIONALES.md
-├─ LICENSE · THIRD-PARTY-NOTICES.md
+├─ LICENSE · THIRD-PARTY-NOTICES.md · .gitattributes
+├─ .github\                             CI de este repo (no es de la plantilla; se quita al copiar)
+├─ VERSION                             versión de la plantilla de la que sale este harness
 ├─ AGENTS.plantilla.md                   → a la raíz del repo como AGENTS.md
-├─ img\                                  esquemas SVG
+├─ img\                                  esquemas SVG y el banner (route.svg)
 ├─ claude\                               ← lo que solo usa Claude
 │  ├─ CLAUDE.md                          instrucciones de arranque (las mete el hook SessionStart)
 │  ├─ .claude-plugin\marketplace.json    marketplace "harness-proyecto" con el plugin "proyecto"
@@ -84,10 +92,10 @@ Requisitos: Claude Code (usa Git Bash para los hooks en Windows), VS Code con Co
 
 ```powershell
 git clone <url-de-este-repo> '<HARNESS>'
-Remove-Item '<HARNESS>\.git' -Recurse -Force
+Remove-Item '<HARNESS>\.git', '<HARNESS>\.github' -Recurse -Force
 ```
 
-El `.git` se borra para que el harness del proyecto no quede atado a la plantilla. Si quieres versionarlo, haz después tu propio `git init`. Si ya tienes la plantilla en local, vale igual con `Copy-Item <plantilla> '<HARNESS>' -Recurse`, quitando también su `.git`.
+El `.git` se borra para que el harness del proyecto no quede atado a la plantilla, y `.github` porque solo tiene el CI de este repo. Más fácil todavía: descarga **Source code (zip)** de la [última release](https://github.com/robmab/one-agent-harness/releases/latest), que ya viene sin los dos. **No borres `VERSION`:** dice de qué versión de la plantilla sale el harness, y así más adelante puedes ver qué ha cambiado desde entonces (en las [releases](https://github.com/robmab/one-agent-harness/releases)). Si quieres versionarlo, haz después tu propio `git init`. Si ya tienes la plantilla en local, vale igual con `Copy-Item <plantilla> '<HARNESS>' -Recurse`, quitando también su `.git`.
 
 ### 3.2 Poner nombre
 
@@ -131,7 +139,7 @@ Orden recomendado (de más a menos uso):
 3. **`comprobar.py`:**
    - `MARCADOR`: un fichero que solo exista en ese repo. **Obligatorio si convives con otros proyectos** (§5).
    - `PYTHON_PROYECTO`, si hay Python.
-   - `REGLAS`: las trampas del paso 2 que se puedan pillar con una regex.
+   - `REGLAS`: las trampas del paso 2 que se puedan pillar con una regex. Después, `py -3 <HARNESS>\personal\scripts\comprobar.py --selftest` comprueba que estén bien escritas.
 4. **`verificar-antes-de-acabar`:** los comandos reales de tests, lint y build.
 5. **`depuracion-sistematica`:** las capas de la aplicación y sus trampas.
 6. **`diseno-ui`:** si hay interfaz.
@@ -251,6 +259,14 @@ Las herramientas no separan por proyecto. Ojo con esto:
 5. **Instrucciones globales:** por hook o config de usuario, nunca con un fichero de instrucciones en una carpeta superior al repo.
 6. **Verifica** en sesión nueva que lo ve y que las demás no empiezan a duplicar.
 
-## 8. Licencia
+## 8. Comprobaciones (CI)
+
+En cada push, el [CI](.github/workflows/ci.yml) valida la propia plantilla:
+- **Estructura** ([`validate.py`](.github/scripts/validate.py)): frontmatter de skills y agente (`name` igual que la carpeta, sin `_`), sin BOM, JSON válidos, sin `strict`/`version` en el marketplace, que exista el script del hook, SVG bien formados, `VERSION` en SemVer, enlaces y anclas de los Markdown, y ninguna ruta de usuario real.
+- **Sensor:** `comprobar.py --selftest` en Ubuntu y Windows (`REGLAS` bien escritas y el motor sobre ficheros de ejemplo).
+
+Al publicar una release, además comprueba que `VERSION` coincida con el tag ([release.yml](.github/workflows/release.yml)). En local: `python .github/scripts/validate.py`.
+
+## 9. Licencia
 
 [MIT](LICENSE). Algunas skills y el agente `revisor` están adaptados de [obra/superpowers](https://github.com/obra/superpowers) y [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), los dos con licencia MIT. Sus avisos de copyright están en [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). Si adaptas otra skill de fuera, añade ahí su aviso.
