@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "py -3 \"${CLAUDE_PLUGIN_ROOT}/scripts/comprobar.py\" --hook" }
+        ]
+      }
+    ]
+  }
+}

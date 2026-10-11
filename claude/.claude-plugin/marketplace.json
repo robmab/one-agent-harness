@@ -1,0 +1,11 @@
+{
+  "name": "harness-proyecto",
+  "owner": { "name": "TU_NOMBRE" },
+  "plugins": [
+    {
+      "name": "proyecto",
+      "source": "./plugins/proyecto",
+      "description": "Skills, agentes y hook de PROYECTO (solo en este PC)"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1184 488" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .hd{font-size:15px;font-weight:700;fill:#0f172a}
+    .st{font-size:14.5px;font-weight:700;fill:#0f172a}
+    .ct{font-size:12.5px;font-weight:700;letter-spacing:-.1px}
+    .cs{font-size:11px;fill:#475569}
+    .lg{font-size:12.5px;fill:#334155}
+    .k{fill:#dbeafe;stroke:#2563eb;stroke-width:1.5}
+    .p{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}
+    .c{fill:#ffedd5;stroke:#ea580c;stroke-width:1.5}
+    .g{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}
+    .kt{fill:#1e3a8a} .pt{fill:#14532d} .ctt{fill:#7c2d12} .gt{fill:#0f172a}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ea580c"/></marker>
+  </defs>
+  <rect width="1184" height="488" rx="16" fill="#f8fafc"/>
+
+  <!-- columnas -->
+  <g>
+    <rect x="20" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+    <rect x="252" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+    <rect x="484" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+    <rect x="716" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+    <rect x="948" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+  </g>
+  <g fill="#e2e8f0">
+    <rect x="20" y="20" width="216" height="46" rx="14"/><rect x="20" y="46" width="216" height="20"/>
+    <rect x="252" y="20" width="216" height="46" rx="14"/><rect x="252" y="46" width="216" height="20"/>
+    <rect x="484" y="20" width="216" height="46" rx="14"/><rect x="484" y="46" width="216" height="20"/>
+    <rect x="716" y="20" width="216" height="46" rx="14"/><rect x="716" y="46" width="216" height="20"/>
+    <rect x="948" y="20" width="216" height="46" rx="14"/><rect x="948" y="46" width="216" height="20"/>
+  </g>
+  <g class="hd" text-anchor="middle">
+    <text x="128" y="49">0 · Arrancar</text>
+    <text x="360" y="49">1 · Entender</text>
+    <text x="592" y="49">2 · Hacer</text>
+    <text x="824" y="49">3 · Comprobar</text>
+    <text x="1056" y="49">4 · Revisar y cerrar</text>
+  </g>
+
+  <!-- pasos del flujo -->
+  <g>
+    <rect x="32" y="80" width="192" height="44" rx="22" class="g"/>
+    <rect x="264" y="80" width="192" height="44" rx="22" class="g"/>
+    <rect x="496" y="80" width="192" height="44" rx="22" class="g"/>
+    <rect x="728" y="80" width="192" height="44" rx="22" class="g"/>
+    <rect x="960" y="80" width="192" height="44" rx="22" class="g"/>
+  </g>
+  <g class="st" text-anchor="middle">
+    <text x="128" y="107">Sesión nueva</text>
+    <text x="360" y="107">Ticket o bug</text>
+    <text x="592" y="107">Escribir código</text>
+    <text x="824" y="107">¿Está hecho?</text>
+    <text x="1056" y="107">Revisión</text>
+  </g>
+  <g stroke="#475569" stroke-width="2" marker-end="url(#a)">
+    <line x1="226" y1="102" x2="262" y2="102"/>
+    <line x1="458" y1="102" x2="494" y2="102"/>
+    <line x1="690" y1="102" x2="726" y2="102"/>
+    <line x1="922" y1="102" x2="958" y2="102"/>
+  </g>
+
+  <!-- 0 · Arrancar -->
+  <rect x="32" y="144" width="192" height="60" rx="10" class="k"/>
+  <text x="128" y="166" text-anchor="middle" class="ct kt">AGENTS.md</text>
+  <text x="128" y="182" text-anchor="middle" class="cs">índice del repo</text>
+  <text x="128" y="195" text-anchor="middle" class="cs">entra siempre</text>
+  <rect x="32" y="214" width="192" height="60" rx="10" class="k"/>
+  <text x="128" y="236" text-anchor="middle" class="ct kt">estilo-comentarios</text>
+  <text x="128" y="252" text-anchor="middle" class="cs">tu voz en comentarios y chat</text>
+  <text x="128" y="265" text-anchor="middle" class="cs">opcional · hook al iniciar</text>
+
+  <!-- 1 · Entender -->
+  <rect x="264" y="144" width="192" height="60" rx="10" class="p"/>
+  <text x="360" y="166" text-anchor="middle" class="ct pt">entrevistame</text>
+  <text x="360" y="182" text-anchor="middle" class="cs">si no está claro qué piden</text>
+  <text x="360" y="195" text-anchor="middle" class="cs">repo → hipótesis → preguntas</text>
+  <rect x="264" y="214" width="192" height="60" rx="10" class="p"/>
+  <text x="360" y="236" text-anchor="middle" class="ct pt">depuracion-sistematica</text>
+  <text x="360" y="252" text-anchor="middle" class="cs">si es un bug</text>
+  <text x="360" y="265" text-anchor="middle" class="cs">reproducir → capa → hipótesis</text>
+
+  <!-- 2 · Hacer -->
+  <rect x="496" y="144" width="192" height="60" rx="10" class="k"/>
+  <text x="592" y="166" text-anchor="middle" class="ct kt">convenios-codigo</text>
+  <text x="592" y="182" text-anchor="middle" class="cs">cómo se escribe</text>
+  <text x="592" y="195" text-anchor="middle" class="cs">auto, en todo el código</text>
+  <rect x="496" y="214" width="192" height="60" rx="10" class="k"/>
+  <text x="592" y="236" text-anchor="middle" class="ct kt">diseno-ui</text>
+  <text x="592" y="252" text-anchor="middle" class="cs">design system</text>
+  <text x="592" y="265" text-anchor="middle" class="cs">auto, solo UI y estilos</text>
+  <rect x="496" y="284" width="192" height="60" rx="10" class="k"/>
+  <text x="592" y="306" text-anchor="middle" class="ct kt">fuentes-oficiales</text>
+  <text x="592" y="322" text-anchor="middle" class="cs">versiones reales del stack</text>
+  <text x="592" y="335" text-anchor="middle" class="cs">auto (modelo local: a mano)</text>
+  <rect x="496" y="354" width="192" height="60" rx="10" class="c"/>
+  <text x="592" y="376" text-anchor="middle" class="ct ctt">comprobar</text>
+  <text x="592" y="392" text-anchor="middle" class="cs">hook tras cada edición</text>
+  <text x="592" y="405" text-anchor="middle" class="cs">si hay error, lo corrige</text>
+  <path d="M688 384 H706 V134 H620 V129" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ao)"/>
+
+  <!-- 3 · Comprobar -->
+  <rect x="728" y="144" width="192" height="60" rx="10" class="p"/>
+  <text x="824" y="166" text-anchor="middle" class="ct pt">verificar-antes-de-acabar</text>
+  <text x="824" y="182" text-anchor="middle" class="cs">comando + salida, navegador</text>
+  <text x="824" y="195" text-anchor="middle" class="cs">«Comprobado» / «Sin comprobar»</text>
+  <rect x="728" y="214" width="192" height="60" rx="10" class="c"/>
+  <text x="824" y="236" text-anchor="middle" class="ct ctt">comprobar</text>
+  <text x="824" y="252" text-anchor="middle" class="cs">lo lanza verificar o tú</text>
+  <text x="824" y="265" text-anchor="middle" class="cs">en Copilot no hay hook</text>
+
+  <!-- 4 · Revisar y cerrar -->
+  <rect x="960" y="144" width="192" height="60" rx="10" class="c"/>
+  <text x="1056" y="166" text-anchor="middle" class="ct ctt">revisor</text>
+  <text x="1056" y="182" text-anchor="middle" class="cs">único agente: 6 ejes, no edita</text>
+  <text x="1056" y="195" text-anchor="middle" class="cs">a mano, antes del commit</text>
+  <rect x="960" y="214" width="192" height="60" rx="10" class="k"/>
+  <text x="1056" y="236" text-anchor="middle" class="ct kt">checklists</text>
+  <text x="1056" y="252" text-anchor="middle" class="cs">convenios, diseño, versiones</text>
+  <text x="1056" y="265" text-anchor="middle" class="cs">las lee el revisor</text>
+  <rect x="960" y="284" width="192" height="60" rx="10" class="g"/>
+  <text x="1056" y="306" text-anchor="middle" class="ct gt">Tú decides</text>
+  <text x="1056" y="322" text-anchor="middle" class="cs">qué se aplica</text>
+  <text x="1056" y="335" text-anchor="middle" class="cs">y haces el commit</text>
+
+  <!-- leyenda -->
+  <rect x="20" y="456" width="22" height="16" rx="4" class="k"/><text x="50" y="469" class="lg">conocimiento</text>
+  <rect x="170" y="456" width="22" height="16" rx="4" class="p"/><text x="200" y="469" class="lg">proceso</text>
+  <rect x="290" y="456" width="22" height="16" rx="4" class="c"/><text x="320" y="469" class="lg">control</text>
+  <rect x="404" y="456" width="22" height="16" rx="4" class="g"/><text x="434" y="469" class="lg">paso del flujo / tú</text>
+  <line x1="590" y1="464" x2="626" y2="464" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4"/><text x="636" y="469" class="lg">bucle del hook: error → se corrige antes de seguir</text>
+</svg>

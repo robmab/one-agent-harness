@@ -1,0 +1,1 @@
+Si estás en el repo de <PROYECTO>: al empezar la conversación, carga la skill `proyecto:estilo-comentarios` y lee su detalle (`<HARNESS>\personal\skills\estilo-comentarios\estilo_comentarios.md`): sirve para el tono del chat, no solo para los comentarios. Una sola vez por sesión, no lo releas después.

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .hh{font-size:19px;font-weight:700;fill:#0f172a}
+    .sub{font-size:12.5px;fill:#475569}
+    .col{font-size:13px;font-weight:700;letter-spacing:.4px}
+    .n{font-size:14px;font-weight:700;fill:#0f172a}
+    .nb{font-size:15px;font-weight:700;fill:#7c2d12}
+    .d{font-size:11.5px;fill:#475569}
+    .plus{font-size:38px;font-weight:300;fill:#64748b}
+    .pill{font-size:10.5px;font-weight:700;letter-spacing:.6px}
+    .rl{fill:#fef3c7} .rlt{fill:#92400e}
+    .aj{fill:#e0f2fe} .ajt{fill:#075985}
+    .li{fill:#dcfce7} .lit{fill:#166534}
+    .op{fill:#e2e8f0} .opt{fill:#334155}
+    .oh{font-size:14px;font-weight:700;fill:#334155}
+    .ot{font-size:12.5px;fill:#475569}
+  </style>
+  <rect width="1120" height="560" rx="16" fill="#f8fafc"/>
+
+  <text x="20" y="48"><tspan font-size="26" font-weight="800" fill="#0f172a">CORE</tspan><tspan font-size="20" fill="#334155" dx="12">= 6 skills + 1 sensor + 1 agente</tspan></text>
+  <rect x="720" y="32" width="50" height="17" rx="8.5" class="li"/><text x="745" y="44" class="pill lit" text-anchor="middle">LISTA</text>
+  <rect x="780" y="32" width="64" height="17" rx="8.5" class="aj"/><text x="812" y="44" class="pill ajt" text-anchor="middle">AJUSTAR</text>
+  <rect x="854" y="32" width="72" height="17" rx="8.5" class="rl"/><text x="890" y="44" class="pill rlt" text-anchor="middle">RELLENAR</text>
+  <text x="936" y="45" class="sub">estado en la plantilla</text>
+
+  <!-- 6 skills -->
+  <rect x="20" y="72" width="620" height="250" rx="16" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="40" y="104" class="hh">6 skills</text>
+  <text x="40" y="124" class="sub">guías: entran antes de escribir, en la misma conversación</text>
+
+  <circle cx="46" cy="152" r="6" fill="#2563eb"/><text x="58" y="157" class="col" fill="#1e3a8a">CONOCIMIENTO</text>
+  <text x="40" y="190" class="n">convenios-codigo</text>
+  <rect x="248" y="178" width="72" height="17" rx="8.5" class="rl"/><text x="284" y="190" class="pill rlt" text-anchor="middle">RELLENAR</text>
+  <text x="40" y="207" class="d">cómo se escribe el código</text>
+  <text x="40" y="236" class="n">diseno-ui</text>
+  <rect x="248" y="224" width="72" height="17" rx="8.5" class="rl"/><text x="284" y="236" class="pill rlt" text-anchor="middle">RELLENAR</text>
+  <text x="40" y="253" class="d">design system, solo UI</text>
+  <text x="40" y="282" class="n">fuentes-oficiales</text>
+  <rect x="256" y="270" width="64" height="17" rx="8.5" class="aj"/><text x="288" y="282" class="pill ajt" text-anchor="middle">AJUSTAR</text>
+  <text x="40" y="299" class="d">versiones reales del stack y trampas</text>
+
+  <line x1="330" y1="146" x2="330" y2="306" stroke="#e2e8f0"/>
+  <circle cx="346" cy="152" r="6" fill="#16a34a"/><text x="358" y="157" class="col" fill="#14532d">PROCESO</text>
+  <text x="340" y="190" class="n">entrevistame</text>
+  <rect x="570" y="178" width="50" height="17" rx="8.5" class="li"/><text x="595" y="190" class="pill lit" text-anchor="middle">LISTA</text>
+  <text x="340" y="207" class="d">entender antes de hacer</text>
+  <text x="340" y="236" class="n">depuracion-sistematica</text>
+  <rect x="556" y="224" width="64" height="17" rx="8.5" class="aj"/><text x="588" y="236" class="pill ajt" text-anchor="middle">AJUSTAR</text>
+  <text x="340" y="253" class="d">causa raíz antes de arreglar</text>
+  <text x="340" y="282" class="n">verificar-antes-de-acabar</text>
+  <rect x="556" y="270" width="64" height="17" rx="8.5" class="aj"/><text x="588" y="282" class="pill ajt" text-anchor="middle">AJUSTAR</text>
+  <text x="340" y="299" class="d">pruebas antes de decir «hecho»</text>
+
+  <text x="662" y="210" class="plus" text-anchor="middle">+</text>
+
+  <!-- 1 sensor -->
+  <rect x="684" y="72" width="200" height="250" rx="16" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="704" y="104" class="hh">1 sensor</text>
+  <text x="704" y="124" class="sub">control fijo, sin modelo</text>
+  <text x="704" y="190" class="nb">comprobar + hook</text>
+  <text x="704" y="212" class="d">script de reglas y sintaxis</text>
+  <text x="704" y="228" class="d">salta tras cada edición</text>
+  <text x="704" y="244" class="d">siempre da lo mismo, gratis</text>
+  <rect x="704" y="270" width="64" height="17" rx="8.5" class="aj"/><text x="736" y="282" class="pill ajt" text-anchor="middle">AJUSTAR</text>
+
+  <text x="906" y="210" class="plus" text-anchor="middle">+</text>
+
+  <!-- 1 agente -->
+  <rect x="928" y="72" width="172" height="250" rx="16" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="948" y="104" class="hh">1 agente</text>
+  <text x="948" y="124" class="sub">control con juicio</text>
+  <text x="948" y="190" class="nb">revisor</text>
+  <text x="948" y="212" class="d">otra cabeza: ojos frescos</text>
+  <text x="948" y="228" class="d">no edita</text>
+  <text x="948" y="244" class="d">usa las skills de</text>
+  <text x="948" y="260" class="d">conocimiento como</text>
+  <text x="948" y="276" class="d">checklists</text>
+  <rect x="948" y="290" width="50" height="17" rx="8.5" class="li"/><text x="973" y="302" class="pill lit" text-anchor="middle">LISTA</text>
+
+  <!-- base -->
+  <rect x="20" y="338" width="1080" height="40" rx="10" fill="#334155"/>
+  <text x="560" y="363" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">AGENTS.md · el índice del repo: entra siempre y apunta a todo lo de arriba</text>
+
+  <!-- opcional -->
+  <rect x="20" y="396" width="1080" height="146" rx="16" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="44" y="426" font-size="17" font-weight="700" fill="#64748b">Opcional · fuera del core</text>
+
+  <text x="44" y="458" class="oh">Personal</text>
+  <circle cx="50" cy="477" r="5" fill="#2563eb"/><text x="62" y="482" class="n" font-size="13">estilo-comentarios</text>
+  <text x="44" y="502" class="ot">tu voz en comentarios y chat;</text>
+  <text x="44" y="519" class="ot">cada uno el suyo</text>
+
+  <text x="400" y="458" class="oh">De un módulo o pantalla</text>
+  <text x="400" y="482" class="ot">skills que solo entran bajo demanda,</text>
+  <text x="400" y="499" class="ot">con una description muy precisa</text>
+
+  <text x="756" y="458" class="oh">En espera</text>
+  <text x="756" y="482" class="ot">commits · planes de ticket · traducciones</text>
+  <text x="756" y="499" class="ot">migraciones de BD · recibir revisiones</text>
+  <text x="756" y="519" class="ot" font-style="italic">solo si algo falla de verdad y se repite</text>
+</svg>

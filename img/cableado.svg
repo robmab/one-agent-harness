@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 362" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .it{font-family:Consolas, 'Courier New', monospace;font-size:13.5px;font-weight:700;fill:#0f172a}
+    .pill{font-size:10.5px;font-weight:700;letter-spacing:.6px}
+    .lbl{font-size:11.5px;fill:#334155;paint-order:stroke;stroke:#f8fafc;stroke-width:5px;stroke-linejoin:round}
+    .bt{font-size:18px;font-weight:700}
+    .bl{font-size:12.5px;fill:#334155}
+    .lg{font-size:12px;fill:#334155}
+  </style>
+  <defs>
+    <marker id="mc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker>
+    <marker id="mp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker>
+    <marker id="mg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker>
+  </defs>
+  <rect width="1100" height="362" rx="16" fill="#f8fafc"/>
+
+  <!-- conexiones -->
+  <g fill="none" stroke-width="2">
+    <line x1="400" y1="60" x2="758" y2="70" stroke="#b45309" marker-end="url(#mc)"/>
+    <line x1="400" y1="118" x2="758" y2="110" stroke="#b45309" marker-end="url(#mc)"/>
+    <line x1="400" y1="176" x2="758" y2="150" stroke="#b45309" marker-end="url(#mc)"/>
+    <line x1="400" y1="176" x2="758" y2="250" stroke="#0f766e" marker-end="url(#mp)"/>
+    <line x1="400" y1="234" x2="758" y2="280" stroke="#0f766e" marker-end="url(#mp)"/>
+    <line x1="400" y1="292" x2="758" y2="310" stroke="#0f766e" marker-end="url(#mp)"/>
+    <path d="M40 118 H24 V234 H38" stroke="#64748b" stroke-dasharray="5 4" marker-end="url(#mg)"/>
+  </g>
+  <g class="lbl" text-anchor="middle">
+    <text x="580" y="59">hook SessionStart</text>
+    <text x="580" y="108">plugin «proyecto» (skills, agentes, hook)</text>
+    <text x="580" y="157">lo lee al arrancar</text>
+    <text x="688" y="226">también lo lee</text>
+    <text x="598" y="254">junctions ~/.copilot</text>
+    <text x="580" y="293">lo ve solo</text>
+  </g>
+  <text x="14" y="176" class="lbl" text-anchor="middle" transform="rotate(-90 14 176)">junction</text>
+
+  <!-- fuentes -->
+  <g fill="#ffffff" stroke="#cbd5e1">
+    <rect x="40" y="40" width="360" height="40" rx="10"/>
+    <rect x="40" y="98" width="360" height="40" rx="10"/>
+    <rect x="40" y="156" width="360" height="40" rx="10"/>
+    <rect x="40" y="214" width="360" height="40" rx="10"/>
+    <rect x="40" y="272" width="360" height="40" rx="10" stroke-dasharray="5 4"/>
+  </g>
+  <text x="56" y="65" class="it">claude\CLAUDE.md</text>
+  <text x="56" y="123" class="it">claude\plugins\proyecto</text>
+  <text x="56" y="181" class="it">AGENTS.md</text>
+  <text x="56" y="239" class="it">personal\ (skills, agents)</text>
+  <text x="56" y="297" class="it">.github\ (si el equipo tiene)</text>
+  <g>
+    <rect x="314" y="51" width="74" height="18" rx="9" fill="#f3e8ff"/><text x="351" y="64" class="pill" fill="#6b21a8" text-anchor="middle">HARNESS</text>
+    <rect x="314" y="109" width="74" height="18" rx="9" fill="#f3e8ff"/><text x="351" y="122" class="pill" fill="#6b21a8" text-anchor="middle">HARNESS</text>
+    <rect x="330" y="167" width="58" height="18" rx="9" fill="#e2e8f0"/><text x="359" y="180" class="pill" fill="#334155" text-anchor="middle">REPO</text>
+    <rect x="314" y="225" width="74" height="18" rx="9" fill="#f3e8ff"/><text x="351" y="238" class="pill" fill="#6b21a8" text-anchor="middle">HARNESS</text>
+    <rect x="330" y="283" width="58" height="18" rx="9" fill="#e2e8f0"/><text x="359" y="296" class="pill" fill="#334155" text-anchor="middle">REPO</text>
+  </g>
+
+  <!-- herramientas -->
+  <rect x="760" y="40" width="320" height="150" rx="14" fill="#fffbeb" stroke="#b45309" stroke-width="2"/>
+  <text x="780" y="72" class="bt" fill="#78350f">Claude Code</text>
+  <text x="780" y="100" class="bl">AGENTS.md (índice)</text>
+  <text x="780" y="122" class="bl">proyecto:* → skills y agentes</text>
+  <text x="780" y="144" class="bl">hooks: SessionStart · PostToolUse</text>
+  <text x="780" y="166" class="bl">(no lee ~/.copilot: sin duplicados)</text>
+
+  <rect x="760" y="212" width="320" height="120" rx="14" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+  <text x="780" y="244" class="bt" fill="#134e4a">GitHub Copilot · VS Code</text>
+  <text x="780" y="270" class="bl">AGENTS.md · .github, si lo hay</text>
+  <text x="780" y="292" class="bl">~/.copilot → skills y agentes (junctions)</text>
+  <text x="780" y="314" class="bl">sin hooks: el script, a mano</text>
+
+  <!-- leyenda -->
+  <rect x="40" y="334" width="58" height="18" rx="9" fill="#e2e8f0"/><text x="69" y="347" class="pill" fill="#334155" text-anchor="middle">REPO</text>
+  <text x="106" y="347" class="lg">en el repo del proyecto</text>
+  <rect x="290" y="334" width="74" height="18" rx="9" fill="#f3e8ff"/><text x="327" y="347" class="pill" fill="#6b21a8" text-anchor="middle">HARNESS</text>
+  <text x="372" y="347" class="lg">&lt;HARNESS&gt;: carpeta local, fuera del repo</text>
+</svg>
