@@ -1,0 +1,13 @@
+# Generated when running comprobar.py or validate.py locally
+__pycache__/
+*.pyc
+
+# The plugin junction is created on setup (README §3.3) and points to personal/:
+# versioning it would duplicate personal/ and break on another machine
+claude/plugins/
+
+# Windows and editor leftovers
+Thumbs.db
+desktop.ini
+*.tmp
+.vscode/
