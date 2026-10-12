@@ -1,4 +1,4 @@
-# one-agent-harness
+# One Agent Harness
 
 🌐 [English](README.md) · **Español**
 
