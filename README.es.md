@@ -2,7 +2,7 @@
 
 🌐 [English](README.md) · **Español**
 
-<p align="center"><img src="img/route.svg" alt="Un escalador (el modelo) con un arnés del que cuelgan seis piezas (las skills), un aparato autoblocante (el sensor) y quien le asegura (el agente). Los nombres de las versiones son los anclajes de la vía: Anchor, Belay, Carabiner, Descender y Hexcentric en la cima" width="100%"></p>
+<p align="center"><img src="img/route.png" alt="Una llama escaladora (el modelo) sube por una pared con un arnés del que cuelgan seis piezas (las skills); un aparato autoblocante (el sensor) la sujeta y otra llama la asegura desde abajo (el agente). Un cartel dice AGENTS.md, empieza aquí. Los nombres de las versiones son los anclajes de la vía: Anchor, Belay, Carabiner, Descender y Hexcentric en la cima" width="100%"></p>
 
 [![CI](https://github.com/robmab/one-agent-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/robmab/one-agent-harness/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/robmab/one-agent-harness)](https://github.com/robmab/one-agent-harness/releases)
@@ -44,7 +44,7 @@ one-agent-harness\
 ├─ .github\                             CI de este repo (no es de la plantilla; se quita al copiar)
 ├─ VERSION                             versión de la plantilla de la que sale este harness
 ├─ AGENTS.plantilla.md                   → a la raíz del repo como AGENTS.md
-├─ img\                                  esquemas SVG y el banner (route.svg)
+├─ img\                                  esquemas SVG y el banner (route.png)
 ├─ claude\                               ← lo que solo usa Claude
 │  ├─ CLAUDE.md                          el router: orden de trabajo, sensor y agente (lo mete el hook SessionStart)
 │  ├─ .claude-plugin\marketplace.json    marketplace "harness-proyecto" con el plugin "proyecto"
