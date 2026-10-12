@@ -5,6 +5,8 @@
 *.json text eol=lf
 *.svg  text eol=lf
 *.yml  text eol=lf
+*.jsonc text eol=lf
+*.ts   text eol=lf
 
 # Not part of the template: GitHub's "Source code" downloads leave them out.
 .github        export-ignore

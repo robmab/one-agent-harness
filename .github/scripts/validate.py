@@ -10,7 +10,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-TEXT_EXT = ('.md', '.py', '.json', '.svg', '.yml', '.yaml')
+TEXT_EXT = ('.md', '.py', '.json', '.jsonc', '.ts', '.svg', '.yml', '.yaml')
 NAME_RE = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 SKILL_WORDS_WARN = 700
 # a real Windows user folder; placeholders (<user>, $u, %USERPROFILE%) and Public are fine
@@ -144,6 +144,44 @@ def check_json():
                             error(hooks_path, f'the hook runs "{script}", which does not exist in personal/')
 
 
+def check_opencode():
+    base = os.path.join(ROOT, 'opencode')
+    # Config: JSONC con comentarios de línea completa (el estilo del template), así se parsea sin dependencias
+    cfg_path = os.path.join(base, 'opencode.jsonc')
+    _, text = read(cfg_path)
+    try:
+        cfg = json.loads(re.sub(r'(?m)^\s*//.*$', '', text))
+    except ValueError as e:
+        error(cfg_path, f'invalid JSONC (only full-line // comments are allowed): {e}')
+        cfg = None
+    if cfg:
+        rules = [r for r in cfg.get('permissions', []) if r.get('action') == 'skill']
+        if not any(r.get('resource') == '*' and r.get('effect') == 'deny' for r in rules):
+            error(cfg_path, 'no "skill" * deny rule: OpenCode would also list skills from other tools found above the repo')
+        allowed = {r.get('resource') for r in rules if r.get('effect') == 'allow'}
+        for skill in sorted(os.listdir(os.path.join(ROOT, 'personal', 'skills'))):
+            if skill not in allowed:
+                error(cfg_path, f'skill "{skill}" is missing from the skill allowlist: OpenCode would not see it')
+    # Agentes: copias generadas al día y sin `tools:` (OpenCode ignora el agente entero)
+    sys.path.insert(0, base)
+    try:
+        import sincronizar
+        for origen, destino, esperado in sincronizar.pares():
+            _, actual = read(destino) if os.path.isfile(destino) else (b'', None)
+            if actual != esperado:
+                error(destino, f'out of date with personal/agents/{origen}: run py -3 opencode/sincronizar.py')
+            elif re.search(r'(?m)^tools:', esperado.split('\n---', 1)[0]):
+                error(destino, 'has "tools:" in the frontmatter: OpenCode ignores the whole agent')
+    finally:
+        sys.path.pop(0)
+    # Plugin: el script del sensor existe
+    plugin = os.path.join(base, 'plugins', 'sensor.ts')
+    _, text = read(plugin)
+    for script in re.findall(r'<HARNESS>/(personal/[^"]+)"', text):
+        if not os.path.isfile(os.path.join(ROOT, script)):
+            error(plugin, f'the plugin runs "{script}", which does not exist')
+
+
 def check_svg():
     for base, _, files in os.walk(os.path.join(ROOT, 'img')):
         for f in files:
@@ -213,7 +251,7 @@ def check_links():
 def main():
     for stream in (sys.stdout, sys.stderr):
         stream.reconfigure(encoding='utf-8')
-    for check in (check_encoding, check_skills, check_agents, check_json, check_svg, check_version, check_links):
+    for check in (check_encoding, check_skills, check_agents, check_json, check_opencode, check_svg, check_version, check_links):
         check()
     for kind, items in (('warning', warnings), ('error', errors)):
         for path, line, msg in items:
