@@ -54,7 +54,8 @@ one-agent-harness\
 │  ├─ opencode.jsonc                     RELLENAR  modelo y proveedor; permisos, lista blanca de skills, revisor
 │  ├─ agents\revisor.md                  GENERADO  por sincronizar.py desde personal\agents (no editar aquí)
 │  ├─ plugins\sensor.ts                  LISTA     pasa comprobar.py tras cada edición (como el hook de Claude)
-│  └─ sincronizar.py                     LISTA     regenera agents\ (--check: solo comprueba)
+│  ├─ sincronizar.py                     LISTA     regenera agents\ (--check: solo comprueba)
+│  └─ scripts\revisar-pendiente.ps1      LISTA     el revisor desde la CLI; deja el informe en opencode\informes\
 └─ personal\                             ← lo que leen Claude, Copilot y OpenCode
    ├─ skills\
    │  ├─ convenios-codigo\               RELLENAR  convenios del proyecto
@@ -230,6 +231,7 @@ New-Item -ItemType Junction -Path "$c\plugins"        -Target "$a\opencode\plugi
 - **El `revisor`** de `opencode\agents\` es una **copia generada**: OpenCode ignora el agente entero si su frontmatter lleva `tools:`. Tras tocar `personal\agents\`, `py -3 <HARNESS>\opencode\sincronizar.py` (la CI avisa si se te olvida). Lo propio de OpenCode (subagente, pasos, sin editar) va en `agents` de la config.
 - **El sensor** es el plugin `opencode\plugins\sensor.ts`: tras cada `write`/`edit`/`patch` pasa `comprobar.py --hook` y añade su salida al resultado de la herramienta, como el hook de Claude.
 - **La lista blanca de skills** (`permissions`, acción `skill`) deja ver solo las del harness: OpenCode sube desde el repo hasta el home buscando `.claude/skills` y `.agents/skills`, y se trae las de otras herramientas. **Cada skill nueva, a la lista** (la CI lo comprueba).
+- **Búsqueda web gratis:** el MCP `ddg-search` (DuckDuckGo, por `uvx`; instala `uv` en cada usuario con `winget install astral-sh.uv`). Buscar no pregunta; **leer páginas sí**, porque una web puede esconder instrucciones para el modelo. Añade a las reglas `allow` de `webfetch` la documentación oficial de tu stack.
 - **Con un modelo local** de un solo slot (llama.cpp con `parallel = 1`): el agente `title` va desactivado, porque su petición echaba la caché del turno principal en cada sesión nueva (14-22 s medidos).
 
 ### 3.8 Verificar
@@ -244,6 +246,7 @@ New-Item -ItemType Junction -Path "$c\plugins"        -Target "$a\opencode\plugi
 
 - **Skill nueva:** `personal\skills\<nombre>\SKILL.md`. La ven todos los usuarios y las herramientas sin más; **en OpenCode, añádela también a la lista blanca** de `opencode\opencode.jsonc`.
 - **Agente nuevo: en principio, no.** El harness tiene **un solo agente**, el `revisor`. Un "revisor de X" se hace como skill con su checklist y se añade a la tabla de checklists del `revisor` (ver [GUIA-SKILLS §6](GUIA-SKILLS.md#6-antes-de-añadir-algo-nuevo)). Solo compensa otro agente si hacen falta ojos frescos, permisos distintos o aislar un trabajo pesado que no cubra nada más. Si llega el caso: `personal\agents\<nombre>.agent.md` con frontmatter **de Claude** (`name`, `description`, `tools: Read, Grep…`); Copilot lo detecta igual (probado). Para OpenCode, después `py -3 <HARNESS>\opencode\sincronizar.py`.
+- **Revisión desde la CLI de OpenCode:** desde el repo, `& <HARNESS>\opencode\scripts\revisar-pendiente.ps1` lanza el `revisor` sobre lo pendiente sin commitear (o `-Rama main` para la rama) y deja el informe con fecha en `opencode\informes\`. Sin código cambiado, sale sin despertar al modelo. Sirve a mano, con un alias, programado o en un hook `pre-push` local. En modo script lo que está en `ask` se rechaza: el informe lo dice.
 - **Antes de añadir nada, pasa el filtro** de la [GUIA-SKILLS §6](GUIA-SKILLS.md#6-antes-de-añadir-algo-nuevo):
   - conocimiento que el modelo no puede saber,
   - o un fallo visto que se repite.

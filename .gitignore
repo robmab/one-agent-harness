@@ -11,3 +11,6 @@ Thumbs.db
 desktop.ini
 *.tmp
 .vscode/
+
+# Informes de opencode/scripts/revisar-pendiente.ps1
+opencode/informes/

@@ -38,11 +38,20 @@
   "agents": {
     // Con un servidor local de un solo slot, la petición del título echa la caché del turno principal: fuera
     "title": { "disabled": true },
-    // El revisor (agents/revisor.md, generado por sincronizar.py): subagente con contexto limpio, sin editar y con tope de pasos
+    // El revisor (agents/revisor.md, generado por sincronizar.py): sin editar y con tope de pasos.
+    // "all": como subagente desde otra sesión y también directo (opencode run --agent revisor, scripts)
     "revisor": {
-      "mode": "subagent",
+      "mode": "all",
       "steps": 40,
       "permissions": [{ "action": "edit", "resource": "*", "effect": "deny" }]
+    }
+  },
+
+  // Búsqueda web gratis con DuckDuckGo (necesita uv: winget install astral-sh.uv). Sin codemode: con modelos
+  // locales, mejor sus 2 herramientas a la vista. Si no lo quieres, borra el bloque y sus reglas de permisos
+  "mcp": {
+    "servers": {
+      "ddg-search": { "type": "local", "command": ["uvx", "duckduckgo-mcp-server"], "codemode": false }
     }
   },
 
@@ -60,6 +69,7 @@
     { "action": "shell", "resource": "git diff *", "effect": "allow" },
     { "action": "shell", "resource": "git log *", "effect": "allow" },
     { "action": "shell", "resource": "git show *", "effect": "allow" },
+    { "action": "shell", "resource": "git grep *", "effect": "allow" },
     { "action": "shell", "resource": "py -3 <HARNESS>/personal/scripts/comprobar.py *", "effect": "allow" },
     { "action": "shell", "resource": "git push *", "effect": "deny" },
     { "action": "shell", "resource": "git reset --hard *", "effect": "deny" },
@@ -68,6 +78,13 @@
     { "action": "external_directory", "resource": "<HARNESS>/*", "effect": "allow" },
     { "action": "read", "resource": "<HARNESS>/*", "effect": "allow" },
     { "action": "edit", "resource": "<HARNESS>/*", "effect": "ask" },
+    // Red: buscar sí (títulos y fragmentos); leer páginas enteras, con tu permiso: una web puede esconder instrucciones
+    // para el modelo. RELLENAR: la documentación oficial de tu stack, sin preguntar, p. ej.:
+    // { "action": "webfetch", "resource": "https://docs.python.org/3.12/*", "effect": "allow" },
+    { "action": "webfetch", "resource": "*", "effect": "ask" },
+    { "action": "ddg-search_search", "resource": "*", "effect": "allow" },
+    { "action": "ddg-search_fetch_content", "resource": "*", "effect": "ask" },
+
     // Solo las skills del harness: OpenCode sube desde el proyecto hasta el home buscando .claude/skills y .agents/skills,
     // y si el repo cuelga de tu home se trae las de otras herramientas. Cada skill nueva, aquí (la CI lo comprueba)
     { "action": "skill", "resource": "*", "effect": "deny" },
