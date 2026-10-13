@@ -6,8 +6,9 @@ Uso:
     py -3 comprobar.py --selftest      # valida REGLAS y prueba el motor con ficheros de ejemplo
     py -3 comprobar.py --todo [...]    # auditoría: el fichero entero, no solo lo cambiado
 
-Las reglas solo miran las líneas cambiadas respecto a HEAD, para que el código antiguo no haga ruido; la
-sintaxis se comprueba siempre con el fichero entero.
+Las reglas solo miran las líneas cambiadas respecto a HEAD, para que el código antiguo no haga ruido; una
+línea que solo ha cambiado de sitio no da avisos, solo errores. La sintaxis se comprueba siempre con el
+fichero entero.
 Salida: 0 si no hay errores (puede haber avisos), 1 si hay errores (2 en modo hook).
 Solo usa la librería estándar.
 """
@@ -80,20 +81,21 @@ def ficheros_cambiados(raiz):
 
 
 def lineas_cambiadas(ruta, raiz):
-    # números de línea añadidos o modificados respecto a HEAD; None = mirar el fichero entero
+    # (números de línea añadidos o modificados respecto a HEAD, textos quitados); None = mirar el fichero entero
     rel = os.path.relpath(ruta, raiz)
     res = subprocess.run(['git', '-C', raiz, 'diff', '-U0', 'HEAD', '--', rel], capture_output=True, text=True,
                          encoding='utf-8', errors='replace')
     if res.returncode:
-        return None
+        return None, set()
     if not res.stdout.strip():
         nuevo = subprocess.run(['git', '-C', raiz, 'ls-files', '--error-unmatch', '--', rel], capture_output=True)
-        return None if nuevo.returncode else set()  # sin trackear: entero; trackeado sin cambios: nada
+        return (None if nuevo.returncode else set()), set()  # sin trackear: entero; trackeado sin cambios: nada
     cambiadas = set()
     for m in re.finditer(r'^@@ -\S+ \+(\d+)(?:,(\d+))? @@', res.stdout, re.M):
         inicio, num = int(m.group(1)), int(m.group(2) or 1)
         cambiadas.update(range(inicio, inicio + num))
-    return cambiadas
+    quitadas = {l[1:].strip() for l in res.stdout.splitlines() if l.startswith('-') and not l.startswith('---')}
+    return cambiadas, quitadas
 
 
 def relevante(ruta):
@@ -106,13 +108,17 @@ def comprobar(ruta, raiz, todo=False):
     ext = os.path.splitext(ruta)[1]
     with open(ruta, encoding='utf-8', errors='replace') as f:
         texto = f.read()
-    cambiadas = None if todo else lineas_cambiadas(ruta, raiz)
+    cambiadas, quitadas = (None, set()) if todo else lineas_cambiadas(ruta, raiz)
     for n, linea in enumerate(texto.splitlines(), 1):
         if cambiadas is not None and n not in cambiadas:
             continue
         for nivel, exts, patron, mensaje in REGLAS:
-            if ext in exts and re.search(patron, linea):
-                hallazgos.append((nivel, n, mensaje))
+            if ext not in exts or not re.search(patron, linea):
+                continue
+            # línea que solo ha cambiado de sitio (ya estaba en HEAD): sus avisos son de antes, no del cambio
+            if nivel == 'AVISO' and linea.strip() in quitadas:
+                continue
+            hallazgos.append((nivel, n, mensaje))
     hallazgos += sintaxis(ruta, ext, texto, raiz)
     return sorted(set(hallazgos), key=lambda h: (h[1], h[0]))
 

@@ -10,7 +10,13 @@
 
 Plantilla para montar el harness de IA de **cualquier proyecto**: skills, agentes, un sensor automático e instrucciones, compartidos entre todos los usuarios de Windows del PC y entre Claude Code, GitHub Copilot (VS Code) y OpenCode 2, **sin tocar el workspace** si no quieres.
 
-Sale de un harness ya montado y probado en un proyecto real (2026-10-10), quitando todo lo específico de ese proyecto.
+## En uso real, a diario
+
+No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una aplicación web grande, en producción y mantenida por un equipo. La plantilla es ese mismo harness quitando todo lo específico del proyecto, y **evoluciona con él**: cuando algo estorba o falla en una sesión real, se arregla allí primero y luego se trae aquí.
+
+- **Probado en sesiones de trabajo reales** con Claude Code, GitHub Copilot en VS Code (modelos en la nube) y OpenCode 2 con un modelo local (llama.cpp).
+- **Cada regla sale de algo que pasó de verdad.** El revisor lee solo el diff porque leyendo ficheros enteros se hacía eterno; el sensor calla en las líneas que solo se han movido porque el ruido constante enseña a ignorarlo; el router dice quién hace el commit porque un modelo lo hizo por su cuenta.
+- **Al día:** las mejoras salen como [releases](https://github.com/robmab/one-agent-harness/releases), con notas de lo aprendido.
 
 > **Es inerte:** no la carga ninguna herramienta. No se usa aquí: se **copia** a `<RAIZ>\<Proyecto>`, se rellena y se conecta. Cada pieza pendiente está marcada con `RELLENAR`.
 
@@ -50,11 +56,12 @@ one-agent-harness\
 │  ├─ .claude-plugin\marketplace.json    marketplace "harness-proyecto" con el plugin "proyecto"
 │  └─ plugins\proyecto                   ⇒ JUNCTION a ..\..\personal (se crea al montar, §3.3)
 ├─ copilot\proyecto.instructions.md      el router para Copilot y OpenCode: HARDLINK desde ~/.copilot (§3.6) y ~/.config/opencode (§3.7)
+├─ copilot\agents\revisor.agent.md       GENERADO  por sincronizar.py con los alias de herramientas de VS Code (no editar aquí)
 ├─ opencode\                             ← lo que solo usa OpenCode (opcional, §3.7)
 │  ├─ opencode.jsonc                     RELLENAR  modelo y proveedor; permisos, lista blanca de skills, revisor
 │  ├─ agents\revisor.md                  GENERADO  por sincronizar.py desde personal\agents (no editar aquí)
 │  ├─ plugins\sensor.ts                  LISTA     pasa comprobar.py tras cada edición (como el hook de Claude)
-│  ├─ sincronizar.py                     LISTA     regenera agents\ (--check: solo comprueba)
+│  ├─ sincronizar.py                     LISTA     regenera las copias de agentes de OpenCode y Copilot (--check: solo comprueba)
 │  └─ scripts\revisar-pendiente.ps1      LISTA     el revisor desde la CLI; deja el informe en opencode\informes\
 └─ personal\                             ← lo que leen Claude, Copilot y OpenCode
    ├─ skills\
@@ -87,7 +94,7 @@ El **core** son 6 skills + 1 sensor + 1 agente, sobre `AGENTS.md` (ver [GUIA-SKI
 | Claude Code | plugin `proyecto` (skills, agentes y hook) | marketplace local en `~/.claude/settings.json`; el plugin es la junction `claude\plugins\proyecto` |
 | Claude Code | `claude\CLAUDE.md` | hook `SessionStart` que hace `cat` del fichero |
 | Copilot (VS Code) | `AGENTS.md` y `.github/` del repo, si los hay | el propio repo |
-| Copilot (VS Code) | skills y agentes de `personal\` | junctions `~/.copilot/skills` y `~/.copilot/agents` |
+| Copilot (VS Code) | skills de `personal\`, agentes de `copilot\agents\` (copia generada) | junctions `~/.copilot/skills` y `~/.copilot/agents` |
 | Copilot (VS Code y CLI) | el router `copilot\<proyecto>.instructions.md` | hardlink en `~/.copilot/copilot-instructions.md`; se carga siempre |
 | Copilot (VS Code) | `comprobar.py` | no hay hook: se lo ordena el router ("DESPUÉS de cada cambio"), o lo lanzas tú |
 | OpenCode 2 | `AGENTS.md` del repo y el router | el del repo, solo; el router, hardlink `~/.config/opencode/AGENTS.md` → `copilot\<proyecto>.instructions.md`. **No lee `CLAUDE.md`** |
@@ -192,12 +199,14 @@ El hook del sensor no va aquí: lo trae el propio plugin (`personal\hooks\hooks.
 ```powershell
 $a = '<HARNESS>'
 $u = 'NOMBRE_USUARIO'
-foreach ($d in 'skills','agents') {
-  $l = "C:\Users\$u\.copilot\$d"
+foreach ($d in @{ skills = "$a\personal\skills"; agents = "$a\copilot\agents" }.GetEnumerator()) {
+  $l = "C:\Users\$u\.copilot\$($d.Key)"
   if (Test-Path $l) { [IO.Directory]::Delete($l) }   # falla si no está vacía: revisa antes qué hay
-  New-Item -ItemType Junction -Path $l -Target "$a\personal\$d"
+  New-Item -ItemType Junction -Path $l -Target $d.Value   # agents: la copia generada con los alias de VS Code
 }
 ```
+
+`copilot\agents\` lo genera `opencode\sincronizar.py`: VS Code no conoce los nombres de herramienta de Claude (`Read, Grep…`) y deja al agente **sin herramientas**, así que su copia lleva `tools: [read, search, execute]`.
 
 **Si ya apuntan a otro proyecto**, no se pueden enlazar dos veces: mira §5.
 
@@ -228,7 +237,7 @@ New-Item -ItemType Junction -Path "$c\plugins"        -Target "$a\opencode\plugi
 ```
 
 - **El router** es el de Copilot: OpenCode 2 solo lee `AGENTS.md` y el global es `~/.config/opencode/AGENTS.md`, fuera del repo. El frontmatter `applyTo` le llega como texto y no molesta.
-- **El `revisor`** de `opencode\agents\` es una **copia generada**: OpenCode ignora el agente entero si su frontmatter lleva `tools:`. Tras tocar `personal\agents\`, `py -3 <HARNESS>\opencode\sincronizar.py` (la CI avisa si se te olvida). Lo propio de OpenCode (subagente, pasos, sin editar) va en `agents` de la config.
+- **El `revisor`** de `opencode\agents\` es una **copia generada**: OpenCode ignora el agente entero si su frontmatter lleva `tools:`. El mismo script escribe la de Copilot (`copilot\agents\`, con los nombres de herramienta de VS Code). Tras tocar `personal\agents\`, `py -3 <HARNESS>\opencode\sincronizar.py` (la CI avisa si se te olvida). Lo propio de OpenCode (subagente, pasos, sin editar) va en `agents` de la config.
 - **El sensor** es el plugin `opencode\plugins\sensor.ts`: tras cada `write`/`edit`/`patch` pasa `comprobar.py --hook` y añade su salida al resultado de la herramienta, como el hook de Claude.
 - **La lista blanca de skills** (`permissions`, acción `skill`) deja ver solo las del harness: OpenCode sube desde el repo hasta el home buscando `.claude/skills` y `.agents/skills`, y se trae las de otras herramientas. **Cada skill nueva, a la lista** (la CI lo comprueba).
 - **Búsqueda web gratis:** el MCP `ddg-search` (DuckDuckGo, por `uvx`; instala `uv` en cada usuario con `winget install astral-sh.uv`). Buscar no pregunta; **leer páginas sí**, porque una web puede esconder instrucciones para el modelo. Añade a las reglas `allow` de `webfetch` la documentación oficial de tu stack.

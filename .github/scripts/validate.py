@@ -162,16 +162,20 @@ def check_opencode():
         for skill in sorted(os.listdir(os.path.join(ROOT, 'personal', 'skills'))):
             if skill not in allowed:
                 error(cfg_path, f'skill "{skill}" is missing from the skill allowlist: OpenCode would not see it')
-    # Agentes: copias generadas al día y sin `tools:` (OpenCode ignora el agente entero)
+    # Agentes: copias generadas al día; la de OpenCode sin `tools:` (ignora el agente entero) y la de
+    # Copilot con `tools:` (sin la lista, VS Code no le da las herramientas que el agente necesita)
     sys.path.insert(0, base)
     try:
         import sincronizar
         for origen, destino, esperado in sincronizar.pares():
             _, actual = read(destino) if os.path.isfile(destino) else (b'', None)
+            tiene_tools = re.search(r'(?m)^tools:', esperado.split('\n---', 1)[0])
             if actual != esperado:
                 error(destino, f'out of date with personal/agents/{origen}: run py -3 opencode/sincronizar.py')
-            elif re.search(r'(?m)^tools:', esperado.split('\n---', 1)[0]):
+            elif os.path.dirname(os.path.abspath(destino)) == os.path.join(base, 'agents') and tiene_tools:
                 error(destino, 'has "tools:" in the frontmatter: OpenCode ignores the whole agent')
+            elif os.path.dirname(os.path.abspath(destino)) != os.path.join(base, 'agents') and not tiene_tools:
+                error(destino, 'Copilot copy without "tools:": check DESTINOS in opencode/sincronizar.py')
     finally:
         sys.path.pop(0)
     # Plugin: el script del sensor existe
