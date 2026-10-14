@@ -10,7 +10,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-TEXT_EXT = ('.md', '.py', '.json', '.jsonc', '.ts', '.svg', '.yml', '.yaml')
+TEXT_EXT = ('.md', '.py', '.json', '.jsonc', '.ts', '.svg', '.yml', '.yaml', '.ps1')
 NAME_RE = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 SKILL_WORDS_WARN = 700
 # a real Windows user folder; placeholders (<user>, $u, %USERPROFILE%) and Public are fine
@@ -188,6 +188,103 @@ def check_opencode():
             error(plugin, f'the plugin runs "{script}", which does not exist')
 
 
+# what setup.py --lang overlays: every piece the model reads (plus the scripts whose messages it reads)
+I18N_REQUIRED = ('AGENTS.template.md', 'claude/CLAUDE.md', 'claude/.claude-plugin/marketplace.json',
+                 'copilot/project.instructions.md', 'opencode/opencode.jsonc', 'opencode/plugins/sensor.ts',
+                 'opencode/scripts/review-pending.ps1', 'personal/scripts/check.py')
+I18N_REQUIRED_DIRS = ('personal/skills', 'personal/agents', 'personal/checklists')
+
+
+def check_i18n():
+    base = os.path.join(ROOT, 'i18n')
+    required = set(I18N_REQUIRED)
+    for d in I18N_REQUIRED_DIRS:
+        for folder, _, files in os.walk(os.path.join(ROOT, *d.split('/'))):
+            required.update(rel(os.path.join(folder, f)) for f in files if f.endswith('.md'))
+    for ps1 in [p for p in required if p.endswith('.ps1')]:
+        _, text = read(os.path.join(ROOT, ps1))
+        if not text.isascii():
+            error(os.path.join(ROOT, ps1), 'not ASCII: Windows PowerShell 5.1 misreads UTF-8 scripts without a BOM')
+    if not os.path.isdir(base):
+        return
+    for lang in sorted(os.listdir(base)):
+        src = os.path.join(base, lang)
+        names_path = os.path.join(src, 'names.json')
+        names = (load_json(names_path) or {}).get('rename', {}) if os.path.isfile(names_path) else {}
+        for old, new in names.items():
+            if not os.path.exists(os.path.join(ROOT, *old.split('/'))):
+                error(names_path, f'renames "{old}", which does not exist in the template')
+            if not NAME_RE.match(new.rsplit('/', 1)[-1].split('.')[0]):
+                error(names_path, f'"{new}": lowercase letters, digits and hyphens only')
+
+        def final(path):
+            path = names.get(path, path)
+            for old, new in names.items():
+                if path.startswith(old + '/'):
+                    path = new + path[len(old):]
+            return path
+
+        overlay = set()
+        for folder, _, files in os.walk(src):
+            for f in files:
+                path = os.path.join(folder, f)
+                key = os.path.relpath(path, src).replace('\\', '/')
+                if key == 'names.json':
+                    continue
+                overlay.add(key)
+                english = os.path.join(ROOT, *key.split('/'))
+                if not os.path.isfile(english):
+                    error(path, f'no English counterpart ({key}): setup.py would add a stray file')
+                    continue
+                _, text = read(path)
+                _, en_text = read(english)
+                # translations keep the shape: same lines and headings, so a change in one shows in the other
+                if text.count('\n') != en_text.count('\n'):
+                    error(path, f'{text.count(chr(10))} lines vs {en_text.count(chr(10))} in English: '
+                                f'bring the translation up to date with {key}')
+                heads = lambda t: re.findall(r'(?m)^#{1,6} ', re.sub(r'```.*?```', '', t, flags=re.S))
+                if key.endswith('.md') and heads(text) != heads(en_text):
+                    error(path, f'different headings from {key}: bring the translation up to date')
+                if key.endswith('.py'):
+                    defs = lambda t: sorted(re.findall(r'(?m)^def (\w+)', t))
+                    if defs(text) != defs(en_text):
+                        error(path, f'different functions from {key}: the translation is out of date')
+                    try:
+                        compile(text, path, 'exec')
+                    except SyntaxError as e:
+                        error(path, f'does not compile: {e}')
+                if key.endswith('.ps1') and not text.isascii():
+                    error(path, 'not ASCII: Windows PowerShell 5.1 misreads UTF-8 scripts without a BOM')
+                if key.endswith('SKILL.md') or key.startswith('personal/agents/'):
+                    data, _ = frontmatter(path, text)
+                    if data is not None:
+                        want = final(key).split('/')[-2] if key.endswith('SKILL.md') else \
+                            final(key).split('/')[-1].replace('.agent.md', '')
+                        if data.get('name') != want:
+                            error(path, f'name "{data.get("name")}" must be "{want}" (its name after setup.py)')
+                        if not data.get('description'):
+                            error(path, 'missing description')
+                        if data.get('tools', '').startswith('['):
+                            error(path, 'VS Code tool names: Claude gets no tools; use "tools: Read, Grep, Glob, Bash"')
+        for key in sorted(required - overlay):
+            error(os.path.join(ROOT, *key.split('/')), f'no {lang} version in i18n/{lang}/{key}')
+        cfg_path = os.path.join(src, 'opencode', 'opencode.jsonc')
+        if os.path.isfile(cfg_path):
+            _, text = read(cfg_path)
+            try:
+                cfg = json.loads(re.sub(r'(?m)^\s*//.*$', '', text))
+                allowed = {r.get('resource') for r in cfg.get('permissions', []) if r.get('action') == 'skill'}
+                for skill in sorted(os.listdir(os.path.join(ROOT, 'personal', 'skills'))):
+                    name = final(f'personal/skills/{skill}').split('/')[-1]
+                    if name not in allowed:
+                        error(cfg_path, f'skill "{name}" is missing from the skill allowlist')
+                agent = final('personal/agents/reviewer.agent.md').split('/')[-1].replace('.agent.md', '')
+                if agent not in cfg.get('agents', {}):
+                    error(cfg_path, f'no "{agent}" in agents: the reviewer\'s settings would not apply')
+            except ValueError as e:
+                error(cfg_path, f'invalid JSONC (only full-line // comments are allowed): {e}')
+
+
 def check_svg():
     for base, _, files in os.walk(os.path.join(ROOT, 'img')):
         for f in files:
@@ -230,7 +327,8 @@ def anchors(path, cache={}):
 
 def check_links():
     for path in text_files():
-        if not path.endswith('.md'):
+        # i18n/: links are checked after setup.py renames the pieces (test_setup.py)
+        if not path.endswith('.md') or rel(path).startswith('i18n/'):
             continue
         _, text = read(path)
         lines = text.splitlines()
@@ -257,7 +355,8 @@ def check_links():
 def main():
     for stream in (sys.stdout, sys.stderr):
         stream.reconfigure(encoding='utf-8')
-    for check in (check_encoding, check_skills, check_agents, check_json, check_opencode, check_svg, check_version, check_links):
+    for check in (check_encoding, check_skills, check_agents, check_json, check_opencode, check_i18n, check_svg,
+                  check_version, check_links):
         check()
     for kind, items in (('warning', warnings), ('error', errors)):
         for path, line, msg in items:

@@ -1,0 +1,16 @@
+{
+  "rename": {
+    "personal/skills/code-conventions": "personal/skills/convenios-codigo",
+    "personal/skills/ui-design": "personal/skills/diseno-ui",
+    "personal/skills/official-sources": "personal/skills/fuentes-oficiales",
+    "personal/skills/interview-me": "personal/skills/entrevistame",
+    "personal/skills/systematic-debugging": "personal/skills/depuracion-sistematica",
+    "personal/skills/verify-before-done": "personal/skills/verificar-antes-de-acabar",
+    "personal/skills/comment-style": "personal/skills/estilo-comentarios",
+    "personal/skills/comment-style/details.md": "personal/skills/comment-style/detalle.md",
+    "personal/agents/reviewer.agent.md": "personal/agents/revisor.agent.md",
+    "copilot/agents/reviewer.agent.md": "copilot/agents/revisor.agent.md",
+    "opencode/agents/reviewer.md": "opencode/agents/revisor.md",
+    "personal/checklists/security.md": "personal/checklists/seguridad.md"
+  }
+}

@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - name: Validate skills, agent, JSON, SVG, VERSION and Markdown links
+      - name: Validate skills, agent, JSON, translations, SVG, VERSION and Markdown links
         run: python .github/scripts/validate.py
 
   sensor:
@@ -34,6 +34,19 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile the scripts
-        run: python -m py_compile personal/scripts/check.py .github/scripts/validate.py
+        run: python -m py_compile personal/scripts/check.py i18n/es/personal/scripts/check.py setup.py .github/scripts/validate.py .github/scripts/test_setup.py
       - name: Selftest (RULES well-formed, engine on sample files)
         run: python personal/scripts/check.py --selftest
+      - name: Selftest of the Spanish sensor
+        run: python i18n/es/personal/scripts/check.py --selftest
+
+  setup:
+    name: setup.py (Windows, every language)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install on a temporary copy with fake profiles, check, repair and uninstall
+        run: python .github/scripts/test_setup.py

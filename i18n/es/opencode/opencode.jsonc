@@ -1,0 +1,99 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // FILL-IN: modelo por defecto. Con un modelo local: "local/<id del modelo>" (el proveedor de abajo).
+  // Con uno en la nube, borra "model" y "providers" y conéctalo con /connect.
+  "model": "local/FILL-IN",
+
+  // FILL-IN: servidor local compatible con OpenAI (llama.cpp, LM Studio, Ollama…). Un modelo por perfil del servidor.
+  "providers": {
+    "local": {
+      "name": "local",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "http://localhost:8080/v1",
+        "apiKey": "FILL-IN",
+        // En local el primer token tarda con prompts largos: sin timeouts
+        "chunkTimeout": false,
+        "headerTimeout": false
+      },
+      "models": {
+        "FILL-IN": {
+          "modelID": "FILL-IN",
+          "name": "FILL-IN",
+          // input: ["text", "image"] solo si el servidor carga la visión del modelo
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          // El contexto real del servidor (ctx-size), no el máximo del modelo
+          "limit": { "context": 131072, "output": 16384 },
+          // llama.cpp manda el razonamiento en este campo
+          "compatibility": { "reasoningField": "reasoning_content" }
+        }
+      }
+    }
+  },
+
+  // FILL-IN: skills que el equipo tenga en el repo (p. ej. "<ruta del repo>/.github/skills"); las del harness entran por junction
+  "skills": [],
+
+  "agents": {
+    // Con un servidor local de un solo slot, la petición del título echa la caché del turno principal: fuera
+    "title": { "disabled": true },
+    // El revisor (agents/revisor.md, generado por sync.py): sin editar y con tope de pasos.
+    // "all": como subagente desde otra sesión y también directo (opencode run --agent revisor, scripts)
+    "revisor": {
+      "mode": "all",
+      "steps": 40,
+      "permissions": [{ "action": "edit", "resource": "*", "effect": "deny" }]
+    }
+  },
+
+  // Búsqueda web gratis con DuckDuckGo (necesita uv: winget install astral-sh.uv). Sin codemode: con modelos
+  // locales, mejor sus 2 herramientas a la vista. Si no lo quieres, borra el bloque y sus reglas de permisos
+  "mcp": {
+    "servers": {
+      "ddg-search": { "type": "local", "command": ["uvx", "duckduckgo-mcp-server"], "codemode": false }
+    }
+  },
+
+  // Nada de compartir sesiones; la búsqueda web integrada necesita clave de pago (y apagada sale del prompt)
+  "share": "disabled",
+  "websearch": false,
+
+  // Compacta con margen y deja sitio para trabajar (ajústalo a tu contexto)
+  "compaction": { "auto": true, "buffer": 16384, "keep": { "tokens": 12000 } },
+
+  // Gana la última regla que encaje: lo general arriba, las excepciones abajo
+  "permissions": [
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git log *", "effect": "allow" },
+    { "action": "shell", "resource": "git show *", "effect": "allow" },
+    { "action": "shell", "resource": "git grep *", "effect": "allow" },
+    { "action": "shell", "resource": "py -3 <HARNESS>/personal/scripts/check.py *", "effect": "allow" },
+    { "action": "shell", "resource": "git push *", "effect": "deny" },
+    { "action": "shell", "resource": "git reset --hard *", "effect": "deny" },
+    { "action": "shell", "resource": "rm -rf *", "effect": "deny" },
+    // El harness (convenios, skills, sensor) se puede leer sin preguntar
+    { "action": "external_directory", "resource": "<HARNESS>/*", "effect": "allow" },
+    { "action": "read", "resource": "<HARNESS>/*", "effect": "allow" },
+    { "action": "edit", "resource": "<HARNESS>/*", "effect": "ask" },
+    // Red: buscar sí (títulos y fragmentos); leer páginas enteras, con tu permiso: una web puede esconder
+    // instrucciones para el modelo. FILL-IN: la documentación oficial de tu stack, sin preguntar, p. ej.:
+    // { "action": "webfetch", "resource": "https://docs.python.org/3.12/*", "effect": "allow" },
+    { "action": "webfetch", "resource": "*", "effect": "ask" },
+    { "action": "ddg-search_search", "resource": "*", "effect": "allow" },
+    { "action": "ddg-search_fetch_content", "resource": "*", "effect": "ask" },
+
+    // Solo las skills del harness: OpenCode sube desde el proyecto hasta el home buscando .claude/skills y .agents/skills,
+    // y si el repo cuelga de tu home se trae las de otras herramientas. Cada skill nueva, aquí (la CI lo comprueba)
+    { "action": "skill", "resource": "*", "effect": "deny" },
+    { "action": "skill", "resource": "convenios-codigo", "effect": "allow" },
+    { "action": "skill", "resource": "diseno-ui", "effect": "allow" },
+    { "action": "skill", "resource": "fuentes-oficiales", "effect": "allow" },
+    { "action": "skill", "resource": "entrevistame", "effect": "allow" },
+    { "action": "skill", "resource": "depuracion-sistematica", "effect": "allow" },
+    { "action": "skill", "resource": "verificar-antes-de-acabar", "effect": "allow" },
+    { "action": "skill", "resource": "estilo-comentarios", "effect": "allow" }
+  ]
+}
