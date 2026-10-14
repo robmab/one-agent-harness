@@ -8,7 +8,32 @@
 [![Release](https://img.shields.io/github/v/release/robmab/one-agent-harness)](https://github.com/robmab/one-agent-harness/releases)
 [![License: MIT](https://img.shields.io/github/license/robmab/one-agent-harness)](LICENSE)
 
-A template for setting up the AI harness of **any project**: skills, agents, an automatic sensor and instructions, shared by every Windows user on the PC and by Claude Code, GitHub Copilot (VS Code) and OpenCode 2, **without touching the workspace** if you don't want to.
+A template for setting up the AI harness of **any project**: skills, agents, an automatic sensor and instructions, shared by every user on the PC (Windows, Linux or macOS) and by Claude Code, GitHub Copilot (VS Code) and OpenCode 2, **without touching the workspace** if you don't want to.
+
+## Quick start
+
+Copy the template to its own folder (outside your repos) and let `setup.py` name it and wire it up for every tool.
+
+**Windows** (PowerShell):
+
+```powershell
+git clone https://github.com/robmab/one-agent-harness.git C:\Harness\MyProject
+Remove-Item C:\Harness\MyProject\.git, C:\Harness\MyProject\.github -Recurse -Force
+py -3 C:\Harness\MyProject\setup.py --project "My Project"
+```
+
+**Linux and macOS:**
+
+```bash
+git clone https://github.com/robmab/one-agent-harness.git ~/harness/my-project
+rm -rf ~/harness/my-project/.git ~/harness/my-project/.github
+python3 ~/harness/my-project/setup.py --project "My Project"
+```
+
+Then fill in the `FILL-IN` parts it lists ([§3.3](#33-fill-in)), reload VS Code and check each tool ([§3.4](#34-verify)).
+
+- **Options** ([§3.2](#32-run-setuppy)): `--lang es` (the pieces in Spanish), `--tools claude,copilot` (only some tools), `--vscode-permissions` (Copilot reads the harness without asking), `--dry-run` (shows what it would do).
+- **Later** ([§3.5](#35-keeping-it-in-shape)): `--check` repairs broken links, and `--uninstall` removes what it set up.
 
 ## In real, daily use
 

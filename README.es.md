@@ -8,7 +8,32 @@
 [![Release](https://img.shields.io/github/v/release/robmab/one-agent-harness)](https://github.com/robmab/one-agent-harness/releases)
 [![License: MIT](https://img.shields.io/github/license/robmab/one-agent-harness)](LICENSE)
 
-Plantilla para montar el harness de IA de **cualquier proyecto**: skills, agentes, un sensor automático e instrucciones, compartidos entre todos los usuarios de Windows del PC y entre Claude Code, GitHub Copilot (VS Code) y OpenCode 2, **sin tocar el workspace** si no quieres.
+Plantilla para montar el harness de IA de **cualquier proyecto**: skills, agentes, un sensor automático e instrucciones, compartidos entre todos los usuarios del PC (Windows, Linux o macOS) y entre Claude Code, GitHub Copilot (VS Code) y OpenCode 2, **sin tocar el workspace** si no quieres.
+
+## Instalación rápida
+
+Copia la plantilla a su propia carpeta (fuera de tus repos) y deja que `setup.py` le ponga nombre y la conecte con cada herramienta.
+
+**Windows** (PowerShell):
+
+```powershell
+git clone https://github.com/robmab/one-agent-harness.git C:\Harness\MiProyecto
+Remove-Item C:\Harness\MiProyecto\.git, C:\Harness\MiProyecto\.github -Recurse -Force
+py -3 C:\Harness\MiProyecto\setup.py --project "Mi Proyecto" --lang es
+```
+
+**Linux y macOS:**
+
+```bash
+git clone https://github.com/robmab/one-agent-harness.git ~/harness/mi-proyecto
+rm -rf ~/harness/mi-proyecto/.git ~/harness/mi-proyecto/.github
+python3 ~/harness/mi-proyecto/setup.py --project "Mi Proyecto" --lang es
+```
+
+Después, rellena las partes `FILL-IN` que te lista ([§3.3](#33-rellenar)), recarga VS Code y comprueba cada herramienta ([§3.4](#34-verificar)).
+
+- **Opciones** ([§3.2](#32-lanzar-setuppy)): `--lang es` (las piezas en español; sin ella, en inglés), `--tools claude,copilot` (solo algunas herramientas), `--vscode-permissions` (Copilot lee el harness sin preguntar), `--dry-run` (enseña lo que haría).
+- **Más adelante** ([§3.5](#35-mantenerlo-a-punto)): `--check` repara los enlaces rotos, y `--uninstall` quita lo que montó.
 
 ## En uso real, a diario
 
