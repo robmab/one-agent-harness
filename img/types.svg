@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 530" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .q{font-size:13.5px;fill:#ffffff;opacity:.92}
+    .t{font-size:21px;font-weight:700;fill:#ffffff;letter-spacing:.5px}
+    .def{font-size:13px;fill:#334155}
+    .n{font-size:14px;font-weight:700}
+    .s{font-size:12.5px;fill:#475569}
+    .pill{font-size:10.5px;font-weight:700;letter-spacing:.6px}
+    .foot{font-size:12.5px;fill:#334155;font-style:italic}
+    .band{font-size:14px;font-weight:600;fill:#ffffff}
+    .lg{font-size:12.5px;fill:#334155}
+    .rl{fill:#fef3c7} .rlt{fill:#92400e}
+    .aj{fill:#e0f2fe} .ajt{fill:#075985}
+    .li{fill:#dcfce7} .lit{fill:#166534}
+  </style>
+  <rect width="1120" height="530" rx="16" fill="#f8fafc"/>
+
+  <!-- KNOWLEDGE -->
+  <rect x="20" y="20" width="348" height="410" rx="14" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="20" y="20" width="348" height="72" rx="14" fill="#2563eb"/>
+  <rect x="20" y="70" width="348" height="22" fill="#2563eb"/>
+  <text x="40" y="52" class="t">KNOWLEDGE</text>
+  <text x="40" y="76" class="q">What does it need to know?</text>
+  <text x="40" y="120" class="def">What the model can't work out</text>
+  <text x="40" y="138" class="def">from the code or know from memory.</text>
+
+  <text x="40" y="172" class="n" fill="#1e3a8a">code-conventions</text>
+  <rect x="276" y="160" width="72" height="17" rx="8.5" class="rl"/><text x="312" y="172" class="pill rlt" text-anchor="middle">FILL-IN</text>
+  <text x="40" y="191" class="s">how the project's code is written</text>
+
+  <text x="40" y="226" class="n" fill="#1e3a8a">ui-design</text>
+  <rect x="276" y="214" width="72" height="17" rx="8.5" class="rl"/><text x="312" y="226" class="pill rlt" text-anchor="middle">FILL-IN</text>
+  <text x="40" y="245" class="s">design system: layout and styles only</text>
+
+  <text x="40" y="280" class="n" fill="#1e3a8a">official-sources</text>
+  <rect x="284" y="268" width="64" height="17" rx="8.5" class="aj"/><text x="316" y="280" class="pill ajt" text-anchor="middle">ADJUST</text>
+  <text x="40" y="299" class="s">real stack versions and their traps</text>
+
+  <text x="40" y="334" class="n" fill="#1e3a8a">comment-style</text>
+  <rect x="270" y="322" width="78" height="17" rx="8.5" fill="#e2e8f0"/><text x="309" y="334" class="pill" fill="#334155" text-anchor="middle">OPTIONAL</text>
+  <text x="40" y="353" class="s">your voice in comments and in the chat</text>
+
+  <line x1="40" y1="372" x2="348" y2="372" stroke="#e2e8f0"/>
+  <text x="40" y="396" class="foot">Added when there's something the model</text>
+  <text x="40" y="414" class="foot">can't know on its own.</text>
+
+  <!-- PROCESS -->
+  <rect x="386" y="20" width="348" height="410" rx="14" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <rect x="386" y="20" width="348" height="72" rx="14" fill="#16a34a"/>
+  <rect x="386" y="70" width="348" height="22" fill="#16a34a"/>
+  <text x="406" y="52" class="t">PROCESS</text>
+  <text x="406" y="76" class="q">How should it work?</text>
+  <text x="406" y="120" class="def">Fixes the model's habits: inventing,</text>
+  <text x="406" y="138" class="def">patching blindly, assuming it's done.</text>
+
+  <text x="406" y="172" class="n" fill="#14532d">interview-me</text>
+  <rect x="664" y="160" width="50" height="17" rx="8.5" class="li"/><text x="689" y="172" class="pill lit" text-anchor="middle">READY</text>
+  <text x="406" y="191" class="s">understand before building</text>
+
+  <text x="406" y="226" class="n" fill="#14532d">systematic-debugging</text>
+  <rect x="650" y="214" width="64" height="17" rx="8.5" class="aj"/><text x="682" y="226" class="pill ajt" text-anchor="middle">ADJUST</text>
+  <text x="406" y="245" class="s">root cause before fixing</text>
+
+  <text x="406" y="280" class="n" fill="#14532d">verify-before-done</text>
+  <rect x="650" y="268" width="64" height="17" rx="8.5" class="aj"/><text x="682" y="280" class="pill ajt" text-anchor="middle">ADJUST</text>
+  <text x="406" y="299" class="s">evidence before saying “done”</text>
+
+  <line x1="406" y1="372" x2="714" y2="372" stroke="#e2e8f0"/>
+  <text x="406" y="396" class="foot">Added only if we've seen it fail</text>
+  <text x="406" y="414" class="foot">and the failure keeps happening.</text>
+
+  <!-- CONTROL -->
+  <rect x="752" y="20" width="348" height="410" rx="14" fill="#ffffff" stroke="#ea580c" stroke-width="2"/>
+  <rect x="752" y="20" width="348" height="72" rx="14" fill="#ea580c"/>
+  <rect x="752" y="70" width="348" height="22" fill="#ea580c"/>
+  <text x="772" y="52" class="t">CONTROL</text>
+  <text x="772" y="76" class="q">Who checks it?</text>
+  <text x="772" y="120" class="def">Not skills: a script and a single agent</text>
+  <text x="772" y="138" class="def">that look at what's already written.</text>
+
+  <text x="772" y="172" class="n" fill="#7c2d12">check + hook</text>
+  <rect x="1016" y="160" width="64" height="17" rx="8.5" class="aj"/><text x="1048" y="172" class="pill ajt" text-anchor="middle">ADJUST</text>
+  <text x="772" y="191" class="s">automatic: stack rules and syntax</text>
+
+  <text x="772" y="226" class="n" fill="#7c2d12">reviewer</text>
+  <rect x="1030" y="214" width="50" height="17" rx="8.5" class="li"/><text x="1055" y="226" class="pill lit" text-anchor="middle">READY</text>
+  <text x="772" y="245" class="s">judgement: 6 axes, conventions included, doesn't edit</text>
+
+  <text x="772" y="280" class="n" fill="#7c2d12">+ checklists</text>
+  <text x="772" y="299" class="s">the knowledge skills, read by the reviewer</text>
+
+  <line x1="772" y1="372" x2="1080" y2="372" stroke="#e2e8f0"/>
+  <text x="772" y="396" class="foot">If a rule really matters, have something</text>
+  <text x="772" y="414" class="foot">check it, not the model's memory.</text>
+
+  <!-- guides vs sensors -->
+  <rect x="20" y="446" width="714" height="38" rx="10" fill="#334155"/>
+  <text x="377" y="470" class="band" text-anchor="middle">GUIDES · act BEFORE the agent writes (feedforward)</text>
+  <rect x="752" y="446" width="348" height="38" rx="10" fill="#9a3412"/>
+  <text x="926" y="470" class="band" text-anchor="middle">SENSORS · check AFTERWARDS (feedback)</text>
+
+  <!-- template legend -->
+  <rect x="20" y="500" width="50" height="17" rx="8.5" class="li"/><text x="45" y="512" class="pill lit" text-anchor="middle">READY</text>
+  <text x="78" y="513" class="lg">works as is</text>
+  <rect x="190" y="500" width="64" height="17" rx="8.5" class="aj"/><text x="222" y="512" class="pill ajt" text-anchor="middle">ADJUST</text>
+  <text x="262" y="513" class="lg">the method works; fill in its project tables</text>
+  <rect x="586" y="500" width="72" height="17" rx="8.5" class="rl"/><text x="622" y="512" class="pill rlt" text-anchor="middle">FILL-IN</text>
+  <text x="666" y="513" class="lg">empty template: the content belongs to the project</text>
+</svg>

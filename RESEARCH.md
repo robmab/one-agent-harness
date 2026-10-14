@@ -1,6 +1,15 @@
 # Investigación: de dónde sale esta plantilla
 
-Investigación hecha el 2026-10-10 (las estrellas son de la API de GitHub de ese día). Explica qué es un harness, qué hay en GitHub y por qué la plantilla trae justo estas piezas. Cómo se monta está en el [README](README.es.md); qué hace cada pieza, en la [GUIA-SKILLS](GUIA-SKILLS.md).
+> **Note (English):** this is the research behind the template, kept **in Spanish** as a historical record: it isn't used when setting up a project. Since v0.3.5 the template is in English and its pieces were renamed; the names below are the old ones:
+>
+> | Old (here) | Now |
+> |---|---|
+> | `convenios-codigo`, `diseno-ui`, `fuentes-oficiales` | `code-conventions`, `ui-design`, `official-sources` |
+> | `entrevistame`, `depuracion-sistematica`, `verificar-antes-de-acabar` | `interview-me`, `systematic-debugging`, `verify-before-done` |
+> | `estilo-comentarios`, `revisor`, `comprobar.py`, `seguridad.md` | `comment-style`, `reviewer`, `check.py`, `security.md` |
+> | `GUIA-SKILLS`, `SKILLS-OPCIONALES`, `AGENTS.plantilla.md` | `SKILLS-GUIDE`, `OPTIONAL-SKILLS`, `AGENTS.template.md` |
+
+Investigación hecha el 2026-10-10 (las estrellas son de la API de GitHub de ese día). Explica qué es un harness, qué hay en GitHub y por qué la plantilla trae justo estas piezas. Cómo se monta está en el [README](README.es.md); qué hace cada pieza, en la [guía de skills](SKILLS-GUIDE.md).
 
 ---
 

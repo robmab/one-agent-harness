@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1184 488" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .hd{font-size:15px;font-weight:700;fill:#0f172a}
+    .st{font-size:14.5px;font-weight:700;fill:#0f172a}
+    .ct{font-size:12.5px;font-weight:700;letter-spacing:-.1px}
+    .cs{font-size:11px;fill:#475569}
+    .lg{font-size:12.5px;fill:#334155}
+    .k{fill:#dbeafe;stroke:#2563eb;stroke-width:1.5}
+    .p{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}
+    .c{fill:#ffedd5;stroke:#ea580c;stroke-width:1.5}
+    .g{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}
+    .kt{fill:#1e3a8a} .pt{fill:#14532d} .ctt{fill:#7c2d12} .gt{fill:#0f172a}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ea580c"/></marker>
+  </defs>
+  <rect width="1184" height="488" rx="16" fill="#f8fafc"/>
+
+  <!-- columns -->
+  <g>
+    <rect x="20" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+    <rect x="252" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+    <rect x="484" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+    <rect x="716" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+    <rect x="948" y="20" width="216" height="420" rx="14" fill="#fff" stroke="#e2e8f0"/>
+  </g>
+  <g fill="#e2e8f0">
+    <rect x="20" y="20" width="216" height="46" rx="14"/><rect x="20" y="46" width="216" height="20"/>
+    <rect x="252" y="20" width="216" height="46" rx="14"/><rect x="252" y="46" width="216" height="20"/>
+    <rect x="484" y="20" width="216" height="46" rx="14"/><rect x="484" y="46" width="216" height="20"/>
+    <rect x="716" y="20" width="216" height="46" rx="14"/><rect x="716" y="46" width="216" height="20"/>
+    <rect x="948" y="20" width="216" height="46" rx="14"/><rect x="948" y="46" width="216" height="20"/>
+  </g>
+  <g class="hd" text-anchor="middle">
+    <text x="128" y="49">0 · Start</text>
+    <text x="360" y="49">1 · Understand</text>
+    <text x="592" y="49">2 · Build</text>
+    <text x="824" y="49">3 · Check</text>
+    <text x="1056" y="49">4 · Review and close</text>
+  </g>
+
+  <!-- flow steps -->
+  <g>
+    <rect x="32" y="80" width="192" height="44" rx="22" class="g"/>
+    <rect x="264" y="80" width="192" height="44" rx="22" class="g"/>
+    <rect x="496" y="80" width="192" height="44" rx="22" class="g"/>
+    <rect x="728" y="80" width="192" height="44" rx="22" class="g"/>
+    <rect x="960" y="80" width="192" height="44" rx="22" class="g"/>
+  </g>
+  <g class="st" text-anchor="middle">
+    <text x="128" y="107">New session</text>
+    <text x="360" y="107">Ticket or bug</text>
+    <text x="592" y="107">Write code</text>
+    <text x="824" y="107">Is it done?</text>
+    <text x="1056" y="107">Review</text>
+  </g>
+  <g stroke="#475569" stroke-width="2" marker-end="url(#a)">
+    <line x1="226" y1="102" x2="262" y2="102"/>
+    <line x1="458" y1="102" x2="494" y2="102"/>
+    <line x1="690" y1="102" x2="726" y2="102"/>
+    <line x1="922" y1="102" x2="958" y2="102"/>
+  </g>
+
+  <!-- 0 · Start -->
+  <rect x="32" y="144" width="192" height="60" rx="10" class="k"/>
+  <text x="128" y="166" text-anchor="middle" class="ct kt">AGENTS.md</text>
+  <text x="128" y="182" text-anchor="middle" class="cs">repo index</text>
+  <text x="128" y="195" text-anchor="middle" class="cs">always loaded</text>
+  <rect x="32" y="214" width="192" height="60" rx="10" class="k"/>
+  <text x="128" y="236" text-anchor="middle" class="ct kt">comment-style</text>
+  <text x="128" y="252" text-anchor="middle" class="cs">your voice in comments and chat</text>
+  <text x="128" y="265" text-anchor="middle" class="cs">optional · hook at startup</text>
+
+  <!-- 1 · Understand -->
+  <rect x="264" y="144" width="192" height="60" rx="10" class="p"/>
+  <text x="360" y="166" text-anchor="middle" class="ct pt">interview-me</text>
+  <text x="360" y="182" text-anchor="middle" class="cs">if what's asked isn't clear</text>
+  <text x="360" y="195" text-anchor="middle" class="cs">repo → hypothesis → questions</text>
+  <rect x="264" y="214" width="192" height="60" rx="10" class="p"/>
+  <text x="360" y="236" text-anchor="middle" class="ct pt">systematic-debugging</text>
+  <text x="360" y="252" text-anchor="middle" class="cs">if it's a bug</text>
+  <text x="360" y="265" text-anchor="middle" class="cs">reproduce → layer → hypothesis</text>
+
+  <!-- 2 · Build -->
+  <rect x="496" y="144" width="192" height="60" rx="10" class="k"/>
+  <text x="592" y="166" text-anchor="middle" class="ct kt">code-conventions</text>
+  <text x="592" y="182" text-anchor="middle" class="cs">how it's written</text>
+  <text x="592" y="195" text-anchor="middle" class="cs">auto, on all code</text>
+  <rect x="496" y="214" width="192" height="60" rx="10" class="k"/>
+  <text x="592" y="236" text-anchor="middle" class="ct kt">ui-design</text>
+  <text x="592" y="252" text-anchor="middle" class="cs">design system</text>
+  <text x="592" y="265" text-anchor="middle" class="cs">auto, UI and styles only</text>
+  <rect x="496" y="284" width="192" height="60" rx="10" class="k"/>
+  <text x="592" y="306" text-anchor="middle" class="ct kt">official-sources</text>
+  <text x="592" y="322" text-anchor="middle" class="cs">real stack versions</text>
+  <text x="592" y="335" text-anchor="middle" class="cs">auto (local model: by hand)</text>
+  <rect x="496" y="354" width="192" height="60" rx="10" class="c"/>
+  <text x="592" y="376" text-anchor="middle" class="ct ctt">check</text>
+  <text x="592" y="392" text-anchor="middle" class="cs">hook after every edit</text>
+  <text x="592" y="405" text-anchor="middle" class="cs">on an error, it fixes it</text>
+  <path d="M688 384 H706 V134 H620 V129" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ao)"/>
+
+  <!-- 3 · Check -->
+  <rect x="728" y="144" width="192" height="60" rx="10" class="p"/>
+  <text x="824" y="166" text-anchor="middle" class="ct pt">verify-before-done</text>
+  <text x="824" y="182" text-anchor="middle" class="cs">command + output, browser</text>
+  <text x="824" y="195" text-anchor="middle" class="cs">“Checked” / “Not checked”</text>
+  <rect x="728" y="214" width="192" height="60" rx="10" class="c"/>
+  <text x="824" y="236" text-anchor="middle" class="ct ctt">check</text>
+  <text x="824" y="252" text-anchor="middle" class="cs">run by the router or by you</text>
+  <text x="824" y="265" text-anchor="middle" class="cs">no hook in Copilot</text>
+
+  <!-- 4 · Review and close -->
+  <rect x="960" y="144" width="192" height="60" rx="10" class="c"/>
+  <text x="1056" y="166" text-anchor="middle" class="ct ctt">reviewer</text>
+  <text x="1056" y="182" text-anchor="middle" class="cs">only agent: 6 axes, doesn't edit</text>
+  <text x="1056" y="195" text-anchor="middle" class="cs">on close, before the commit</text>
+  <rect x="960" y="214" width="192" height="60" rx="10" class="k"/>
+  <text x="1056" y="236" text-anchor="middle" class="ct kt">checklists</text>
+  <text x="1056" y="252" text-anchor="middle" class="cs">conventions, design, versions</text>
+  <text x="1056" y="265" text-anchor="middle" class="cs">read by the reviewer</text>
+  <rect x="960" y="284" width="192" height="60" rx="10" class="g"/>
+  <text x="1056" y="306" text-anchor="middle" class="ct gt">You decide</text>
+  <text x="1056" y="322" text-anchor="middle" class="cs">what gets applied</text>
+  <text x="1056" y="335" text-anchor="middle" class="cs">and you commit</text>
+
+  <!-- legend -->
+  <rect x="20" y="456" width="22" height="16" rx="4" class="k"/><text x="50" y="469" class="lg">knowledge</text>
+  <rect x="170" y="456" width="22" height="16" rx="4" class="p"/><text x="200" y="469" class="lg">process</text>
+  <rect x="290" y="456" width="22" height="16" rx="4" class="c"/><text x="320" y="469" class="lg">control</text>
+  <rect x="404" y="456" width="22" height="16" rx="4" class="g"/><text x="434" y="469" class="lg">flow step / you</text>
+  <line x1="590" y1="464" x2="626" y2="464" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4"/><text x="636" y="469" class="lg">hook loop: error → fixed before going on</text>
+</svg>

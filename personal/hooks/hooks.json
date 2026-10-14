@@ -4,7 +4,7 @@
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
-          { "type": "command", "command": "py -3 \"${CLAUDE_PLUGIN_ROOT}/scripts/comprobar.py\" --hook" }
+          { "type": "command", "command": "py -3 \"${CLAUDE_PLUGIN_ROOT}/scripts/check.py\" --hook" }
         ]
       }
     ]

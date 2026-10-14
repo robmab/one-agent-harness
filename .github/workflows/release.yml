@@ -38,4 +38,4 @@ jobs:
       - name: Structure and links
         run: python .github/scripts/validate.py
       - name: Sensor selftest
-        run: python personal/scripts/comprobar.py --selftest
+        run: python personal/scripts/check.py --selftest

@@ -1,4 +1,4 @@
-# Generated when running comprobar.py or validate.py locally
+# Generated when running check.py or validate.py locally
 __pycache__/
 *.pyc
 
@@ -12,5 +12,5 @@ desktop.ini
 *.tmp
 .vscode/
 
-# Informes de opencode/scripts/revisar-pendiente.ps1
-opencode/informes/
+# Reports from opencode/scripts/review-pending.ps1
+opencode/reports/

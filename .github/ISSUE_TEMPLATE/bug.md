@@ -38,7 +38,7 @@ paste here
 </details>
 
 <details>
-<summary><code>py -3 personal/scripts/comprobar.py --selftest</code></summary>
+<summary><code>py -3 personal/scripts/check.py --selftest</code></summary>
 
 ```
 paste here
@@ -48,7 +48,7 @@ paste here
 <details>
 <summary>Junctions</summary>
 
-<!-- In PowerShell: Get-Item "$HOME\.copilot\skills", "<HARNESS>\claude\plugins\<proyecto>" | Select-Object FullName, LinkType, Target -->
+<!-- In PowerShell: Get-Item "$HOME\.copilot\skills", "<HARNESS>\claude\plugins\<project>" | Select-Object FullName, LinkType, Target -->
 
 ```
 paste here

@@ -34,6 +34,6 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile the scripts
-        run: python -m py_compile personal/scripts/comprobar.py .github/scripts/validate.py
-      - name: Selftest (REGLAS well-formed, engine on sample files)
-        run: python personal/scripts/comprobar.py --selftest
+        run: python -m py_compile personal/scripts/check.py .github/scripts/validate.py
+      - name: Selftest (RULES well-formed, engine on sample files)
+        run: python personal/scripts/check.py --selftest

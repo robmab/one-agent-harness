@@ -18,28 +18,28 @@ This isn't a demo: it's the harness I use **every day at work**, on a large prod
 - **Every rule comes from something that actually happened.** The reviewer reads only the diff because reading whole files made it take forever; the sensor stays quiet on lines that were just moved because constant noise teaches you to ignore it; the router says who commits because a model once did it on its own.
 - **Kept up to date:** improvements ship as [releases](https://github.com/robmab/one-agent-harness/releases), with notes on what was learned.
 
-> **It is inert:** no tool loads it. You don't use it here: you **copy** it to `<ROOT>\<Project>`, fill it in and wire it up. Every pending piece is marked `RELLENAR` ("fill in").
+> **It is inert:** no tool loads it. You don't use it here: you **copy** it to `<ROOT>\<Project>`, fill it in and wire it up. Every pending piece is marked `FILL-IN`.
 
-> **Language note:** this README is in English; the detailed docs (`GUIA-SKILLS`, `INVESTIGACION`, `SKILLS-OPCIONALES`) and the skills themselves are in Spanish. Skill and folder names are identifiers and stay as they are.
+> **Language:** everything is in English except [RESEARCH](RESEARCH.md), kept in Spanish as a historical record. Write the skills, and above all their `description`, **in the language you talk to the model in**: the model matches your requests against the descriptions, and instructions in your language keep its answers and comments in it. If you work in another language, translate them as you fill them in. *Up to v0.3.0 the template was in Spanish; the [v0.3.5 release notes](https://github.com/robmab/one-agent-harness/releases) list the old names.*
 
 **Placeholders used throughout the template:**
 
 | Placeholder | Meaning |
 |---|---|
-| `<RAIZ>` / `<ROOT>` | the folder where you keep your harnesses. Ideally one that **every Windows user on the PC can read and write** (e.g. a folder inside `C:\Users\Public`) and that sits **outside your repos** |
+| `<ROOT>` | the folder where you keep your harnesses. Ideally one that **every Windows user on the PC can read and write** (e.g. a folder inside `C:\Users\Public`) and that sits **outside your repos** |
 | `<HARNESS>` | the harness folder of one project: `<ROOT>\<Project>` |
-| `<PROYECTO>` / `<proyecto>` | the project name; lowercase with hyphens where it acts as an identifier (plugin, marketplace) |
+| `<PROJECT>` / `<project>` | the project name; lowercase with hyphens where it acts as an identifier (plugin, marketplace) |
 
 | Document | What for |
 |---|---|
 | **README** (this one) | what it contains, how to set up a new project and how to coexist with others |
-| [GUIA-SKILLS](GUIA-SKILLS.md) *(ES)* | what each piece does, what type it is, when it kicks in and what has to be filled in |
-| [INVESTIGACION](INVESTIGACION.md) *(ES)* | where it all comes from: what a harness is, repos analysed, skills adapted and discarded |
-| [SKILLS-OPCIONALES](SKILLS-OPCIONALES.md) *(ES)* | catalogue of optional skills: what each adds, when to add it, the noise it brings, and which ones are discouraged |
-| [AGENTS.plantilla.md](AGENTS.plantilla.md) *(ES)* | the index that goes at the root of the project repo |
+| [SKILLS-GUIDE](SKILLS-GUIDE.md) | what each piece does, what type it is, when it kicks in and what has to be filled in |
+| [RESEARCH](RESEARCH.md) *(ES)* | where it all comes from: what a harness is, repos analysed, skills adapted and discarded |
+| [OPTIONAL-SKILLS](OPTIONAL-SKILLS.md) | catalogue of optional skills: what each adds, when to add it, the noise it brings, and which ones are discouraged |
+| [AGENTS.template.md](AGENTS.template.md) | the index that goes at the root of the project repo |
 | [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | MIT licence and credits for the adapted skills (§9) |
 
-![What reaches each tool and how](img/cableado.svg)
+![What reaches each tool and how](img/wiring.svg)
 
 ---
 
@@ -54,70 +54,70 @@ This isn't a demo: it's the harness I use **every day at work**, on a large prod
 
 | Type | Question | Pieces |
 |---|---|---|
-| 🔵 Knowledge | what does it need to know? | `convenios-codigo` (code conventions), `diseno-ui` (design system), `fuentes-oficiales` (real stack versions and their traps) |
-| 🟢 Process | how should it work? | `entrevistame` (clarify before building), `depuracion-sistematica` (root cause before fixing), `verificar-antes-de-acabar` (evidence before saying "done") |
-| 🟠 Control | who checks it? | `comprobar` + hook (fixed checks after every edit), `revisor` (the only agent: in-depth review, never edits) |
+| 🔵 Knowledge | what does it need to know? | `code-conventions` (code conventions), `ui-design` (design system), `official-sources` (real stack versions and their traps) |
+| 🟢 Process | how should it work? | `interview-me` (clarify before building), `systematic-debugging` (root cause before fixing), `verify-before-done` (evidence before saying "done") |
+| 🟠 Control | who checks it? | `check` + hook (fixed checks after every edit), `reviewer` (the only agent: in-depth review, never edits) |
 
-Optional, outside the core: `estilo-comentarios` (your own voice for code comments and chat).
+Optional, outside the core: `comment-style` (your own voice for code comments and chat).
 
 ## 1. Structure
 
 ```
 one-agent-harness\
-├─ README.md · README.es.md · GUIA-SKILLS.md · INVESTIGACION.md · SKILLS-OPCIONALES.md
+├─ README.md · README.es.md · SKILLS-GUIDE.md · RESEARCH.md · OPTIONAL-SKILLS.md
 ├─ LICENSE · THIRD-PARTY-NOTICES.md · .gitattributes
-├─ .github\                             CI of this repo (not part of the template; drop it when copying)
-├─ VERSION                             template version this harness was copied from
-├─ AGENTS.plantilla.md                   → to the repo root as AGENTS.md
+├─ .github\                              CI of this repo (not part of the template; drop it when copying)
+├─ VERSION                               template version this harness was copied from
+├─ AGENTS.template.md                    → to the repo root as AGENTS.md
 ├─ img\                                  SVG diagrams and the banner (route.png)
 ├─ claude\                               ← used only by Claude
 │  ├─ CLAUDE.md                          the router: work order, sensor and agent (injected by the SessionStart hook)
-│  ├─ .claude-plugin\marketplace.json    "harness-proyecto" marketplace with the "proyecto" plugin
-│  └─ plugins\proyecto                   ⇒ JUNCTION to ..\..\personal (created on setup, §3.3)
-├─ copilot\proyecto.instructions.md      the router for Copilot and OpenCode: HARDLINK from ~/.copilot (§3.6) and ~/.config/opencode (§3.7)
-├─ copilot\agents\revisor.agent.md       GENERATED by sincronizar.py with VS Code's tool aliases (don't edit here)
+│  ├─ .claude-plugin\marketplace.json    "harness-project" marketplace with the "project" plugin
+│  └─ plugins\project                    ⇒ JUNCTION to ..\..\personal (created on setup, §3.3)
+├─ copilot\project.instructions.md       the router for Copilot and OpenCode: HARDLINK from ~/.copilot (§3.6) and ~/.config/opencode (§3.7)
+├─ copilot\agents\reviewer.agent.md      GENERATED by sync.py with VS Code's tool aliases (don't edit here)
 ├─ opencode\                             ← used only by OpenCode (optional, §3.7)
-│  ├─ opencode.jsonc                     RELLENAR  model and provider; permissions, skill allowlist, reviewer
-│  ├─ agents\revisor.md                  GENERATED by sincronizar.py from personal\agents (don't edit here)
-│  ├─ plugins\sensor.ts                  LISTA     runs comprobar.py after every edit (like Claude's hook)
-│  ├─ sincronizar.py                     LISTA     regenerates the OpenCode and Copilot agent copies (--check: check only)
-│  └─ scripts\revisar-pendiente.ps1      LISTA     the reviewer from the CLI; leaves the report in opencode\informes\
+│  ├─ opencode.jsonc                     FILL-IN   model and provider; permissions, skill allowlist, reviewer
+│  ├─ agents\reviewer.md                 GENERATED by sync.py from personal\agents (don't edit here)
+│  ├─ plugins\sensor.ts                  READY     runs check.py after every edit (like Claude's hook)
+│  ├─ sync.py                            READY     regenerates the OpenCode and Copilot agent copies (--check: check only)
+│  └─ scripts\review-pending.ps1         READY     the reviewer from the CLI; leaves the report in opencode\reports\
 └─ personal\                             ← read by Claude, Copilot and OpenCode
    ├─ skills\
-   │  ├─ convenios-codigo\               RELLENAR  project conventions
-   │  ├─ diseno-ui\                      RELLENAR  design system
-   │  ├─ fuentes-oficiales\              AJUSTAR   stack table and traps
-   │  ├─ verificar-antes-de-acabar\      AJUSTAR   test commands
-   │  ├─ depuracion-sistematica\         AJUSTAR   layers and traps
-   │  ├─ entrevistame\                   LISTA
-   │  └─ estilo-comentarios\             OPCIONAL  your voice (comments and chat); outside the core
+   │  ├─ code-conventions\               FILL-IN   project conventions
+   │  ├─ ui-design\                      FILL-IN   design system
+   │  ├─ official-sources\               ADJUST    stack table and traps
+   │  ├─ verify-before-done\             ADJUST    test commands
+   │  ├─ systematic-debugging\           ADJUST    layers and traps
+   │  ├─ interview-me\                   READY
+   │  └─ comment-style\                  OPTIONAL  your voice (comments and chat); outside the core
    ├─ agents\
-   │  └─ revisor.agent.md                LISTA     the only agent: in-depth review, conventions included, never edits
-   ├─ checklists\seguridad.md            AJUSTAR   read only by the reviewer (axis 3); outside every catalogue
-   ├─ scripts\comprobar.py               AJUSTAR   sensor: MARCADOR, PYTHON_PROYECTO and REGLAS; changed lines only
-   └─ hooks\hooks.json                   LISTA     PostToolUse: runs comprobar.py after every edit
+   │  └─ reviewer.agent.md               READY     the only agent: in-depth review, conventions included, never edits
+   ├─ checklists\security.md             ADJUST    read only by the reviewer (axis 3); outside every catalogue
+   ├─ scripts\check.py                   ADJUST    sensor: MARKER, PROJECT_PYTHON and RULES; changed lines only
+   └─ hooks\hooks.json                   READY     PostToolUse: runs check.py after every edit
 ```
 
-- **LISTA** (ready): works as is.
-- **AJUSTAR** (adjust): the method works; fill in its project tables.
-- **RELLENAR** (fill in): empty template; the content belongs to the project.
-- **OPCIONAL** (optional): outside the core; keep it or drop it.
+- **READY:** works as is.
+- **ADJUST:** the method works; fill in its project tables.
+- **FILL-IN:** empty template; the content belongs to the project.
+- **OPTIONAL:** outside the core; keep it or drop it.
 
 ## 2. How each tool finds it
 
 | Tool | What it reads | How |
 |---|---|---|
 | Claude Code | the repo's `AGENTS.md` | loaded automatically at startup, **as long as there is no `CLAUDE.md` in the repo or any parent folder** (§6) |
-| Claude Code | `proyecto` plugin (skills, agents and hook) | local marketplace in `~/.claude/settings.json`; the plugin is the `claude\plugins\proyecto` junction |
+| Claude Code | `project` plugin (skills, agents and hook) | local marketplace in `~/.claude/settings.json`; the plugin is the `claude\plugins\project` junction |
 | Claude Code | `claude\CLAUDE.md` | `SessionStart` hook that `cat`s the file |
 | Copilot (VS Code) | the repo's `AGENTS.md` and `.github/`, if any | the repo itself |
 | Copilot (VS Code) | skills in `personal\`, agents in `copilot\agents\` (generated copy) | `~/.copilot/skills` and `~/.copilot/agents` junctions |
-| Copilot (VS Code and CLI) | the router `copilot\<proyecto>.instructions.md` | hardlink in `~/.copilot/copilot-instructions.md`; always loaded |
-| Copilot (VS Code) | `comprobar.py` | no hook: the router orders it ("AFTER every change"), or you run it |
-| OpenCode 2 | the repo's `AGENTS.md` and the router | the repo's, on its own; the router, hardlink `~/.config/opencode/AGENTS.md` → `copilot\<proyecto>.instructions.md`. **It doesn't read `CLAUDE.md`** |
+| Copilot (VS Code and CLI) | the router `copilot\<project>.instructions.md` | hardlink in `~/.copilot/copilot-instructions.md`; always loaded |
+| Copilot (VS Code) | `check.py` | no hook: the router orders it ("AFTER every change"), or you run it |
+| OpenCode 2 | the repo's `AGENTS.md` and the router | the repo's, on its own; the router, hardlink `~/.config/opencode/AGENTS.md` → `copilot\<project>.instructions.md`. **It doesn't read `CLAUDE.md`** |
 | OpenCode 2 | skills in `personal\` and in the repo | `~/.config/opencode/skills` junction; the repo's, via the config's `skills` field. Filtered by the allowlist |
-| OpenCode 2 | the `revisor` | `~/.config/opencode/agents` junction → `opencode\agents` (generated copy) |
-| OpenCode 2 | `comprobar.py` after every edit | `~/.config/opencode/plugins` junction → `opencode\plugins\sensor.ts` |
+| OpenCode 2 | the `reviewer` | `~/.config/opencode/agents` junction → `opencode\agents` (generated copy) |
+| OpenCode 2 | `check.py` after every edit | `~/.config/opencode/plugins` junction → `opencode\plugins\sensor.ts` |
 | OpenCode 2 | model, permissions | hardlink `~/.config/opencode/opencode.jsonc` → `opencode\opencode.jsonc` |
 
 **Why this way:** VS Code Copilot also reads `~/.claude/skills`, `~/.claude/agents` and the workspace's `.claude/`. Anything placed there shows up twice if it also lives in `.github/` or `~/.copilot`. Claude **plugins**, on the other hand, are not discovered by Copilot, and Claude doesn't read `~/.copilot`. OpenCode, for its part, walks up from the repo to your home looking for `.claude/skills`: hence the skill allowlist in its config. Result: each tool sees each thing exactly once.
@@ -137,18 +137,18 @@ Remove-Item '<HARNESS>\.git', '<HARNESS>\.github' -Recurse -Force
 
 ### 3.2 Naming
 
-1. **Marketplace and plugin** (`claude\.claude-plugin\marketplace.json`): `harness-proyecto` → `harness-<proyecto>` and `proyecto` → `<proyecto>`, lowercase with hyphens. Change `owner` too.
-   - The plugin name is the **skill prefix in Claude** (`<proyecto>:convenios-codigo`), so it must be different for each project.
+1. **Marketplace and plugin** (`claude\.claude-plugin\marketplace.json`): `harness-project` → `harness-<project>` and `project` → `<project>`, lowercase with hyphens. Change `owner` too.
+   - The plugin name is the **skill prefix in Claude** (`<project>:code-conventions`), so it must be different for each project.
    - **Don't add `"strict"` or `"version"`** to that entry (§6).
-2. **In `claude\CLAUDE.md`**, replace the `proyecto:` prefix with the new one.
-3. **`<PROYECTO>` and `<HARNESS>` in every file.** Save **without BOM**: a BOM in front of the frontmatter's `---` silently breaks the skill. That's why PowerShell 5.1's `Set-Content` won't do:
+2. **In `claude\CLAUDE.md`**, replace the `project:` prefix with the new one.
+3. **`<PROJECT>` and `<HARNESS>` in every file.** Save **without BOM**: a BOM in front of the frontmatter's `---` silently breaks the skill. That's why PowerShell 5.1's `Set-Content` won't do:
 
 ```powershell
 $h = 'REAL_HARNESS_PATH'   # the real path, no placeholders: this is what gets written into the files
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 Get-ChildItem $h -Recurse -File -Include *.md,*.py,*.ts,*.jsonc | ForEach-Object {
   $t = [IO.File]::ReadAllText($_.FullName)
-  $n = $t.Replace('<PROYECTO>', 'RealName').Replace('<HARNESS>', $h)
+  $n = $t.Replace('<PROJECT>', 'RealName').Replace('<HARNESS>', $h)
   if ($n -ne $t) { [IO.File]::WriteAllText($_.FullName, $n, $utf8) }
 }
 ```
@@ -157,7 +157,7 @@ Get-ChildItem $h -Recurse -File -Include *.md,*.py,*.ts,*.jsonc | ForEach-Object
 
 ```powershell
 $a = '<HARNESS>'
-New-Item -ItemType Junction -Path "$a\claude\plugins\<proyecto>" -Target "$a\personal"
+New-Item -ItemType Junction -Path "$a\claude\plugins\<project>" -Target "$a\personal"
 ```
 
 (If `claude\plugins` doesn't exist, create it first. The junction name must match the marketplace `source`.)
@@ -167,21 +167,21 @@ New-Item -ItemType Junction -Path "$a\claude\plugins\<proyecto>" -Target "$a\per
 To list everything pending:
 
 ```powershell
-Select-String -Path '<HARNESS>\*' -Pattern 'RELLENAR' -Recurse
+Select-String -Path '<HARNESS>\*' -Pattern 'FILL-IN' -Recurse
 ```
 
 Recommended order (most used first):
 
-1. **`convenios-codigo`:** used the most. If the team already has its conventions in the repo, just a pointer here.
-2. **`fuentes-oficiales`:** the stack table with real versions, and the traps.
-3. **`comprobar.py`:**
-   - `MARCADOR`: a file that only exists in that repo. **Mandatory if you work on other projects too** (§5).
-   - `PYTHON_PROYECTO`, if there's Python.
-   - `REGLAS`: the traps from step 2 that a regex can catch. Then `py -3 <HARNESS>\personal\scripts\comprobar.py --selftest` checks they are well written.
-4. **`verificar-antes-de-acabar`:** the real test, lint and build commands.
-5. **`depuracion-sistematica`:** the application layers and their traps.
-6. **`diseno-ui`:** if there's a UI.
-7. **`AGENTS.plantilla.md`:** to the repo root as `AGENTS.md`, if the repo is yours or the team agrees.
+1. **`code-conventions`:** used the most. If the team already has its conventions in the repo, just a pointer here.
+2. **`official-sources`:** the stack table with real versions, and the traps.
+3. **`check.py`:**
+   - `MARKER`: a file that only exists in that repo. **Mandatory if you work on other projects too** (§5).
+   - `PROJECT_PYTHON`, if there's Python.
+   - `RULES`: the traps from step 2 that a regex can catch. Then `py -3 <HARNESS>\personal\scripts\check.py --selftest` checks they are well written.
+4. **`verify-before-done`:** the real test, lint and build commands.
+5. **`systematic-debugging`:** the application layers and their traps.
+6. **`ui-design`:** if there's a UI.
+7. **`AGENTS.template.md`:** to the repo root as `AGENTS.md`, if the repo is yours or the team agrees.
 
 ### 3.5 Wire up Claude (for each user)
 
@@ -190,12 +190,12 @@ Recommended order (most used first):
 ```json
 {
   "extraKnownMarketplaces": {
-    "harness-<proyecto>": {
+    "harness-<project>": {
       "source": { "source": "directory", "path": "<HARNESS>\\claude" }
     }
   },
   "enabledPlugins": {
-    "<proyecto>@harness-<proyecto>": true
+    "<project>@harness-<project>": true
   },
   "hooks": {
     "SessionStart": [
@@ -221,17 +221,17 @@ foreach ($d in @{ skills = "$a\personal\skills"; agents = "$a\copilot\agents" }.
   if (Test-Path $l) { [IO.Directory]::Delete($l) }   # fails if not empty: check what's there first
   New-Item -ItemType Junction -Path $l -Target $d.Value   # agents: the generated copy with VS Code's tool aliases
 }
-
-`copilot\agents\` is generated by `opencode\sincronizar.py`: VS Code doesn't know Claude's tool names (`Read, Grep…`) and leaves the agent **with no tools**, so its copy says `tools: [read, search, execute]`.
 ```
+
+`copilot\agents\` is generated by `opencode\sync.py`: VS Code doesn't know Claude's tool names (`Read, Grep…`) and leaves the agent **with no tools**, so its copy says `tools: [read, search, execute]`. Never edit `personal\agents\` from Copilot: VS Code can later restore its own copy of the file with its tool names, and Claude's agent is left with no tools (`sync.py` refuses to run and CI fails if that happens).
 
 **If they already point to another project**, you can't link them twice: see §5.
 
-**The Copilot router** (`copilot\proyecto.instructions.md`; rename it to `<proyecto>.instructions.md`) has `applyTo: "**"`. Both **VS Code chat** and Copilot CLI read `~/.copilot/copilot-instructions.md`, so one hardlink there is enough. Don't also put it in the profile's `prompts\`: VS Code would load it twice. It's a single file: a junction won't do (folders only) and a symlink needs admin or Developer Mode. Link it with **hardlinks**, which need neither (same drive), keeping the original in the harness:
+**The Copilot router** (`copilot\project.instructions.md`; rename it to `<project>.instructions.md`) has `applyTo: "**"`. Both **VS Code chat** and Copilot CLI read `~/.copilot/copilot-instructions.md`, so one hardlink there is enough. Don't also put it in the profile's `prompts\`: VS Code would load it twice. It's a single file: a junction won't do (folders only) and a symlink needs admin or Developer Mode. Link it with **hardlinks**, which need neither (same drive), keeping the original in the harness:
 
 ```powershell
-$r = '<HARNESS>\copilot\<proyecto>.instructions.md'
-foreach ($l in @("C:\Users\$u\.copilot\copilot-instructions.md")) {   # lo leen el chat de VS Code y Copilot CLI
+$r = '<HARNESS>\copilot\<project>.instructions.md'
+foreach ($l in @("C:\Users\$u\.copilot\copilot-instructions.md")) {   # read by VS Code chat and Copilot CLI
   if (Test-Path $l) { Remove-Item -LiteralPath $l }   # plain files, not junctions
   New-Item -ItemType HardLink -Path $l -Target $r
 }
@@ -247,38 +247,38 @@ For OpenCode 2 (CLI and Desktop share one server and config). First, in `opencod
 $a = '<HARNESS>'
 $c = "C:\Users\$u\.config\opencode"   # OpenCode creates it on first run; keep service.json, delete v1 leftovers (package.json, node_modules)
 New-Item -ItemType HardLink -Path "$c\opencode.jsonc" -Target "$a\opencode\opencode.jsonc"
-New-Item -ItemType HardLink -Path "$c\AGENTS.md"      -Target "$a\copilot\<proyecto>.instructions.md"   # the same router as Copilot
+New-Item -ItemType HardLink -Path "$c\AGENTS.md"      -Target "$a\copilot\<project>.instructions.md"   # the same router as Copilot
 New-Item -ItemType Junction -Path "$c\skills"         -Target "$a\personal\skills"
 New-Item -ItemType Junction -Path "$c\agents"         -Target "$a\opencode\agents"
 New-Item -ItemType Junction -Path "$c\plugins"        -Target "$a\opencode\plugins"
 ```
 
 - **The router** is Copilot's: OpenCode 2 only reads `AGENTS.md`, and the global one is `~/.config/opencode/AGENTS.md`, outside the repo. The `applyTo` frontmatter reaches it as plain text and does no harm.
-- **The `revisor`** in `opencode\agents\` is a **generated copy**: OpenCode ignores the whole agent if its frontmatter has `tools:`. The same script writes Copilot's copy (`copilot\agents\`, with VS Code's tool names). After touching `personal\agents\`, run `py -3 <HARNESS>\opencode\sincronizar.py` (CI warns if you forget). OpenCode-specific settings (subagent, steps, no edits) go in the config's `agents`.
-- **The sensor** is the `opencode\plugins\sensor.ts` plugin: after every `write`/`edit`/`patch` it runs `comprobar.py --hook` and appends its output to the tool result, like Claude's hook.
+- **The `reviewer`** in `opencode\agents\` is a **generated copy**: OpenCode ignores the whole agent if its frontmatter has `tools:`. The same script writes Copilot's copy (`copilot\agents\`, with VS Code's tool names). After touching `personal\agents\`, run `py -3 <HARNESS>\opencode\sync.py` (CI warns if you forget). OpenCode-specific settings (subagent, steps, no edits) go in the config's `agents`.
+- **The sensor** is the `opencode\plugins\sensor.ts` plugin: after every `write`/`edit`/`patch` it runs `check.py --hook` and appends its output to the tool result, like Claude's hook.
 - **The skill allowlist** (`permissions`, action `skill`) lets through only the harness skills: OpenCode walks up from the repo to your home looking for `.claude/skills` and `.agents/skills`, and picks up other tools' skills. **Every new skill goes on the list** (CI checks it).
 - **Free web search:** the `ddg-search` MCP (DuckDuckGo, through `uvx`; install `uv` for each user with `winget install astral-sh.uv`). Searching doesn't ask; **reading pages does**, because a page can hide instructions for the model. Add your stack's official docs to the `webfetch` `allow` rules.
 - **With a single-slot local model** (llama.cpp with `parallel = 1`): the `title` agent is disabled, because its request evicted the main turn's cache on every new session (14-22 s measured).
 
 ### 3.8 Verify
 
-1. **Claude**, in a **new session** from the repo (not a fork): "which skills and agents do you have, did the hook reach you and do you have AGENTS.md?". You should see `<proyecto>:*`, the text of `CLAUDE.md` and `AGENTS.md`.
-2. **The sensor:** with a rule already in `REGLAS`, ask Claude to write something that breaks it into a test file in the repo. Right after the edit it should get the `ERROR`. Then delete the file.
-3. **VS Code:** reload the window. The skills (`/entrevistame`…) and the `revisor` agent should show up in the picker, **only once**.
-4. **The router in VS Code:** command palette → "Chat: Configure Instructions" → `copilot-instructions` should be listed **only once**. In a new chat, "which is the only review agent and in what order do you work?" → `revisor` and the phases.
-5. **OpenCode**, from the repo: `opencode run "without touching files: which is the only review agent, what do you run after every change and which skills do you have"` → `revisor`, the sensor command and **only** the harness skills. `opencode plugin list` → `sensor-<PROYECTO>`. For the sensor, the same test as with Claude: the `write` result should carry the `ERROR`.
+1. **Claude**, in a **new session** from the repo (not a fork): "which skills and agents do you have, did the hook reach you and do you have AGENTS.md?". You should see `<project>:*`, the text of `CLAUDE.md` and `AGENTS.md`.
+2. **The sensor:** with a rule already in `RULES`, ask Claude to write something that breaks it into a test file in the repo. Right after the edit it should get the `ERROR`. Then delete the file.
+3. **VS Code:** reload the window. The skills (`/interview-me`…) and the `reviewer` agent should show up in the picker, **only once**.
+4. **The router in VS Code:** command palette → "Chat: Configure Instructions" → `copilot-instructions` should be listed **only once**. In a new chat, "which is the only review agent and in what order do you work?" → `reviewer` and the phases.
+5. **OpenCode**, from the repo: `opencode run "without touching files: which is the only review agent, what do you run after every change and which skills do you have"` → `reviewer`, the sensor command and **only** the harness skills. `opencode plugin list` → `sensor-<PROJECT>`. For the sensor, the same test as with Claude: the `write` result should carry the `ERROR`.
 
 ## 4. Day to day
 
 - **New skill:** `personal\skills\<name>\SKILL.md`. Every user and every tool see it right away; **for OpenCode, also add it to the allowlist** in `opencode\opencode.jsonc`.
-- **New agent: in principle, no.** The harness has **a single agent**, `revisor`. A "reviewer for X" becomes a skill with its checklist, added to the `revisor`'s checklist table (see [GUIA-SKILLS §6](GUIA-SKILLS.md#6-antes-de-añadir-algo-nuevo)). Another agent only pays off for fresh eyes, different permissions or isolating heavy work that nothing else covers. If it ever comes to that: `personal\agents\<name>.agent.md` with **Claude** frontmatter (`name`, `description`, `tools: Read, Grep…`); Copilot picks it up too (tested). For OpenCode, then run `py -3 <HARNESS>\opencode\sincronizar.py`.
-- **Review from the OpenCode CLI:** from the repo, `& <HARNESS>\opencode\scripts\revisar-pendiente.ps1` runs the `revisor` on uncommitted changes (or `-Rama main` for the branch) and leaves a dated report in `opencode\informes\`. With no code changes it exits without waking the model. Run it by hand, from an alias, scheduled, or from a local `pre-push` hook. In script mode anything on `ask` is rejected: the report says so.
-- **Before adding anything, apply the filter** in [GUIA-SKILLS §6](GUIA-SKILLS.md#6-antes-de-añadir-algo-nuevo):
+- **New agent: in principle, no.** The harness has **a single agent**, `reviewer`. A "reviewer for X" becomes a skill with its checklist, added to the `reviewer`'s checklist table (see [SKILLS-GUIDE §6](SKILLS-GUIDE.md#6-before-adding-something-new)). Another agent only pays off for fresh eyes, different permissions or isolating heavy work that nothing else covers. If it ever comes to that: `personal\agents\<name>.agent.md` with **Claude** frontmatter (`name`, `description`, `tools: Read, Grep…`); Copilot picks it up too (tested). For OpenCode, then run `py -3 <HARNESS>\opencode\sync.py`.
+- **Review from the OpenCode CLI:** from the repo, `& <HARNESS>\opencode\scripts\review-pending.ps1` runs the `reviewer` on uncommitted changes (or `-Branch main` for the branch) and leaves a dated report in `opencode\reports\`. With no code changes it exits without waking the model. Run it by hand, from an alias, scheduled, or from a local `pre-push` hook. In script mode anything on `ask` is rejected: the report says so.
+- **Before adding anything, apply the filter** in [SKILLS-GUIDE §6](SKILLS-GUIDE.md#6-before-adding-something-new):
   - knowledge the model can't have,
   - or a failure you've seen and that keeps happening.
 
-  If a regex can check it, a new rule in `REGLAS` beats a skill. **Before trusting it, run it over the whole repo (`--todo`) and over the lines added in recent history**: a rule with false positives blocks the agent or ends up ignored.
-- **New checklist for the reviewer** (something only useful when reviewing) → `personal\checklists\<name>.md` plus a row in the `revisor` sources table, with its axes.
+  If a regex can check it, a new rule in `RULES` beats a skill. **Before trusting it, run it over the whole repo (`--all`) and over the lines added in recent history**: a rule with false positives blocks the agent or ends up ignored.
+- **New checklist for the reviewer** (something only useful when reviewing) → `personal\checklists\<name>.md` plus a row in the `reviewer` sources table, with its axes.
 
 ### What goes in each instruction file
 
@@ -288,7 +288,7 @@ Each file has one job; anything repeated between them costs context in every ses
 |---|---|---|---|
 | `AGENTS.md` (repo root) | Claude and Copilot, always | the repo index: what it is, commands nobody can guess, which skill or agent to use for what. Short: every line backed by a real failure | personal pieces, skill details, the work order |
 | `claude\CLAUDE.md` (harness) | Claude, always (`SessionStart` hook) | the **router**: the work order (understand → build → check → review), the role of the sensor and the agent. Short, gated by "if you're in repo X" | the *when* of each skill (already in its `description`); anything `AGENTS.md` says |
-| `copilot\<proyecto>.instructions.md` (harness) | Copilot and OpenCode, always: VS Code chat, Copilot CLI (hardlink in `~/.copilot`) and OpenCode (hardlink `~/.config/opencode/AGENTS.md`) | the same router, without prefixes, with the sensor run by hand and written as **BEFORE / AFTER** orders (with small models, the difference between following it or not) | same as `CLAUDE.md` |
+| `copilot\<project>.instructions.md` (harness) | Copilot and OpenCode, always: VS Code chat, Copilot CLI (hardlink in `~/.copilot`) and OpenCode (hardlink `~/.config/opencode/AGENTS.md`) | the same router, without prefixes, with the sensor run by hand and written as **BEFORE / AFTER** orders (with small models, the difference between following it or not) | same as `CLAUDE.md` |
 | each skill's `SKILL.md` | the model, when the `description` matches | the *what* and *how*; the `description`, the *when* | rules that always apply (those go to `AGENTS.md` or the conventions) |
 
 Rules:
@@ -301,10 +301,10 @@ Rules:
 - **`name`** equal to the folder name, lowercase letters, digits and hyphens, **no `_`**: otherwise it fails silently.
 - **The `description` is all the model sees** until it decides to load the skill. It must say **when** to use it, not summarise what it does, and include **concrete words** from real requests ("component", "slot", "query"…). If it's generic, it won't trigger.
 - **Short:** 600 words max, tables over paragraphs. If it needs more, an index plus side files read on demand.
-- **If it's project-specific**, first line: "If you're not in the <PROYECTO> repo, ignore this skill". Claude skills apply across all projects.
+- **If it's project-specific**, first line: "If you're not in the <PROJECT> repo, ignore this skill". Claude skills apply across all projects.
 - **It must not write into the repo** (plans, intents, scratch files) and must ask before touching the database.
 - **If it's adapted,** credit at the bottom with the source commit ("Adapted from X of [repo] @ `sha` (date) (MIT)") and add its notice to `THIRD-PARTY-NOTICES.md`.
-- **Check upstream** (every few months): for each adapted skill, diff its repo since the commit in its footer (`git diff <sha>..HEAD -- skills/<name>/`). Only what passes the GUIA-SKILLS §6 filter gets in; if you apply something, update the commit in the footer.
+- **Check upstream** (every few months): for each adapted skill, diff its repo since the commit in its footer (`git diff <sha>..HEAD -- skills/<name>/`). Only what passes the SKILLS-GUIDE §6 filter gets in; if you apply something, update the commit in the footer.
 - **Test it in both tools,** in a new session and without invoking it by hand: does it kick in on its own when it should? And check the result, not just that it loaded. With small local models, expect to invoke it by hand (`/name`).
 
 ## 5. Coexisting with other projects
@@ -317,18 +317,18 @@ The tools don't separate projects. Watch out for this:
   - the hook's `CLAUDE.md` starts with "if you're in repo X…". Every project's `SessionStart` runs in every session.
 
   Untested alternative: enable the plugin only in that repo, in its `.claude/settings.local.json` (local, not committed), instead of the user's `settings.json`.
-- **The sensor:** each plugin's hook fires on **every** edit. With `MARCADOR = None` it would also run in other projects' repos. **Always set a `MARCADOR`** so it only acts on its own.
+- **The sensor:** each plugin's hook fires on **every** edit. With `MARKER = None` it would also run in other projects' repos. **Always set a `MARKER`** so it only acts on its own.
 - **Copilot has no prefixes, and `~/.copilot/skills` is a single folder:**
-  - **The method pieces** (`entrevistame`, `depuracion-sistematica`, `verificar-antes-de-acabar`, `estilo-comentarios`) are the same in every project: link **a single copy**.
-  - **The project pieces** (`convenios-codigo`, `diseno-ui`, `fuentes-oficiales`) would clash by name. Better in the repo's `.github/` if possible; otherwise rename them with a prefix (`<proyecto>-convenios`).
-  - **The `revisor`** is a method piece too, but it reads its checklists by path: with several projects, make one copy per project (`<proyecto>-revisor`) pointing to its own.
+  - **The method pieces** (`interview-me`, `systematic-debugging`, `verify-before-done`, `comment-style`) are the same in every project: link **a single copy**.
+  - **The project pieces** (`code-conventions`, `ui-design`, `official-sources`) would clash by name. Better in the repo's `.github/` if possible; otherwise rename them with a prefix (`<project>-conventions`).
+  - **The `reviewer`** is a method piece too, but it reads its checklists by path: with several projects, make one copy per project (`<project>-reviewer`) pointing to its own.
   - To mix projects, `~/.copilot/skills` becomes a regular folder with **one junction per skill**:
 
     ```powershell
     New-Item -ItemType Junction -Path "$HOME\.copilot\skills\<skill>" -Target "<HARNESS>\personal\skills\<skill>"
     ```
-- **OpenCode:** `~/.config/opencode` holds a single `AGENTS.md`, a single config and one skills folder, like `~/.copilot`: merge the routers into one file, merge the configs (the allowlist with every project's skills) and use one junction per skill. Plugins do coexist: each has its own `id` (`sensor-<PROYECTO>`) and `MARCADOR`.
-- **If the team already has skills and agents in the repo** (`.github/`): Copilot already sees them; **don't copy them into `personal\`**. For Claude, create a separate plugin in `claude\plugins\<proyecto>-repo\` (with its `.claude-plugin\plugin.json`) holding **pointers**: a `SKILL.md` with the same `description` and the body "Read `<path in the repo>` from the repo root and follow it; if it doesn't exist, say so". Never in `~/.claude/skills` or the repo's `.claude/`, because VS Code would show duplicates.
+- **OpenCode:** `~/.config/opencode` holds a single `AGENTS.md`, a single config and one skills folder, like `~/.copilot`: merge the routers into one file, merge the configs (the allowlist with every project's skills) and use one junction per skill. Plugins do coexist: each has its own `id` (`sensor-<PROJECT>`) and `MARKER`.
+- **If the team already has skills and agents in the repo** (`.github/`): Copilot already sees them; **don't copy them into `personal\`**. For Claude, create a separate plugin in `claude\plugins\<project>-repo\` (with its `.claude-plugin\plugin.json`) holding **pointers**: a `SKILL.md` with the same `description` and the body "Read `<path in the repo>` from the repo root and follow it; if it doesn't exist, say so". Never in `~/.claude/skills` or the repo's `.claude/`, because VS Code would show duplicates.
 
 ## 6. Gotchas (learnt the hard way)
 
@@ -344,7 +344,7 @@ The tools don't separate projects. Watch out for this:
 - **`opencode run` can't approve permissions:** anything on `ask` is rejected. Desktop and the TUI do ask you.
 - **Copying the harness:** junctions may arrive as plain folders or broken. Delete and recreate them (§3.3).
 - **Hooks inside the plugin:** `hooks\hooks.json` at the plugin root loads on its own, and `${CLAUDE_PLUGIN_ROOT}` resolves fine through the junction.
-- **`py -3`, not `python`:** the launcher lives in `C:\Windows` and works for every user. Set `PYTHON_PROYECTO` so `.py` files compile with the project's Python, not the system one.
+- **`py -3`, not `python`:** the launcher lives in `C:\Windows` and works for every user. Set `PROJECT_PYTHON` so `.py` files compile with the project's Python, not the system one.
 - **Detected isn't loaded:** in VS Code, a skill existing doesn't mean the model uses it; it decides from the `description`, and local models miss more often. Force it by typing `/name`.
 - **Windows paths inside `sed` or `python -c`** in Git Bash: `\a`, `\r`… are read as escapes and corrupt the text. Use a separate script.
 - **Repos owned by another Windows user:** git reports *dubious ownership* → `git config --global --add safe.directory <path>`.
@@ -363,11 +363,11 @@ OpenCode is the worked example (§3.7): step 2 uncovered the walk up to your hom
 ## 8. Checks (CI)
 
 On every push, [CI](.github/workflows/ci.yml) validates the template itself:
-- **Structure** ([`validate.py`](.github/scripts/validate.py)): skill and agent frontmatter (`name` equal to the folder, no `_`), no BOM, valid JSON, no `strict`/`version` in the marketplace, the hook's script exists, well-formed SVGs, `VERSION` in SemVer, Markdown links and anchors, and no real user paths. And for OpenCode: the config parses, the allowlist covers every skill in `personal\skills`, the copies in `opencode\agents\` are up to date and have no `tools:`, and the script the plugin runs exists.
-- **Sensor:** `comprobar.py --selftest` on Ubuntu and Windows (well-formed `REGLAS`, engine on sample files).
+- **Structure** ([`validate.py`](.github/scripts/validate.py)): skill and agent frontmatter (`name` equal to the folder, no `_`; the original agent with Claude's tool names), no BOM, valid JSON, no `strict`/`version` in the marketplace, the hook's script exists, well-formed SVGs, `VERSION` in SemVer, Markdown links and anchors, and no real user paths. And for OpenCode: the config parses, the allowlist covers every skill in `personal\skills`, the generated agent copies are up to date (OpenCode's without `tools:`, Copilot's with VS Code's names), and the script the plugin runs exists.
+- **Sensor:** `check.py --selftest` on Ubuntu and Windows (well-formed `RULES`, engine on sample files).
 
 Publishing a release also checks that `VERSION` matches the tag ([release.yml](.github/workflows/release.yml)). Locally: `python .github/scripts/validate.py`.
 
 ## 9. Licence
 
-[MIT](LICENSE). Some skills and the `revisor` agent are adapted from [obra/superpowers](https://github.com/obra/superpowers) and [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), both MIT-licensed. Their copyright notices are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). If you adapt another external skill, add its notice there.
+[MIT](LICENSE). Some skills and the `reviewer` agent are adapted from [obra/superpowers](https://github.com/obra/superpowers) and [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), both MIT-licensed. Their copyright notices are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). If you adapt another external skill, add its notice there.

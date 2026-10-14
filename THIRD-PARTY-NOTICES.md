@@ -4,10 +4,10 @@ This template includes material adapted from the following MIT-licensed projects
 
 | Project | Adapted into |
 |---|---|
-| [obra/superpowers](https://github.com/obra/superpowers) | `personal/skills/verificar-antes-de-acabar` (from `verification-before-completion`), `personal/skills/depuracion-sistematica` (from `systematic-debugging`) |
-| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | `personal/skills/entrevistame` (from `interview-me`), `personal/skills/fuentes-oficiales` (from `source-driven-development`), `personal/agents/revisor.agent.md` (axes and criteria from `code-review-and-quality`), `personal/checklists/seguridad.md` (points from `security-and-hardening`) |
+| [obra/superpowers](https://github.com/obra/superpowers) | `personal/skills/verify-before-done` (from `verification-before-completion`), `personal/skills/systematic-debugging` (from `systematic-debugging`) |
+| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | `personal/skills/interview-me` (from `interview-me`), `personal/skills/official-sources` (from `source-driven-development`), `personal/agents/reviewer.agent.md` (axes and criteria from `code-review-and-quality`), `personal/checklists/security.md` (points from `security-and-hardening`) |
 
-The adaptations are translations to Spanish, shortened and modified; any errors are ours, not the original authors'.
+The adaptations are shortened and modified (they were first translated to Spanish and later back to English); any errors are ours, not the original authors'.
 
 ---
 

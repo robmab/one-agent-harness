@@ -110,6 +110,8 @@ def check_agents():
                 error(path, f'missing "{key}" in the frontmatter')
         if data.get('name') and not NAME_RE.match(data['name']):
             error(path, f'name "{data["name"]}": lowercase letters, digits and hyphens only')
+        if data.get('tools', '').startswith('['):
+            error(path, 'VS Code tool names in the original: Claude gets no tools; use "tools: Read, Grep, Glob, Bash"')
 
 
 def load_json(path):
@@ -146,7 +148,7 @@ def check_json():
 
 def check_opencode():
     base = os.path.join(ROOT, 'opencode')
-    # Config: JSONC con comentarios de línea completa (el estilo del template), así se parsea sin dependencias
+    # Config: JSONC with full-line comments only (the template's style), so it parses without dependencies
     cfg_path = os.path.join(base, 'opencode.jsonc')
     _, text = read(cfg_path)
     try:
@@ -162,23 +164,23 @@ def check_opencode():
         for skill in sorted(os.listdir(os.path.join(ROOT, 'personal', 'skills'))):
             if skill not in allowed:
                 error(cfg_path, f'skill "{skill}" is missing from the skill allowlist: OpenCode would not see it')
-    # Agentes: copias generadas al día; la de OpenCode sin `tools:` (ignora el agente entero) y la de
-    # Copilot con `tools:` (sin la lista, VS Code no le da las herramientas que el agente necesita)
+    # Agents: generated copies up to date; OpenCode's without `tools:` (it ignores the whole agent) and
+    # Copilot's with `tools:` (without the list, VS Code doesn't give the agent the tools it needs)
     sys.path.insert(0, base)
     try:
-        import sincronizar
-        for origen, destino, esperado in sincronizar.pares():
-            _, actual = read(destino) if os.path.isfile(destino) else (b'', None)
-            tiene_tools = re.search(r'(?m)^tools:', esperado.split('\n---', 1)[0])
-            if actual != esperado:
-                error(destino, f'out of date with personal/agents/{origen}: run py -3 opencode/sincronizar.py')
-            elif os.path.dirname(os.path.abspath(destino)) == os.path.join(base, 'agents') and tiene_tools:
-                error(destino, 'has "tools:" in the frontmatter: OpenCode ignores the whole agent')
-            elif os.path.dirname(os.path.abspath(destino)) != os.path.join(base, 'agents') and not tiene_tools:
-                error(destino, 'Copilot copy without "tools:": check DESTINOS in opencode/sincronizar.py')
+        import sync
+        for source, target, expected in sync.pairs():
+            _, current = read(target) if os.path.isfile(target) else (b'', None)
+            has_tools = re.search(r'(?m)^tools:', expected.split('\n---', 1)[0])
+            if current != expected:
+                error(target, f'out of date with personal/agents/{source}: run py -3 opencode/sync.py')
+            elif os.path.dirname(os.path.abspath(target)) == os.path.join(base, 'agents') and has_tools:
+                error(target, 'has "tools:" in the frontmatter: OpenCode ignores the whole agent')
+            elif os.path.dirname(os.path.abspath(target)) != os.path.join(base, 'agents') and not has_tools:
+                error(target, 'Copilot copy without "tools:": check TARGETS in opencode/sync.py')
     finally:
         sys.path.pop(0)
-    # Plugin: el script del sensor existe
+    # Plugin: the sensor script exists
     plugin = os.path.join(base, 'plugins', 'sensor.ts')
     _, text = read(plugin)
     for script in re.findall(r'<HARNESS>/(personal/[^"]+)"', text):

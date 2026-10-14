@@ -1,71 +1,71 @@
-// Sensor del harness para OpenCode 2: tras cada edición pasa comprobar.py y le añade el resultado
-// a la salida de la herramienta, para que el modelo lo vea en el mismo turno (lo que hace el hook PostToolUse en Claude).
-// Reutiliza el modo --hook del sensor: fuera del repo (MARCADOR) o con ficheros que no tocan, no dice nada.
+// Harness sensor for OpenCode 2: after every edit it runs check.py and appends the result
+// to the tool output, so the model sees it in the same turn (what the PostToolUse hook does in Claude).
+// It reuses the sensor's --hook mode: outside the repo (MARKER) or with files it doesn't cover, it says nothing.
 import { spawn } from "node:child_process"
 import { appendFileSync, existsSync } from "node:fs"
 import { dirname, isAbsolute, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
-const SENSOR = "<HARNESS>/personal/scripts/comprobar.py"
-const AQUI = dirname(fileURLToPath(import.meta.url))
-// Crea plugins/sensor.debug para registrar qué herramientas y campos llegan (en plugins/sensor.log)
-const DEBUG = existsSync(join(AQUI, "sensor.debug"))
+const SENSOR = "<HARNESS>/personal/scripts/check.py"
+const HERE = dirname(fileURLToPath(import.meta.url))
+// Create plugins/sensor.debug to log which tools and fields arrive (in plugins/sensor.log)
+const DEBUG = existsSync(join(HERE, "sensor.debug"))
 
-const RE_PARCHE = /^\*\*\* (?:Add|Update) File: (.+)$/gm
-// Solo las que escriben: `read` lleva el mismo campo `path` y no hay que comprobar nada al leer
-const ESCRIBEN = new Set(["write", "edit", "multiedit", "patch", "apply_patch"])
+const RE_PATCH = /^\*\*\* (?:Add|Update) File: (.+)$/gm
+// Only the ones that write: `read` carries the same `path` field and there's nothing to check on a read
+const WRITERS = new Set(["write", "edit", "multiedit", "patch", "apply_patch"])
 
-function rutas(input: any, base: string): string[] {
+function paths(input: any, base: string): string[] {
   if (!input || typeof input !== "object") return []
-  const directa = input.filePath ?? input.file_path ?? input.path
-  const sueltas = typeof directa === "string" ? [directa] : []
-  // Los parches traen varios ficheros dentro del texto
-  const texto = input.patchText ?? input.patch ?? input.input
-  const delParche = typeof texto === "string" ? [...texto.matchAll(RE_PARCHE)].map((m) => m[1].trim()) : []
-  return [...sueltas, ...delParche].map((r) => (isAbsolute(r) ? r : resolve(base, r)))
+  const direct = input.filePath ?? input.file_path ?? input.path
+  const single = typeof direct === "string" ? [direct] : []
+  // Patches carry several files inside the text
+  const text = input.patchText ?? input.patch ?? input.input
+  const fromPatch = typeof text === "string" ? [...text.matchAll(RE_PATCH)].map((m) => m[1].trim()) : []
+  return [...single, ...fromPatch].map((r) => (isAbsolute(r) ? r : resolve(base, r)))
 }
 
-function sensor(ruta: string): Promise<{ codigo: number; salida: string; errores: string }> {
+function sensor(path: string): Promise<{ code: number; stdout: string; stderr: string }> {
   return new Promise((ok) => {
     const proc = spawn("py", ["-3", SENSOR, "--hook"], { windowsHide: true })
-    let salida = ""
-    let errores = ""
-    proc.stdout.on("data", (d) => (salida += d))
-    proc.stderr.on("data", (d) => (errores += d))
-    proc.on("error", (e) => ok({ codigo: 0, salida: "", errores: String(e) }))
-    proc.on("close", (codigo) => ok({ codigo: codigo ?? 0, salida, errores }))
-    proc.stdin.end(JSON.stringify({ tool_input: { file_path: ruta } }))
+    let stdout = ""
+    let stderr = ""
+    proc.stdout.on("data", (d) => (stdout += d))
+    proc.stderr.on("data", (d) => (stderr += d))
+    proc.on("error", (e) => ok({ code: 0, stdout: "", stderr: String(e) }))
+    proc.on("close", (code) => ok({ code: code ?? 0, stdout, stderr }))
+    proc.stdin.end(JSON.stringify({ tool_input: { file_path: path } }))
   })
 }
 
-function avisos(salida: string): string {
+function warnings(stdout: string): string {
   try {
-    return JSON.parse(salida)?.hookSpecificOutput?.additionalContext ?? ""
+    return JSON.parse(stdout)?.hookSpecificOutput?.additionalContext ?? ""
   } catch {
     return ""
   }
 }
 
 export default {
-  id: "sensor-<PROYECTO>",
+  id: "sensor-<PROJECT>",
   async setup(ctx: any) {
     await ctx.tool.hook("execute.after", async (event: any) => {
-      if (DEBUG) appendFileSync(join(AQUI, "sensor.log"), JSON.stringify({ tool: event.tool, status: event.status, input: event.input }).slice(0, 600) + "\n")
-      if (event.status !== "completed" || !ESCRIBEN.has(event.tool)) return
-      const ficheros = rutas(event.input, ctx.location?.directory ?? process.cwd())
-      if (!ficheros.length) return
+      if (DEBUG) appendFileSync(join(HERE, "sensor.log"), JSON.stringify({ tool: event.tool, status: event.status, input: event.input }).slice(0, 600) + "\n")
+      if (event.status !== "completed" || !WRITERS.has(event.tool)) return
+      const files = paths(event.input, ctx.location?.directory ?? process.cwd())
+      if (!files.length) return
 
-      const notas: string[] = []
-      for (const ruta of ficheros) {
-        const r = await sensor(ruta)
-        if (r.codigo === 2) notas.push(r.errores.trim() + "\nCorrígelo antes de seguir.")
-        else if (avisos(r.salida)) notas.push(avisos(r.salida))
+      const notes: string[] = []
+      for (const path of files) {
+        const r = await sensor(path)
+        if (r.code === 2) notes.push(r.stderr.trim() + "\nFix it before going on.")
+        else if (warnings(r.stdout)) notes.push(warnings(r.stdout))
       }
-      if (!notas.length) return
+      if (!notes.length) return
 
-      const previo = event.result?.content
-      const nota = notas.join("\n\n")
-      const content = Array.isArray(previo) ? [...previo, { type: "text", text: nota }] : [previo, nota].filter(Boolean).join("\n\n")
+      const previous = event.result?.content
+      const note = notes.join("\n\n")
+      const content = Array.isArray(previous) ? [...previous, { type: "text", text: note }] : [previous, note].filter(Boolean).join("\n\n")
       event.result = { ...event.result, content }
     })
   },
