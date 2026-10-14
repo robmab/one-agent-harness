@@ -239,6 +239,21 @@ foreach ($l in @("C:\Users\$u\.copilot\copilot-instructions.md")) {   # read by 
 
 `~/.copilot` fits only one: with several projects, merge their routers into that file (each block with its "only if you're in repo X").
 
+**Optional: stop the permission prompts for the harness.** It lives outside the workspace, so Copilot asks for confirmation every time it reads something from it (in real use, around ten per session: the conventions, the comment-style detail, the skills…) and whenever the sensor runs chained to another command. In each user's VS Code `settings.json` (`%APPDATA%\Code\User\settings.json`), for example with `<HARNESS>` = `C:\Harness\Project` (in JSON every `\` is doubled, and inside the regex doubled again):
+
+```jsonc
+// read the harness without asking; edits stay limited to the workspace
+"github.copilot.chat.additionalReadAccessPaths": [
+  "C:\\Harness\\Project"
+],
+// the sensor (only that script, with or without files) without asking
+"chat.tools.terminal.autoApprove": {
+  "/^py -3 C:\\\\Harness\\\\Project\\\\personal\\\\scripts\\\\check\\.py(\\s|$)/": true
+}
+```
+
+Reload the window afterwards. It only trusts **reading** the harness, not changing it: a model rewriting its own rules is something you should see. Don't use `chat.tools.global.autoApprove` (approve everything): it would also drop the prompts that protect you (database, deletes, push).
+
 ### 3.7 Wire up OpenCode (for each user, optional)
 
 For OpenCode 2 (CLI and Desktop share one server and config). First, in `opencode\opencode.jsonc`, fill in the model and provider (it comes ready for a local OpenAI-compatible server such as llama.cpp; for a cloud one, delete both) and, if the team keeps skills in the repo, their path in `"skills"`.

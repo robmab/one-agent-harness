@@ -212,6 +212,21 @@ foreach ($d in @{ skills = "$a\personal\skills"; agents = "$a\copilot\agents" }.
 
 **Si ya apuntan a otro proyecto**, no se pueden enlazar dos veces: mira §5.
 
+**Opcional: que no pida permiso para el harness.** El harness está fuera del workspace, así que Copilot pide confirmación cada vez que lee algo de él (en uso real, una decena por sesión: los convenios, el detalle de estilo, las skills…) y cada vez que el sensor va combinado con otro comando. En el `settings.json` de VS Code de cada usuario (`%APPDATA%\Code\User\settings.json`), por ejemplo con `<HARNESS>` = `C:\Harness\Proyecto` (en JSON cada `\` va doble, y dentro de la regex se vuelve a doblar):
+
+```jsonc
+// leer el harness sin pedir permiso; editar sigue limitado al workspace
+"github.copilot.chat.additionalReadAccessPaths": [
+  "C:\\Harness\\Proyecto"
+],
+// el sensor (solo ese script, con o sin ficheros) sin pedir permiso
+"chat.tools.terminal.autoApprove": {
+  "/^py -3 C:\\\\Harness\\\\Proyecto\\\\personal\\\\scripts\\\\check\\.py(\\s|$)/": true
+}
+```
+
+Recarga la ventana después. Solo da confianza para **leer** el harness, no para tocarlo: que un modelo cambie sus propias reglas lo tienes que ver tú. Nada de `chat.tools.global.autoApprove` (aprobar todo): quitaría también las preguntas que protegen (BD, borrar, push).
+
 **El router de Copilot** (`copilot\project.instructions.md`; renómbralo a `<project>.instructions.md`) lleva `applyTo: "**"`. Tanto el **chat de VS Code** como Copilot CLI leen `~/.copilot/copilot-instructions.md`, así que basta un hardlink ahí. No lo pongas también en `prompts\` del perfil: VS Code lo cargaría dos veces. Es un fichero suelto: una junction no vale (solo carpetas) y un symlink necesita admin o el modo desarrollador. Se enlaza con **hardlinks**, que no necesitan nada (mismo disco), y el original sigue en el harness:
 
 ```powershell
