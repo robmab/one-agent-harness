@@ -20,7 +20,7 @@ No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una apl
 
 > **Es inerte:** no la carga ninguna herramienta. No se usa aquí: se **copia** a `<ROOT>\<Project>`, se rellena y se conecta. Cada pieza pendiente está marcada con `FILL-IN`.
 
-> **Idioma:** la plantilla (skills, agente, router, scripts y guías) está **en inglés**; este README y [RESEARCH](RESEARCH.md), en español. Escribe las skills, y sobre todo su `description`, **en el idioma en que hablas con el modelo**: el modelo compara lo que le pides con las descripciones, y unas instrucciones en tu idioma mantienen en él sus respuestas y sus comentarios. Si trabajas en español, tradúcelas al rellenarlas. *Hasta la v0.3.0 la plantilla estaba en español; las [notas de la v0.3.5](https://github.com/robmab/one-agent-harness/releases) traen los nombres antiguos.*
+> **Idioma:** la plantilla (skills, agente, router y scripts) está **en inglés**; la documentación, en inglés y en español (`*.es.md`). Escribe las skills, y sobre todo su `description`, **en el idioma en que hablas con el modelo**: el modelo compara lo que le pides con las descripciones, y unas instrucciones en tu idioma mantienen en él sus respuestas y sus comentarios. Si trabajas en español, tradúcelas al rellenarlas. *Hasta la v0.3.0 la plantilla estaba en español; las [notas de la v0.3.5](https://github.com/robmab/one-agent-harness/releases) traen los nombres antiguos.*
 
 **Nombres que se usan en toda la plantilla:**
 
@@ -33,9 +33,9 @@ No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una apl
 | Documento | Para qué |
 |---|---|
 | **README** (este) | qué trae, cómo montar un proyecto nuevo y cómo convivir con otros |
-| [SKILLS-GUIDE](SKILLS-GUIDE.md) *(EN)* | qué hace cada pieza, de qué tipo es, en qué momento entra y qué hay que rellenar |
-| [RESEARCH](RESEARCH.md) | de dónde sale todo: qué es un harness, repos analizados, skills adaptadas y descartadas |
-| [OPTIONAL-SKILLS](OPTIONAL-SKILLS.md) *(EN)* | catálogo de skills opcionales: qué aporta cada una, cuándo meterla, qué ruido mete y cuáles se desaconsejan |
+| [SKILLS-GUIDE](SKILLS-GUIDE.es.md) | qué hace cada pieza, de qué tipo es, en qué momento entra y qué hay que rellenar |
+| [RESEARCH](RESEARCH.es.md) | de dónde sale todo: qué es un harness, repos analizados, skills adaptadas y descartadas |
+| [OPTIONAL-SKILLS](OPTIONAL-SKILLS.es.md) | catálogo de skills opcionales: qué aporta cada una, cuándo meterla, qué ruido mete y cuáles se desaconsejan |
 | [AGENTS.template.md](AGENTS.template.md) *(EN)* | el índice que va en la raíz del repo del proyecto |
 | [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | licencia MIT y créditos de las skills adaptadas (§9) |
 
@@ -47,7 +47,7 @@ No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una apl
 
 ```
 one-agent-harness\
-├─ README.md (inglés) · README.es.md · SKILLS-GUIDE.md · RESEARCH.md · OPTIONAL-SKILLS.md
+├─ README · SKILLS-GUIDE · RESEARCH · OPTIONAL-SKILLS   cada uno en inglés (.md) y en español (.es.md)
 ├─ LICENSE · THIRD-PARTY-NOTICES.md · .gitattributes
 ├─ .github\                              CI de este repo (no es de la plantilla; se quita al copiar)
 ├─ VERSION                               versión de la plantilla de la que sale este harness
@@ -86,7 +86,7 @@ one-agent-harness\
 - **FILL-IN** (rellenar): plantilla vacía; el contenido es del proyecto.
 - **OPTIONAL** (opcional): fuera del core; se queda o se quita según la persona.
 
-El **core** son 6 skills + 1 sensor + 1 agente, sobre `AGENTS.md` (ver [SKILLS-GUIDE §2](SKILLS-GUIDE.md#2-what-the-core-is)).
+El **core** son 6 skills + 1 sensor + 1 agente, sobre `AGENTS.md` (ver [SKILLS-GUIDE §2](SKILLS-GUIDE.es.md#2-qué-es-el-core)).
 
 ## 2. Cómo lo encuentra cada herramienta
 
@@ -256,9 +256,9 @@ New-Item -ItemType Junction -Path "$c\plugins"        -Target "$a\opencode\plugi
 ## 4. Día a día
 
 - **Skill nueva:** `personal\skills\<nombre>\SKILL.md`. La ven todos los usuarios y las herramientas sin más; **en OpenCode, añádela también a la lista blanca** de `opencode\opencode.jsonc`.
-- **Agente nuevo: en principio, no.** El harness tiene **un solo agente**, el `reviewer`. Un "revisor de X" se hace como skill con su checklist y se añade a la tabla de checklists del `reviewer` (ver [SKILLS-GUIDE §6](SKILLS-GUIDE.md#6-before-adding-something-new)). Solo compensa otro agente si hacen falta ojos frescos, permisos distintos o aislar un trabajo pesado que no cubra nada más. Si llega el caso: `personal\agents\<nombre>.agent.md` con frontmatter **de Claude** (`name`, `description`, `tools: Read, Grep…`); Copilot lo detecta igual (probado). Para OpenCode, después `py -3 <HARNESS>\opencode\sync.py`.
+- **Agente nuevo: en principio, no.** El harness tiene **un solo agente**, el `reviewer`. Un "revisor de X" se hace como skill con su checklist y se añade a la tabla de checklists del `reviewer` (ver [SKILLS-GUIDE §6](SKILLS-GUIDE.es.md#6-antes-de-añadir-algo-nuevo)). Solo compensa otro agente si hacen falta ojos frescos, permisos distintos o aislar un trabajo pesado que no cubra nada más. Si llega el caso: `personal\agents\<nombre>.agent.md` con frontmatter **de Claude** (`name`, `description`, `tools: Read, Grep…`); Copilot lo detecta igual (probado). Para OpenCode, después `py -3 <HARNESS>\opencode\sync.py`.
 - **Revisión desde la CLI de OpenCode:** desde el repo, `& <HARNESS>\opencode\scripts\review-pending.ps1` lanza el `reviewer` sobre lo pendiente sin commitear (o `-Branch main` para la rama) y deja el informe con fecha en `opencode\reports\`. Sin código cambiado, sale sin despertar al modelo. Sirve a mano, con un alias, programado o en un hook `pre-push` local. En modo script lo que está en `ask` se rechaza: el informe lo dice.
-- **Antes de añadir nada, pasa el filtro** de la [SKILLS-GUIDE §6](SKILLS-GUIDE.md#6-before-adding-something-new):
+- **Antes de añadir nada, pasa el filtro** de la [SKILLS-GUIDE §6](SKILLS-GUIDE.es.md#6-antes-de-añadir-algo-nuevo):
   - conocimiento que el modelo no puede saber,
   - o un fallo visto que se repite.
 

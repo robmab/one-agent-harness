@@ -1,100 +1,93 @@
-# Investigación: de dónde sale esta plantilla
+# Research: where this template comes from
 
-> **Note (English):** this is the research behind the template, kept **in Spanish** as a historical record: it isn't used when setting up a project. Since v0.3.5 the template is in English and its pieces were renamed; the names below are the old ones:
->
-> | Old (here) | Now |
-> |---|---|
-> | `convenios-codigo`, `diseno-ui`, `fuentes-oficiales` | `code-conventions`, `ui-design`, `official-sources` |
-> | `entrevistame`, `depuracion-sistematica`, `verificar-antes-de-acabar` | `interview-me`, `systematic-debugging`, `verify-before-done` |
-> | `estilo-comentarios`, `revisor`, `comprobar.py`, `seguridad.md` | `comment-style`, `reviewer`, `check.py`, `security.md` |
-> | `GUIA-SKILLS`, `SKILLS-OPCIONALES`, `AGENTS.plantilla.md` | `SKILLS-GUIDE`, `OPTIONAL-SKILLS`, `AGENTS.template.md` |
+🌐 **English** · [Español](RESEARCH.es.md)
 
-Investigación hecha el 2026-10-10 (las estrellas son de la API de GitHub de ese día). Explica qué es un harness, qué hay en GitHub y por qué la plantilla trae justo estas piezas. Cómo se monta está en el [README](README.es.md); qué hace cada pieza, en la [guía de skills](SKILLS-GUIDE.md).
+Research done on 2026-10-10 (the stars are from the GitHub API that day). It explains what a harness is, what's on GitHub and why the template carries exactly these pieces. How to set it up is in the [README](README.md); what each piece does, in the [SKILLS-GUIDE](SKILLS-GUIDE.md).
 
 ---
 
-## 1. Qué es un "harness"
+## 1. What a "harness" is
 
-Agente = modelo + harness. El harness es todo lo que rodea al modelo, y tiene dos tipos de piezas (Martin Fowler):
+Agent = model + harness. The harness is everything around the model, and it has two kinds of pieces (Martin Fowler):
 
-| Tipo | Qué es | Ejemplos | En la plantilla |
+| Type | What it is | Examples | In the template |
 |---|---|---|---|
-| **Guías** | lo que le llega al agente *antes* de actuar | `AGENTS.md`, skills | skills de conocimiento y de proceso |
-| **Sensores de juicio** | otro modelo revisa *después* | agente revisor | `revisor` (uno solo) |
-| **Sensores automáticos** | comprobaciones fijas, baratas y deterministas *después* | linters, tests, hooks | `comprobar.py` + hook |
+| **Guides** | what reaches the agent *before* it acts | `AGENTS.md`, skills | knowledge and process skills |
+| **Judgement sensors** | another model reviews *afterwards* | reviewer agent | `reviewer` (just one) |
+| **Automatic sensors** | fixed, cheap and deterministic checks *afterwards* | linters, tests, hooks | `check.py` + hook |
 
-Ideas clave de las fuentes:
-- **Hacen falta las dos cosas:** solo guías da reglas que nadie comprueba; solo sensores, un agente que repite fallos.
-- **`AGENTS.md` ya es el estándar entre herramientas** (estudio de 2.853 repos). Hay que tenerlo corto y meter cada regla solo después de un fallo real.
-- **Lo portable** entre herramientas es `AGENTS.md`, los `SKILL.md`, los linters y el CI. Lo que dependa de una sola herramienta, cuanto menos mejor.
-- **El harness pesa más que el modelo:** cambiarlo mueve los resultados más que muchos cambios de modelo, y lo que va bien con un modelo no se traslada al siguiente. Con modelos pequeños, menos es más.
-- **Las skills se cargan por su `description`:** al principio solo sube el nombre y la descripción; el resto, cuando el modelo decide que aplica. La `description` es lo que manda.
+Key ideas from the sources:
+- **You need both:** guides alone give rules nobody checks; sensors alone, an agent that repeats mistakes.
+- **`AGENTS.md` is already the cross-tool standard** (a study of 2,853 repos). Keep it short and add each rule only after a real failure.
+- **What's portable** between tools is `AGENTS.md`, the `SKILL.md` files, linters and CI. The less that depends on a single tool, the better.
+- **The harness matters more than the model:** changing it moves results more than many model changes, and what works with one model doesn't carry over to the next. With small models, less is more.
+- **Skills load through their `description`:** at first only the name and description go up; the rest, when the model decides it applies. The `description` is what rules.
 
-## 2. Panorama en GitHub
+## 2. The GitHub landscape
 
-### Paquetes de skills y metodología
+### Skill and methodology packages
 
-| Repo | ⭐ | Qué es | Cuándo encaja |
+| Repo | ⭐ | What it is | When it fits |
 |---|---|---|---|
-| obra/superpowers | 297k | método completo: brainstorming, plan, TDD obligatorio, subagentes, review (MIT) | proyectos con tests; por piezas si no los hay |
-| affaan-m/ECC | 276k | megapaquete: 284 skills y 68 subagentes | casi nunca: se come el contexto |
-| anthropics/skills | 180k | skills de referencia del formato y de documentos | para aprender el formato |
-| garrytan/gstack | 136k | 23 roles (CEO, QA, release…) | producto en solitario, solo Claude |
-| addyosmani/agent-skills | 104k | 25 skills de ingeniería, portables a más de 70 agentes (MIT) | casi siempre, cogiendo piezas sueltas |
-| wshobson/agents | 40k | marketplace de agentes para varias herramientas | para coger algún agente suelto |
-| SuperClaude | 24k | personas y comandos | enfoque antiguo |
+| obra/superpowers | 297k | a complete method: brainstorming, plan, mandatory TDD, subagents, review (MIT) | projects with tests; piece by piece if there are none |
+| affaan-m/ECC | 276k | a mega-package: 284 skills and 68 subagents | almost never: it eats the context |
+| anthropics/skills | 180k | reference skills for the format and for documents | to learn the format |
+| garrytan/gstack | 136k | 23 roles (CEO, QA, release…) | a solo product, Claude only |
+| addyosmani/agent-skills | 104k | 25 engineering skills, portable to over 70 agents (MIT) | almost always, taking loose pieces |
+| wshobson/agents | 40k | an agent marketplace for several tools | to take the odd agent |
+| SuperClaude | 24k | personas and commands | an old approach |
 
-### Desarrollo guiado por especificaciones (SDD)
+### Spec-driven development (SDD)
 
-| Repo | ⭐ | Qué es | Cuándo encaja |
+| Repo | ⭐ | What it is | When it fits |
 |---|---|---|---|
-| github/spec-kit | 141k | el de GitHub, nativo de Copilot; mete `.specify/` en el repo | proyectos nuevos; Python 3.11 + uv |
-| Fission-AI/OpenSpec | 72k | ligero, pensado para código existente; mete `openspec/` | código heredado con features gordas; decisión de equipo |
-| gsd-build/get-shit-done | 64k | planes por oleadas con contexto limpio | parado desde mayo de 2026 |
-| BMAD-METHOD | 54k | simula un equipo ágil entero | muy pesado (se habla de meses para dominarlo) |
+| github/spec-kit | 141k | GitHub's own, native to Copilot; adds `.specify/` to the repo | new projects; Python 3.11 + uv |
+| Fission-AI/OpenSpec | 72k | lightweight, designed for existing code; adds `openspec/` | legacy code with big features; a team decision |
+| gsd-build/get-shit-done | 64k | plans in waves with a clean context | stalled since May 2026 |
+| BMAD-METHOD | 54k | simulates a whole agile team | very heavy (people talk of months to master it) |
 
-**Conclusión:** ningún framework entero. Las piezas que rinden son pocas, cortas y adaptadas al proyecto, más un sensor automático. Los SDD (spec-kit, OpenSpec) solo si el equipo entero los adopta, porque escriben en el repo.
+**Conclusion:** no whole framework. The pieces that pay off are few, short and adapted to the project, plus an automatic sensor. SDD (spec-kit, OpenSpec) only if the whole team adopts it, because it writes into the repo.
 
-## 3. Las piezas de la plantilla
+## 3. The template's pieces
 
-**Por qué estas:** las skills de conocimiento (convenios, diseño, estilo) dicen **cómo se escribe** y **cómo se habla**. Ninguna cubre **cómo trabaja el agente**: entender antes de hacer, diagnosticar antes de arreglar, demostrar antes de decir "hecho", ni revisar corrección, seguridad o rendimiento. Eso es lo que añaden las piezas adaptadas.
+**Why these:** the knowledge skills (conventions, design, style) say **how code is written** and **how to talk**. None covers **how the agent works**: understanding before building, diagnosing before fixing, proving before saying "done", or reviewing correctness, security or performance. That's what the adapted pieces add.
 
-| Pieza | Origen | Hueco que tapa | Adaptación |
+| Piece | Source | Gap it fills | Adaptation |
 |---|---|---|---|
-| `verificar-antes-de-acabar` | superpowers `verification-before-completion` | el agente dice "hecho" sin haber ejecutado nada | tabla de comandos del proyecto y salida honrada «Sin comprobar» |
-| `depuracion-sistematica` | superpowers `systematic-debugging` | arreglos a ciegas, parches sobre el síntoma | sin test obligatorio: vale una reproducción; tabla de capas del proyecto |
-| `entrevistame` | addyosmani `interview-me` | tickets ambiguos que el agente rellena inventando | mirar antes el repo; preguntas para el cliente; nada de ficheros en el repo |
-| `fuentes-oficiales` | addyosmani `source-driven-development` | código de memoria para la versión equivocada | el repo como primera fuente; tabla de versiones y trampas |
-| `revisor` (único agente) | addyosmani `code-review-and-quality` | nadie revisa corrección, seguridad ni rendimiento | 6 ejes con los convenios incluidos; lee las skills de conocimiento como checklists; contexto limpio; no edita; pasa antes el sensor |
-| `comprobar.py` + hook | propio | las reglas importantes dependían de la memoria del modelo | regex del stack + sintaxis, tras cada edición |
+| `verify-before-done` | superpowers `verification-before-completion` | the agent says "done" without having run anything | a table of the project's commands and an honest «Not checked» |
+| `systematic-debugging` | superpowers `systematic-debugging` | blind fixes, patches over the symptom | no mandatory test: a reproduction will do; a table of the project's layers |
+| `interview-me` | addyosmani `interview-me` | ambiguous tickets the agent fills in by inventing | look at the repo first; questions for the customer; no files in the repo |
+| `official-sources` | addyosmani `source-driven-development` | code from memory for the wrong version | the repo as the first source; a table of versions and traps |
+| `reviewer` (the only agent) | addyosmani `code-review-and-quality` | nobody reviews correctness, security or performance | 6 axes with the conventions included; reads the knowledge skills as checklists; clean context; doesn't edit; runs the sensor first |
+| `check.py` + hook | our own | important rules depended on the model's memory | stack regexes + syntax, after every edit |
 
-**Un solo agente:** la tendencia de tener muchos revisores especializados se descarta. Cada subagente empieza sin contexto, gasta más tokens y repasa otra vez el mismo diff. Un agente nuevo solo compensa por ojos frescos, permisos distintos o para aislar un trabajo pesado. Un "revisor de X" se hace como skill (checklist) que lee el `revisor`.
+**A single agent:** the trend of having many specialised reviewers is rejected. Every subagent starts with no context, spends more tokens and goes over the same diff again. A new agent only pays off for fresh eyes, different permissions or to isolate heavy work. A "reviewer for X" is written as a skill (checklist) that the `reviewer` reads.
 
-**Probado en la práctica** (en el proyecto donde nació la plantilla):
-- un modelo local escribió sintaxis de una versión posterior aunque la skill la prohibía: solo la cumplía invocándola a mano;
-- un modelo potente acertó, pero dijo "validado" sin comprobar nada;
-- con Claude y las skills, el resultado salió bien y comprobado en el navegador;
-- el hook cazó el error en la línea exacta y sin falsos positivos.
+**Tested in practice** (in the project where the template was born):
+- a local model wrote syntax from a later version even though the skill forbade it: it only followed it when invoked by hand;
+- a strong model got it right, but said "validated" without checking anything;
+- with Claude and the skills, the result came out right and checked in the browser;
+- the hook caught the error on the exact line, with no false positives.
 
-### Descartadas
-- `brainstorming`: es "MUST antes de cualquier cosa creativa", demasiado invasiva; `entrevistame` cubre lo útil.
-- `test-driven-development`, `writing-plans`, `executing-plans`, `subagent-driven-development`: TDD obligatorio, worktrees y planes pesados. Puede tener sentido en un proyecto con buena base de tests.
-- `doubt-driven-development`: tira de las CLIs de Codex y Gemini.
-- `constraint-driven-development`: escribe `CONSTRAINTS.md` en el repo.
-- `context-engineering`: es lo que hace esta plantilla.
-- `code-simplification`, `incremental-implementation`, `deprecation-and-migration`: solapan o son de uso puntual.
-- `recibir-revision`, commits y planes de ticket: ruido para el flujo diario. En espera hasta que algo falle de verdad.
+### Discarded
+- `brainstorming`: it's "MUST before anything creative", too invasive; `interview-me` covers the useful part.
+- `test-driven-development`, `writing-plans`, `executing-plans`, `subagent-driven-development`: mandatory TDD, worktrees and heavy plans. They may make sense in a project with a good test base.
+- `doubt-driven-development`: relies on the Codex and Gemini CLIs.
+- `constraint-driven-development`: writes `CONSTRAINTS.md` into the repo.
+- `context-engineering`: it's what this template does.
+- `code-simplification`, `incremental-implementation`, `deprecation-and-migration`: they overlap or are for one-off use.
+- Receiving reviews, commits and ticket plans: noise for the daily flow. On hold until something really fails.
 
-### Reglas al adaptar una skill de fuera
-- En español y recortada (los originales tienen entre 600 y 3.300 palabras; objetivo ≤ 600), con la `description` afinada para que se dispare cuando toca y no siempre.
-- Crédito al pie: "Adaptada de <skill> de <repo> (MIT)".
-- Que no escriba nada en el repo (ni planes, ni intents, ni worktrees).
-- Probarla en Claude y en Copilot, también con un modelo local, antes de dar por buena la siguiente.
+### Rules for adapting an outside skill
+- In the language you talk to the model in and cut down (the originals run from 600 to 3,300 words; target ≤ 600), with the `description` tuned so it fires when it should and not always.
+- Credit at the bottom: "Adapted from <skill> of <repo> (MIT)".
+- It must not write anything into the repo (no plans, intents or worktrees).
+- Test it in Claude and in Copilot, with a local model too, before trusting the next one.
 
-## Fuentes
+## Sources
 - Martin Fowler, *Harness engineering for coding agent users*: https://martinfowler.com/articles/harness-engineering.html
 - Addy Osmani, *Agent Harness Engineering*: https://addyosmani.com/blog/agent-harness-engineering/
 - arXiv, *Harness Engineering for Agentic AI Coding Tools*: https://arxiv.org/html/2602.14690v5
-- best-of-Agent-Harnesses: https://github.com/ryanalberts/best-of-agent-harnesses (y su comparativa de skill packs)
+- best-of-Agent-Harnesses: https://github.com/ryanalberts/best-of-agent-harnesses (and its skill pack comparison)
 - Spec Kit vs BMAD vs OpenSpec: https://dev.to/willtorber/spec-kit-vs-bmad-vs-openspec-choosing-an-sdd-framework-in-2026-d3j
 - Repos: obra/superpowers, addyosmani/agent-skills, github/spec-kit, Fission-AI/OpenSpec

@@ -1,5 +1,7 @@
 # Optional skills: the catalogue
 
+🌐 **English** · [Español](OPTIONAL-SKILLS.es.md)
+
 Skills that are **interesting but not needed**, taken mostly from the two repos that fit best: [obra/superpowers](https://github.com/obra/superpowers) and [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), both MIT-licensed. They were reviewed one by one (2026-10-11): what they add, **what signal** says it's worth adding one, and **what noise** it brings if added without need.
 
 > **By default, none.** The core (6 skills + 1 sensor + 1 agent, see [SKILLS-GUIDE §2](SKILLS-GUIDE.md#2-what-the-core-is)) covers daily work. Every skill you add:
@@ -87,7 +89,7 @@ They would duplicate something that's already there, and two skills for the same
 
 | Skill (source) · words | What it adds | Recommended use |
 |---|---|---|
-| `writing-skills` (sp) · 3,800 | how to write skills that fire well; testing them as if they were tests | **reading only**, when writing a new skill; the essentials are already in README §4 |
+| `writing-skills` (sp) · 3,800 | how to write skills that fire well; testing them as if they were tests | **reading only**, when writing a new skill; the essentials are already in [README §4](README.md#4-day-to-day) |
 | `skill-creator` ([anthropics/skills](https://github.com/anthropics/skills)) | the official format guide | same: as reading; check its licence before copying anything (not all of that repo is MIT) |
 
 ---

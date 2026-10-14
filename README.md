@@ -20,7 +20,7 @@ This isn't a demo: it's the harness I use **every day at work**, on a large prod
 
 > **It is inert:** no tool loads it. You don't use it here: you **copy** it to `<ROOT>\<Project>`, fill it in and wire it up. Every pending piece is marked `FILL-IN`.
 
-> **Language:** everything is in English except [RESEARCH](RESEARCH.md), kept in Spanish as a historical record. Write the skills, and above all their `description`, **in the language you talk to the model in**: the model matches your requests against the descriptions, and instructions in your language keep its answers and comments in it. If you work in another language, translate them as you fill them in. *Up to v0.3.0 the template was in Spanish; the [v0.3.5 release notes](https://github.com/robmab/one-agent-harness/releases) list the old names.*
+> **Language:** the template (skills, agent, router, scripts) is in English; the docs come in English and Spanish (`*.es.md`). Write the skills, and above all their `description`, **in the language you talk to the model in**: the model matches your requests against the descriptions, and instructions in your language keep its answers and comments in it. If you work in another language, translate them as you fill them in. *Up to v0.3.0 the template was in Spanish; the [v0.3.5 release notes](https://github.com/robmab/one-agent-harness/releases) list the old names.*
 
 **Placeholders used throughout the template:**
 
@@ -34,7 +34,7 @@ This isn't a demo: it's the harness I use **every day at work**, on a large prod
 |---|---|
 | **README** (this one) | what it contains, how to set up a new project and how to coexist with others |
 | [SKILLS-GUIDE](SKILLS-GUIDE.md) | what each piece does, what type it is, when it kicks in and what has to be filled in |
-| [RESEARCH](RESEARCH.md) *(ES)* | where it all comes from: what a harness is, repos analysed, skills adapted and discarded |
+| [RESEARCH](RESEARCH.md) | where it all comes from: what a harness is, repos analysed, skills adapted and discarded |
 | [OPTIONAL-SKILLS](OPTIONAL-SKILLS.md) | catalogue of optional skills: what each adds, when to add it, the noise it brings, and which ones are discouraged |
 | [AGENTS.template.md](AGENTS.template.md) | the index that goes at the root of the project repo |
 | [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | MIT licence and credits for the adapted skills (§9) |
@@ -64,7 +64,7 @@ Optional, outside the core: `comment-style` (your own voice for code comments an
 
 ```
 one-agent-harness\
-├─ README.md · README.es.md · SKILLS-GUIDE.md · RESEARCH.md · OPTIONAL-SKILLS.md
+├─ README · SKILLS-GUIDE · RESEARCH · OPTIONAL-SKILLS   each one in English (.md) and Spanish (.es.md)
 ├─ LICENSE · THIRD-PARTY-NOTICES.md · .gitattributes
 ├─ .github\                              CI of this repo (not part of the template; drop it when copying)
 ├─ VERSION                               template version this harness was copied from

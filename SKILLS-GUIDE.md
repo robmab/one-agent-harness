@@ -1,5 +1,7 @@
 # Core guide: what each piece does, when it kicks in and what to fill in
 
+🌐 **English** · [Español](SKILLS-GUIDE.es.md)
+
 This guide is the template's **usage map**: which pieces it has, what type each one is, when in the work it acts and how much has to be filled in for a new project. How to set it up is in the [README](README.md); where everything comes from, in [RESEARCH](RESEARCH.md).
 
 > **The idea in one line:** agent = model + harness. **Guides** tell the agent what to know and how to work *before* it writes; **sensors** check *afterwards* what it wrote. Guides only: rules nobody checks. Sensors only: an agent that repeats the same mistakes.
