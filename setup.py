@@ -519,7 +519,10 @@ def sync_is_current():
 
 def pending():
     out = []
+    generated = (os.path.join(ROOT, 'copilot', 'agents'), os.path.join(ROOT, 'opencode', 'agents'))
     for path in template_files():
+        if path.startswith(generated):   # sync.py copies: they're filled in through personal\agents
+            continue
         n = read_text(path).count('FILL-IN')
         if n:
             out.append((os.path.relpath(path, ROOT), n))
