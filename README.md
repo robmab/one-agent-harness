@@ -346,6 +346,7 @@ The tools don't separate projects. Watch out for this:
 - **Hooks inside the plugin:** `hooks\hooks.json` at the plugin root loads on its own, and `${CLAUDE_PLUGIN_ROOT}` resolves fine through the junction.
 - **`py -3`, not `python`:** the launcher lives in `C:\Windows` and works for every user. Set `PROJECT_PYTHON` so `.py` files compile with the project's Python, not the system one.
 - **Detected isn't loaded:** in VS Code, a skill existing doesn't mean the model uses it; it decides from the `description`, and local models miss more often. Force it by typing `/name`.
+- **Team docs in a git-ignored folder** (e.g. `docs/` in `.gitignore`): Copilot's search doesn't see them, so a grep there comes back empty. Search with `includeIgnoredFiles: true` or read them by path; if your skills point there, say so in the router.
 - **Windows paths inside `sed` or `python -c`** in Git Bash: `\a`, `\r`… are read as escapes and corrupt the text. Use a separate script.
 - **Repos owned by another Windows user:** git reports *dubious ownership* → `git config --global --add safe.directory <path>`.
 

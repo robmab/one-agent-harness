@@ -331,6 +331,7 @@ Las herramientas no separan por proyecto. Ojo con esto:
 - **Hooks dentro del plugin:** `hooks\hooks.json` en la raíz del plugin se carga solo, y `${CLAUDE_PLUGIN_ROOT}` se resuelve bien a través de la junction.
 - **`py -3` y no `python`:** el lanzador está en `C:\Windows` y vale para todos los usuarios. Configura `PROJECT_PYTHON` para compilar con el Python del proyecto y no con el del sistema.
 - **Detectar no es cargar:** en VS Code, que una skill exista no implica que el modelo la use; lo decide por la `description`, y los modelos locales fallan más. Se fuerza escribiendo `/nombre`.
+- **Docs del equipo en una carpeta ignorada por git** (p. ej. `docs/` en el `.gitignore`): el buscador de Copilot no los ve y un grep ahí sale vacío. Busca con `includeIgnoredFiles: true` o léelos por ruta; si tus skills apuntan ahí, dilo en el router.
 - **Rutas de Windows dentro de `sed` o `python -c`** en Git Bash: `\a`, `\r`… se interpretan como escapes y rompen el texto. Mejor un script aparte.
 - **Repos de otro usuario de Windows:** git da *dubious ownership* → `git config --global --add safe.directory <ruta>`.
 
