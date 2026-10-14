@@ -82,10 +82,18 @@ def write_text(path, text):
 
 
 def backup(path):
-    stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-    copy = f'{path}.bak-{stamp}'
+    """One copy per file, from before setup.py first touched it: the one that matters to go back."""
+    copy = path + '.before-harness'
+    if not os.path.exists(copy):
+        shutil.copy2(path, copy)
+        say('backup', copy)
+
+
+def backup_dated(path):
+    """For a file in the way that --force replaces: someone else's content, kept as is."""
+    copy = f'{path}.bak-{datetime.datetime.now():%Y%m%d-%H%M%S}'
     shutil.copy2(path, copy)
-    return copy
+    say('backup', copy)
 
 
 # ---------------------------------------------------------------------------
@@ -154,7 +162,7 @@ def ensure_file_link(link, target, label, force):
         act(f'{label}: hardlink restored {link} (it had been broken, same text)', relink, link, target)
     elif force:
         def replace():
-            say('backup', backup(link))
+            backup_dated(link)
             relink(link, target)
         act(f'{label}: {link} replaced by the hardlink (--force)', replace)
     else:
@@ -280,7 +288,7 @@ def load_settings(path, label):
 def save_settings(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     if os.path.isfile(path):
-        say('backup', backup(path))
+        backup(path)
     write_text(path, json.dumps(data, indent=2, ensure_ascii=False) + '\n')
 
 
@@ -420,7 +428,7 @@ def ensure_vscode(home, state):
     inserted = sep + nl + block
 
     def apply():
-        say('backup', backup(path))
+        backup(path)
         write_text(path, body + inserted + text[len(body):])
         state.setdefault('vscode', {})[home] = inserted
     act(f'{label}: harness read access and sensor without prompts in {path} (reload the window)', apply)
@@ -437,7 +445,7 @@ def remove_vscode(home, state):
         return
 
     def apply():
-        say('backup', backup(path))
+        backup(path)
         write_text(path, text.replace(inserted, '', 1))
         state['vscode'].pop(home)
     act(f'vscode: harness block removed from {path}', apply)

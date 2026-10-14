@@ -204,6 +204,13 @@ def test(lang, base):
            f'{lang}: VS Code settings not restored')
     with open(vs2, 'rb') as f:
         expect(f.read() == vs2_text.encode(), f'{lang}: VS Code settings (CRLF) not restored byte for byte')
+    # one backup per file, the one from before the first change, however many times it ran
+    for folder, original in ((os.path.join(home, '.claude'), None), (os.path.dirname(vs2), vs2_text)):
+        backups = [f for f in os.listdir(folder) if f.startswith('settings.json.')]
+        expect(backups == ['settings.json.before-harness'], f'{lang}: backups in {folder}: {backups}')
+        if original and backups:
+            with open(os.path.join(folder, backups[0]), 'rb') as f:
+                expect(f.read() == original.encode(), f'{lang}: the backup is not the original file')
     expect(not os.path.lexists(os.path.join(h, 'claude', 'plugins', 'demo-app')), f'{lang}: plugin junction left')
     expect(os.path.isdir(os.path.join(h, 'personal', 'skills')) and skills == sorted(
         os.listdir(os.path.join(h, 'personal', 'skills'))), f'{lang}: uninstall damaged the harness')

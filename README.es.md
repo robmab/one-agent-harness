@@ -146,7 +146,7 @@ Hace lo que antes eran cinco pasos a mano (están en el [anexo](#anexo-montaje-a
 | `--dry-run` | dice lo que haría, sin tocar nada |
 | `--force` | sustituye un fichero que estorba, con copia de seguridad antes |
 
-Lo que monta queda apuntado en `.setup.json`, a su lado. Lanzarlo otra vez no rompe nada: lo que ya está bien, lo deja como está.
+Lo que monta queda apuntado en `.setup.json`, a su lado. Lanzarlo otra vez no rompe nada: lo que ya está bien, lo deja como está. Antes de cambiar un `settings.json` por primera vez guarda una copia al lado (`settings.json.before-harness`), y solo esa.
 
 ### 3.3 Rellenar
 
@@ -255,7 +255,7 @@ Las herramientas no separan por proyecto. Ojo con esto:
 - **`~/.claude/skills` no se enlaza entera:** Claude guarda ahí cosas suyas por usuario.
 - **Marketplace:** `"strict": false` o `"version"` en la entrada de un plugin sin `plugin.json` rompió la carga de **todo** el marketplace, sin error visible.
 - **Hook en forks:** al bifurcar o retomar una conversación, si el texto del hook ya está en el historial no se vuelve a inyectar. En sesiones nuevas entra siempre.
-- **Borrar junctions sin cargarse el destino:** `(Get-Item ruta -Force).Delete()` o `rmdir ruta` (sin `/s`). Nunca `Remove-Item -Recurse` sobre una junction.
+- **Borrar junctions sin cargarse el destino:** `(Get-Item ruta -Force).Delete()` o `rmdir ruta` (sin `/s`). Nunca `Remove-Item -Recurse` sobre una junction. Desde Git Bash, `rmdir` no la borra ("Not a directory": ve la junction como un symlink): usa `cmd //c rmdir "C:\ruta"`.
 - **Hardlinks (router y config de OpenCode):** el original y los enlaces de cada usuario son el mismo fichero. Pero si un programa lo guarda *reemplazándolo* (borra y crea uno nuevo), el enlace se rompe sin avisar. Comprobación: `fsutil hardlink list <fichero>` lista todas las rutas; si falta alguna, `setup.py --check` la recupera (si el texto sigue siendo el mismo). **Les pasa también a los editores de los agentes.**
 - **OpenCode ignora un agente entero, sin error, si su frontmatter lleva `tools: Read, Grep…`** (el formato de Claude y Copilot): por eso `opencode\agents\` es una copia generada.
 - **OpenCode sube buscando skills hasta el home:** si el repo cuelga de tu usuario, se trae las de `~/.claude/skills` (por ejemplo, las que sincroniza la app de Claude) y engordan el prompt de cada turno. Lo para la lista blanca.

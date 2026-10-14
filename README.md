@@ -161,7 +161,7 @@ It does what used to be five manual steps (the [appendix](#appendix-manual-setup
 | `--dry-run` | says what it would do, without touching anything |
 | `--force` | replaces a file in the way, after backing it up |
 
-What it set up is saved in `.setup.json`, next to it. Running it again is safe: whatever is already right is left as is.
+What it set up is saved in `.setup.json`, next to it. Running it again is safe: whatever is already right is left as is. Before changing a `settings.json` for the first time it keeps a copy alongside (`settings.json.before-harness`), only that one.
 
 ### 3.3 Fill in
 
@@ -270,7 +270,7 @@ The tools don't separate projects. Watch out for this:
 - **Don't junction the whole `~/.claude/skills`:** Claude keeps per-user files there.
 - **Marketplace:** `"strict": false` or `"version"` on the entry of a plugin without `plugin.json` broke loading of the **whole** marketplace, with no visible error.
 - **Hook on forks:** when forking or resuming a conversation, if the hook's text is already in the history it isn't injected again. In new sessions it always is.
-- **Deleting junctions without wiping the target:** `(Get-Item path -Force).Delete()` or `rmdir path` (without `/s`). Never `Remove-Item -Recurse` on a junction.
+- **Deleting junctions without wiping the target:** `(Get-Item path -Force).Delete()` or `rmdir path` (without `/s`). Never `Remove-Item -Recurse` on a junction. From Git Bash, `rmdir` refuses ("Not a directory": it sees the junction as a symlink): use `cmd //c rmdir "C:\path"`.
 - **Hardlinks (router and OpenCode config):** the original and each user's links are the same file. But if a program saves it by *replacing* it (delete and create), the link breaks silently. Check: `fsutil hardlink list <file>` lists every path; if one is missing, `setup.py --check` restores it (if the text is still the same). **Agents' own editors do it too.**
 - **OpenCode silently ignores a whole agent if its frontmatter has `tools: Read, Grep…`** (the Claude and Copilot format): that's why `opencode\agents\` is a generated copy.
 - **OpenCode walks up looking for skills all the way to your home:** if the repo lives under your user folder, it picks up those in `~/.claude/skills` (e.g. the ones the Claude app syncs) and they bloat every turn's prompt. The allowlist stops it.
