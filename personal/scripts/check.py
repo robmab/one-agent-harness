@@ -30,6 +30,7 @@ MARKER = None
 PROJECT_PYTHON = [
     # os.path.join('..', 'env', 'Scripts', 'python.exe'),
     # os.path.join('.venv', 'Scripts', 'python.exe'),
+    # os.path.join('.venv', 'bin', 'python'),   # Linux and macOS
 ]
 
 EXTENSIONS = ('.py', '.js', '.html', '.css')

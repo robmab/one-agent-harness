@@ -41,8 +41,12 @@ jobs:
         run: python i18n/es/personal/scripts/check.py --selftest
 
   setup:
-    name: setup.py (Windows, every language)
-    runs-on: windows-latest
+    name: setup.py (${{ matrix.os }}, every language)
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7

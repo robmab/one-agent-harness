@@ -11,7 +11,7 @@ param(
     [string]$Exclude = '\.min\.|node_modules/'
 )
 
-$reports = Join-Path $PSScriptRoot '..\reports'
+$reports = Join-Path (Split-Path $PSScriptRoot) 'reports'
 New-Item -ItemType Directory -Force $reports | Out-Null
 Set-Location $Repo
 

@@ -111,7 +111,9 @@ El **core** son 6 skills + 1 sensor + 1 agente, sobre `AGENTS.md` (ver [SKILLS-G
 
 ## 3. Montar un proyecto nuevo
 
-Requisitos: Claude Code (usa Git Bash para los hooks en Windows), VS Code con Copilot, OpenCode 2 si lo usas, y el lanzador `py` de Python. Nada necesita admin. **`setup.py` es solo para Windows, de momento:** en Linux o macOS, sigue el [montaje a mano](#anexo-montaje-a-mano) con symlinks y `python3`.
+Requisitos: Claude Code (usa Git Bash para los hooks en Windows), VS Code con Copilot, OpenCode 2 si lo usas, y Python 3: el lanzador `py` en Windows, `python3` en Linux y macOS. Nada necesita admin. Los comandos de abajo son los de Windows; en Linux y macOS, `python3 <HARNESS>/setup.py` con las mismas opciones.
+
+> **Linux y macOS:** `setup.py` enlaza con symlinks y escribe `python3` y rutas con `/` donde la plantilla tiene `py -3` y `\`. El CI lo prueba de punta a punta en los dos sistemas (con perfiles falsos), pero aún no se ha probado en una máquina real con las herramientas: si algo falla, [abre una issue](https://github.com/robmab/one-agent-harness/issues).
 
 ### 3.1 Copiar
 
@@ -120,9 +122,13 @@ git clone <url-de-este-repo> '<HARNESS>'
 Remove-Item '<HARNESS>\.git', '<HARNESS>\.github' -Recurse -Force
 ```
 
+```bash
+git clone <url-de-este-repo> <HARNESS> && rm -rf <HARNESS>/.git <HARNESS>/.github   # Linux y macOS
+```
+
 El `.git` se borra para que el harness del proyecto no quede atado a la plantilla, y `.github` porque solo tiene el CI de este repo. Más fácil todavía: descarga **Source code (zip)** de la [última release](https://github.com/robmab/one-agent-harness/releases/latest), que ya viene sin los dos. **No borres `VERSION`:** dice de qué versión de la plantilla sale el harness, y así más adelante puedes ver qué ha cambiado desde entonces (en las [releases](https://github.com/robmab/one-agent-harness/releases)). Si quieres versionarlo, haz después tu propio `git init`. Si ya tienes la plantilla en local, vale igual con `Copy-Item <plantilla> '<HARNESS>' -Recurse`, quitando también su `.git`.
 
-**Ponlo donde quieras, en el mismo disco que los perfiles de usuario** (normalmente `C:`): el router y la config de OpenCode se enlazan con hardlinks, que no cruzan de un disco a otro. Tus repos pueden estar en cualquier sitio.
+**Ponlo donde quieras.** En Windows, **en el mismo disco que los perfiles de usuario** (normalmente `C:`): el router y la config de OpenCode se enlazan con hardlinks, que no cruzan de un disco a otro. En Linux y macOS todo son symlinks, así que en cualquier sitio. Tus repos pueden estar donde sea.
 
 ### 3.2 Lanzar setup.py
 
@@ -130,17 +136,21 @@ El `.git` se borra para que el harness del proyecto no quede atado a la plantill
 py -3 <HARNESS>\setup.py --project "Mi Proyecto"
 ```
 
+```bash
+python3 <HARNESS>/setup.py --project "Mi Proyecto"   # Linux y macOS
+```
+
 Hace lo que antes eran cinco pasos a mano (están en el [anexo](#anexo-montaje-a-mano), para ver qué hace o repetir uno a mano):
 
-- **Nombres:** `<PROJECT>` y `<HARNESS>` en todos los ficheros (sin BOM, y con `/` en JSON y TypeScript, donde una `\` sería un escape); el marketplace y el plugin (`harness-mi-proyecto`, `mi-proyecto`: el prefijo de las skills en Claude); el router, renombrado a `mi-proyecto.instructions.md`.
+- **Nombres:** `<PROJECT>` y `<HARNESS>` en todos los ficheros (sin BOM, y con `/` en JSON y TypeScript, donde una `\` sería un escape); el marketplace y el plugin (`harness-mi-proyecto`, `mi-proyecto`: el prefijo de las skills en Claude); el router, renombrado a `mi-proyecto.instructions.md`. En Linux y macOS, además, `python3` en vez de `py -3` y `/` en las rutas.
 - **Idioma** (`--lang es`): lo que lee el modelo (skills, agente, router, `CLAUDE.md`, checklist, `AGENTS.template.md` y los mensajes del sensor) en español, con nombres en español (`convenios-codigo`, `revisor`…). Por defecto, `en`. **Se elige una vez**, antes de rellenarlo: lo que escribas después es tuyo y no se puede traducir por ti.
-- **Enlaces,** por herramienta y usuario: la junction del plugin, el `settings.json` de Claude (marketplace, plugin y hook `SessionStart`), el `~/.copilot` de Copilot y el `~/.config/opencode` de OpenCode. Si una carpeta ya tiene otras cosas (skills de otro proyecto), enlaza skill a skill y deja lo demás como está; si hay un fichero en medio (otro router), para y te avisa (§5).
+- **Enlaces,** por herramienta y usuario (junctions y hardlinks en Windows, symlinks en Linux y macOS): el enlace del plugin, el `settings.json` de Claude (marketplace, plugin y hook `SessionStart`), el `~/.copilot` de Copilot y el `~/.config/opencode` de OpenCode. Si una carpeta ya tiene otras cosas (skills de otro proyecto), enlaza skill a skill y deja lo demás como está; si hay un fichero en medio (otro router), para y te avisa (§5).
 - **Lo demás:** las copias generadas del agente (`sync.py`), el `--selftest` del sensor y la lista de lo que queda por rellenar (`FILL-IN`).
 
 | Opción | Para qué |
 |---|---|
 | `--tools claude,copilot` | solo algunas herramientas (por defecto: `claude,copilot,opencode`) |
-| `--users rober,ana` | otros usuarios de Windows del PC (por defecto, tú); sus perfiles, en el disco del harness |
+| `--users rober,ana` | Windows: otros usuarios del PC (por defecto, tú); sus perfiles, en el disco del harness. En Linux y macOS, lánzalo como cada usuario (`sudo -u ana python3 <HARNESS>/setup.py`; ese usuario necesita poder escribir en la carpeta del harness) |
 | `--lang es` | las piezas en español (solo la primera vez) |
 | `--vscode-permissions` | VS Code lee el harness y lanza el sensor sin preguntar (§3.5) |
 | `--dry-run` | dice lo que haría, sin tocar nada |
@@ -262,7 +272,7 @@ Las herramientas no separan por proyecto. Ojo con esto:
 - **`opencode run` no puede aprobar permisos:** lo que esté en `ask` se rechaza. En Desktop o en la TUI te lo pregunta.
 - **Copiar el harness:** las junctions pueden llegar como carpetas normales o rotas. `setup.py --check` te las señala.
 - **Hooks dentro del plugin:** `hooks\hooks.json` en la raíz del plugin se carga solo, y `${CLAUDE_PLUGIN_ROOT}` se resuelve bien a través de la junction.
-- **`py -3` y no `python`:** el lanzador está en `C:\Windows` y vale para todos los usuarios. Configura `PROJECT_PYTHON` para compilar con el Python del proyecto y no con el del sistema.
+- **`py -3` y no `python`** (Windows; en Linux y macOS, `python3`): el lanzador está en `C:\Windows` y vale para todos los usuarios. Configura `PROJECT_PYTHON` para compilar con el Python del proyecto y no con el del sistema.
 - **Detectar no es cargar:** en VS Code, que una skill exista no implica que el modelo la use; lo decide por la `description`, y los modelos locales fallan más. Se fuerza escribiendo `/nombre`.
 - **Docs del equipo en una carpeta ignorada por git** (p. ej. `docs/` en el `.gitignore`): el buscador de Copilot no los ve y un grep ahí sale vacío. Busca con `includeIgnoredFiles: true` o léelos por ruta; si tus skills apuntan ahí, dilo en el router.
 - **Rutas de Windows dentro de `sed` o `python -c`** en Git Bash: `\a`, `\r`… se interpretan como escapes y rompen el texto. Mejor un script aparte.
@@ -284,7 +294,7 @@ OpenCode es el ejemplo ya hecho (§A.5): el paso 2 destapó la búsqueda hasta e
 En cada push, el [CI](.github/workflows/ci.yml) valida la propia plantilla:
 - **Estructura** ([`validate.py`](.github/scripts/validate.py)): frontmatter de skills y agente (`name` igual que la carpeta, sin `_`; el agente original con los nombres de herramienta de Claude), sin BOM, JSON válidos, sin `strict`/`version` en el marketplace, que exista el script del hook, SVG bien formados, `VERSION` en SemVer, enlaces y anclas de los Markdown, y ninguna ruta de usuario real. Y en OpenCode: la config se parsea, la lista blanca incluye todas las skills de `personal\skills`, las copias generadas del agente están al día (la de OpenCode sin `tools:`, la de Copilot con los nombres de VS Code), y existe el script que lanza el plugin. Y las traducciones de `i18n\`: una por cada pieza que lee el modelo, con las mismas líneas y encabezados que la inglesa (así un cambio en una se nota en la otra), y los nombres que reciben tras `setup.py`.
 - **Sensor:** `check.py --selftest` en Ubuntu y Windows (`RULES` bien escritas y el motor sobre ficheros de ejemplo), en los dos idiomas.
-- **`setup.py`** ([`test_setup.py`](.github/scripts/test_setup.py), Windows): sobre una copia temporal y perfiles falsos, uno de ellos ya en uso, en cada idioma: instalar, volver a lanzarlo sin cambios, `--check` reparando un hardlink roto y una junction que falta (y sin tocar una copia con otro texto), y `--uninstall` dejando los perfiles como estaban.
+- **`setup.py`** ([`test_setup.py`](.github/scripts/test_setup.py), en Windows, Linux y macOS): sobre una copia temporal y perfiles falsos, uno de ellos ya en uso, en cada idioma: instalar, volver a lanzarlo sin cambios, `--check` reparando un hardlink roto y una junction que falta (y sin tocar una copia con otro texto), y `--uninstall` dejando los perfiles como estaban.
 
 Al publicar una release, además comprueba que `VERSION` coincida con el tag ([release.yml](.github/workflows/release.yml)). En local: `python .github/scripts/validate.py`.
 
@@ -294,7 +304,7 @@ Al publicar una release, además comprueba que `VERSION` coincida con el tag ([r
 
 ## Anexo: montaje a mano
 
-Lo que hace `setup.py`, paso a paso: para entenderlo, para repetir un paso a mano o para montarlo en Linux o macOS (allí, symlinks con `ln -s` en vez de junctions y hardlinks, y `python3` en vez de `py -3`). El orden: A.1 y A.2 una vez, de A.3 a A.5 en cada usuario.
+Lo que hace `setup.py`, paso a paso: para entenderlo o para repetir un paso a mano. Está escrito para Windows; en Linux y macOS, symlinks (`ln -s`) en vez de junctions y hardlinks, `python3` en vez de `py -3`, y `/` en las rutas. El orden: A.1 y A.2 una vez, de A.3 a A.5 en cada usuario.
 
 ### A.1 Poner nombre
 

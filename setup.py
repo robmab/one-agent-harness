@@ -1,9 +1,10 @@
-"""Sets up the harness on this PC: names, language, links and each tool's settings. Windows only for now.
+"""Sets up the harness on this PC: names, language, links and each tool's settings. Windows, Linux and macOS.
 
-The harness is the folder this script lives in: put it wherever you like (on the same drive as the user
-profiles, because of the hardlinks) and run it from there.
+The harness is the folder this script lives in: put it wherever you like and run it from there. On Windows,
+on the same drive as the user profiles (the router and OpenCode's config are hardlinks); on Linux and macOS
+everything is a symlink, so anywhere.
 
-Usage:
+Usage (python3 instead of py -3 on Linux and macOS):
     py -3 setup.py --project "My Project" [--tools claude,copilot,opencode] [--lang en|es]
                    [--users rober,ana] [--vscode-permissions] [--force] [--dry-run]
     py -3 setup.py --check                    # checks every link and setting; repairs what is safe to repair
@@ -14,6 +15,7 @@ and the language are chosen once (the files you fill in can't be translated for 
 """
 import argparse
 import datetime
+import getpass
 import io
 import json
 import os
@@ -27,6 +29,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, '.setup.json')
 TOOLS = ('claude', 'copilot', 'opencode')
 LANGS = ('en', 'es')
+SYSTEMS = ('windows', 'linux', 'macos')
+# how each system runs Python: the template is written with the Windows launcher
+LAUNCHERS = {'windows': 'py -3', 'linux': 'python3', 'macos': 'python3'}
 # folders and files with placeholders; the docs (README…) keep theirs, they explain them
 TEMPLATE_PARTS = ('claude', 'copilot', 'opencode', 'personal', 'AGENTS.template.md')
 TEXT_EXT = ('.md', '.py', '.ts', '.json', '.jsonc', '.ps1')
@@ -35,9 +40,22 @@ FORWARD_EXT = ('.json', '.jsonc', '.ts')
 NAME_RE = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 VSCODE_KEYS = ('github.copilot.chat.additionalReadAccessPaths', 'chat.tools.terminal.autoApprove')
 
+SYSTEM = 'windows' if os.name == 'nt' else 'macos' if sys.platform == 'darwin' else 'linux'
 dry_run = False
 checking = False
 problems = []
+
+
+def windows():
+    return SYSTEM == 'windows'
+
+
+def dir_link_word():
+    return 'junction' if windows() else 'symlink'
+
+
+def file_link_word():
+    return 'hardlink' if windows() else 'symlink'
 
 
 # ---------------------------------------------------------------------------
@@ -97,45 +115,73 @@ def backup_dated(path):
 
 
 # ---------------------------------------------------------------------------
-# links (Windows: junctions for folders, hardlinks for files; neither needs admin)
+# links: on Windows, junctions for folders and hardlinks for files (neither needs admin);
+# on Linux and macOS, symlinks for both
 # ---------------------------------------------------------------------------
 
 def norm(path):
     if path.startswith('\\\\?\\'):
         path = path[4:]
-    return os.path.normcase(os.path.abspath(path))
+    return os.path.normcase(os.path.realpath(path))
 
 
-def is_junction(path):
+def is_link(path):
+    """A symlink or a junction (dangling ones too)."""
+    if os.path.islink(path):
+        return True
     try:
         return os.lstat(path).st_reparse_tag == stat.IO_REPARSE_TAG_MOUNT_POINT
     except (OSError, AttributeError):
         return False
 
 
-def junction_target(path):
-    return norm(os.readlink(path))
+def dangling(path):
+    return is_link(path) and not os.path.exists(path)
 
 
-def make_junction(link, target):
+def link_target(path):
+    target = os.readlink(path)
+    if target.startswith('\\\\?\\'):
+        target = target[4:]
+    return target if os.path.isabs(target) else os.path.join(os.path.dirname(path), target)
+
+
+def points_to(link, target):
+    try:
+        return norm(link_target(link)) == norm(target)
+    except OSError:
+        return False
+
+
+def make_dir_link(link, target):
     os.makedirs(os.path.dirname(link), exist_ok=True)
-    res = subprocess.run(['cmd', '/c', 'mklink', '/J', link, target], capture_output=True, text=True)
-    if res.returncode:
-        raise OSError(f'mklink /J failed: {(res.stdout + res.stderr).strip()}')
+    if windows():
+        res = subprocess.run(['cmd', '/c', 'mklink', '/J', link, target], capture_output=True, text=True)
+        if res.returncode:
+            raise OSError(f'mklink /J failed: {(res.stdout + res.stderr).strip()}')
+    else:
+        os.symlink(target, link, target_is_directory=True)
 
 
-def remove_junction(link):
-    os.rmdir(link)   # removes only the junction, never what it points to
+def remove_dir_link_only(link):
+    # removes only the link, never what it points to
+    if os.name == 'nt':
+        os.rmdir(link)   # a junction or a folder symlink
+    else:
+        os.unlink(link)
 
 
-def make_hardlink(link, target):
+def make_file_link(link, target):
     os.makedirs(os.path.dirname(link), exist_ok=True)
-    os.link(target, link)
+    if windows():
+        os.link(target, link)
+    else:
+        os.symlink(target, link)
 
 
 def same_file(a, b):
     try:
-        return os.path.samefile(a, b)
+        return os.path.samefile(a, b)   # a hardlink, or a symlink to it
     except OSError:
         return False
 
@@ -147,24 +193,27 @@ def same_content(a, b):
 
 def relink(link, target):
     os.remove(link)
-    make_hardlink(link, target)
+    make_file_link(link, target)
 
 
 def ensure_file_link(link, target, label, force):
+    word = file_link_word()
     if not os.path.lexists(link):
-        act(f'{label}: hardlink {link}', make_hardlink, link, target)
+        act(f'{label}: {word} {link}', make_file_link, link, target)
     elif same_file(link, target):
         say('ok', f'{label}: {link}')
+    elif dangling(link):
+        act(f'{label}: {word} {link} (it pointed to something that no longer exists)', relink, link, target)
     elif os.path.isdir(link):
         problem(f'{label}: {link} is a folder, not a file')
     elif same_content(link, target):
         # an editor saved it by replacing the file: same text, but no longer linked
-        act(f'{label}: hardlink restored {link} (it had been broken, same text)', relink, link, target)
+        act(f'{label}: {word} restored {link} (it had been broken, same text)', relink, link, target)
     elif force:
         def replace():
             backup_dated(link)
             relink(link, target)
-        act(f'{label}: {link} replaced by the hardlink (--force)', replace)
+        act(f'{label}: {link} replaced by the {word} (--force)', replace)
     else:
         newer = 'that copy' if os.path.getmtime(link) > os.path.getmtime(target) else 'the harness original'
         problem(f'{label}: {link} has other content (newer: {newer}). If it is the link broken by an editor, '
@@ -173,18 +222,22 @@ def ensure_file_link(link, target, label, force):
 
 
 def ensure_dir_link(link, target, label, force, per_item=True):
-    if is_junction(link):
-        if junction_target(link) == norm(target):
+    word = dir_link_word()
+    if is_link(link):
+        if dangling(link):
+            act(f'{label}: {word} {link} (it pointed to something that no longer exists)',
+                lambda: (remove_dir_link_only(link), make_dir_link(link, target)))
+        elif points_to(link, target):
             say('ok', f'{label}: {link}')
         else:
-            problem(f'{label}: {link} already points to {junction_target(link)} (another project?). '
+            problem(f'{label}: {link} already points to {link_target(link)} (another project?). '
                     'See README §5 to share it')
     elif os.path.isdir(link):
         if not os.listdir(link):
-            act(f'{label}: junction {link}', lambda: (os.rmdir(link), make_junction(link, target)))
+            act(f'{label}: {word} {link}', lambda: (os.rmdir(link), make_dir_link(link, target)))
         elif not per_item:
-            problem(f'{label}: {link} is a real folder, not a junction (copied harness?). Check it is a copy of '
-                    f'{short(target)}, delete it with rmdir /s and run again')
+            problem(f'{label}: {link} is a real folder, not a {word} (copied harness?). Check it is a copy of '
+                    f'{short(target)}, delete that copy and run again')
         else:
             # a real folder with other things inside: one link per item, without touching the rest
             for item in sorted(os.listdir(target)):
@@ -192,19 +245,21 @@ def ensure_dir_link(link, target, label, force, per_item=True):
     elif os.path.lexists(link):
         problem(f'{label}: {link} is a file, not a folder')
     else:
-        act(f'{label}: junction {link}', make_junction, link, target)
+        act(f'{label}: {word} {link}', make_dir_link, link, target)
 
 
 def ensure_item_link(link, target, label, force):
-    if os.path.isdir(target):
-        if is_junction(link) and junction_target(link) == norm(target):
-            say('ok', f'{label}: {link}')
-        elif os.path.lexists(link):
-            problem(f'{label}: {link} already exists and is not this harness\'s (same name in another project?)')
-        else:
-            act(f'{label}: junction {link}', make_junction, link, target)
-    else:
+    if not os.path.isdir(target):
         ensure_file_link(link, target, label, force)
+    elif is_link(link) and points_to(link, target):
+        say('ok', f'{label}: {link}')
+    elif dangling(link):
+        act(f'{label}: {dir_link_word()} {link} (it pointed to something that no longer exists)',
+            lambda: (remove_dir_link_only(link), make_dir_link(link, target)))
+    elif os.path.lexists(link):
+        problem(f'{label}: {link} already exists and is not this harness\'s (same name in another project?)')
+    else:
+        act(f'{label}: {dir_link_word()} {link}', make_dir_link, link, target)
 
 
 def remove_file_link(link, target, label):
@@ -215,16 +270,16 @@ def remove_file_link(link, target, label):
 
 
 def remove_dir_link(link, target, label):
-    if is_junction(link):
-        if junction_target(link) == norm(target):
-            act(f'{label}: removed junction {link}', remove_junction, link)
+    if is_link(link):
+        if points_to(link, target):
+            act(f'{label}: removed {dir_link_word()} {link}', remove_dir_link_only, link)
         else:
             say('skip', f'{label}: {link} points elsewhere, left as is')
     elif os.path.isdir(link):
         for item in sorted(os.listdir(target)):
             sub, tgt = os.path.join(link, item), os.path.join(target, item)
-            if is_junction(sub) and junction_target(sub) == norm(tgt):
-                act(f'{label}: removed junction {sub}', remove_junction, sub)
+            if os.path.isdir(tgt) and is_link(sub) and points_to(sub, tgt):
+                act(f'{label}: removed {dir_link_word()} {sub}', remove_dir_link_only, sub)
             elif os.path.isfile(tgt):
                 remove_file_link(sub, tgt, label)
 
@@ -243,7 +298,7 @@ def tool_links(tool, home, state):
         return [
             (os.path.join(base, 'skills'), os.path.join(ROOT, 'personal', 'skills'), 'dir'),
             (os.path.join(base, 'agents'), os.path.join(ROOT, 'copilot', 'agents'), 'dir'),
-            # read by VS Code chat and Copilot CLI; not also in the profile's prompts\ (it would load twice)
+            # read by VS Code chat and Copilot CLI; not also in the profile's prompts (it would load twice)
             (os.path.join(base, 'copilot-instructions.md'), router(state), 'file'),
         ]
     if tool == 'opencode':
@@ -258,7 +313,7 @@ def tool_links(tool, home, state):
     return []
 
 
-def plugin_junction(state):
+def plugin_link(state):
     return os.path.join(ROOT, 'claude', 'plugins', state['slug']), os.path.join(ROOT, 'personal')
 
 
@@ -271,7 +326,7 @@ def claude_entries(state):
     return (marketplace,
             {'source': {'source': 'directory', 'path': os.path.join(ROOT, 'claude')}},
             f'{state["slug"]}@{marketplace}',
-            # Git Bash runs the hook: forward slashes
+            # a shell runs the hook (Git Bash on Windows): forward slashes
             'cat "' + ROOT.replace('\\', '/') + '/claude/CLAUDE.md"')
 
 
@@ -358,8 +413,15 @@ def remove_claude(home, state):
 # VS Code (optional): read the harness and run the sensor without permission prompts
 # ---------------------------------------------------------------------------
 
-def vscode_path(home):
-    return os.path.join(home, 'AppData', 'Roaming', 'Code', 'User', 'settings.json')
+def vscode_path(home, system=None):
+    system = system or SYSTEM
+    if system == 'windows':
+        user = os.path.join(home, 'AppData', 'Roaming', 'Code', 'User')
+    elif system == 'macos':
+        user = os.path.join(home, 'Library', 'Application Support', 'Code', 'User')
+    else:
+        user = os.path.join(home, '.config', 'Code', 'User')
+    return os.path.join(user, 'settings.json')
 
 
 def js_regex_escape(text):
@@ -369,7 +431,7 @@ def js_regex_escape(text):
 
 def vscode_block(state, nl='\n'):
     check = os.path.join(ROOT, 'personal', 'scripts', 'check.py')
-    rule = '/^' + js_regex_escape('py -3 ' + check) + r'(\s|$)/'
+    rule = '/^' + js_regex_escape(LAUNCHERS[SYSTEM] + ' ' + check) + r'(\s|$)/'
     tag = f'// {state["slug"]} harness (setup.py):'
     return nl.join([f'  {tag} read the harness without asking; edits stay limited to the workspace',
                     f'  "{VSCODE_KEYS[0]}": [{json.dumps(ROOT)}],',
@@ -480,10 +542,21 @@ def template_files():
         if os.path.isfile(path):
             yield path
         for folder, dirs, files in os.walk(path):
-            dirs[:] = [d for d in dirs if not is_junction(os.path.join(folder, d))]
+            dirs[:] = [d for d in dirs if not is_link(os.path.join(folder, d))]
             for f in files:
                 if f.endswith(TEXT_EXT):
                     yield os.path.join(folder, f)
+
+
+def for_posix(text, path):
+    """The template is written for Windows: python3 for py -3, and / in the paths under the harness."""
+    text = text.replace('spawn("py", ["-3", ', 'spawn("python3", [').replace('py -3 ', 'python3 ')
+    text = re.sub(r'<HARNESS>((?:\\[^\\\s`"\'|)\]]+)+)', lambda m: '<HARNESS>' + m.group(1).replace('\\', '/'), text)
+    if path.endswith('.md'):
+        # and the ones the text mentions (personal\checklists\, claude\CLAUDE.md…), not escapes like \|
+        text = re.sub(r'\b(?:personal|claude|copilot|opencode|checklists)(?:\\[\w.\-]+)+\\?',
+                      lambda m: m.group(0).replace('\\', '/'), text)
+    return text
 
 
 def apply_names(state):
@@ -491,7 +564,8 @@ def apply_names(state):
     forward = ROOT.replace('\\', '/')
     for path in template_files():
         text = read_text(path)
-        new = text.replace('sensor-<PROJECT>', 'sensor-' + slug)   # an id: no spaces
+        new = text if windows() else for_posix(text, path)
+        new = new.replace('sensor-<PROJECT>', 'sensor-' + slug)   # an id: no spaces
         new = new.replace('<HARNESS>', forward if path.endswith(FORWARD_EXT) else ROOT).replace('<PROJECT>', project)
         if path == os.path.join(ROOT, 'claude', 'CLAUDE.md'):
             new = new.replace('`project:', f'`{slug}:')   # the skill prefix in Claude is the plugin name
@@ -502,7 +576,7 @@ def apply_names(state):
     mp = json.loads(read_text(mp_path))
     mp['name'] = 'harness-' + slug
     if mp.get('owner', {}).get('name') == 'YOUR_NAME':
-        mp['owner']['name'] = os.environ.get('USERNAME', 'me')
+        mp['owner']['name'] = getpass.getuser()
     for p in mp['plugins']:
         p['name'], p['source'] = slug, './plugins/' + slug
     write_text(mp_path, json.dumps(mp, indent=2, ensure_ascii=False) + '\n')
@@ -529,7 +603,7 @@ def pending():
     out = []
     generated = (os.path.join(ROOT, 'copilot', 'agents'), os.path.join(ROOT, 'opencode', 'agents'))
     for path in template_files():
-        if path.startswith(generated):   # sync.py copies: they're filled in through personal\agents
+        if path.startswith(generated):   # sync.py copies: they're filled in through personal/agents
             continue
         n = read_text(path).count('FILL-IN')
         if n:
@@ -549,8 +623,13 @@ def load_state():
 
 
 def save_state(state):
-    if not dry_run:
+    if dry_run:
+        return
+    try:
         write_text(STATE, json.dumps(state, indent=2, ensure_ascii=False) + '\n')
+    except OSError as e:
+        problem(f'can\'t save {STATE} ({e}): --check and --uninstall won\'t know about this run. '
+                'Give this user write access to the harness folder')
 
 
 def slugify(project):
@@ -563,9 +642,19 @@ def homes_for(args):
     profile = os.path.expanduser('~')
     if not args.users:
         return [profile]
+    users = [u.strip() for u in args.users.split(',') if u.strip()]
+    if not windows():
+        me = getpass.getuser()
+        others = [u for u in users if u != me]
+        if others:
+            # files created for another user from here would belong to whoever runs this (root, with sudo)
+            raise SystemExit(f'On {SYSTEM}, run setup.py as each user instead, e.g.: sudo -u {others[0]} python3 '
+                             f'{os.path.join(ROOT, "setup.py")} (that user needs write access to the harness '
+                             'folder, for .setup.json)')
+        return [profile]
     out = []
-    for user in args.users.split(','):
-        home = os.path.join(os.path.dirname(profile), user.strip())
+    for user in users:
+        home = os.path.join(os.path.dirname(profile), user)
         if not os.path.isdir(home):
             raise SystemExit(f'User {user!r} has no profile at {home}')
         out.append(home)
@@ -589,7 +678,7 @@ def tools_for(args, default):
 def link_tools(state, homes, tools, force, vscode):
     if 'claude' in tools:
         print('\nClaude plugin')
-        link, target = plugin_junction(state)
+        link, target = plugin_link(state)
         ensure_dir_link(link, target, 'plugin', force, per_item=False)
     for home in homes:
         print(f'\n{home}')
@@ -619,10 +708,10 @@ def install(args):
         slug = slugify(args.project)
         if not NAME_RE.match(slug):
             raise SystemExit(f'Can\'t make a name from {args.project!r}: use letters and digits.')
-        state = {'project': args.project, 'slug': slug, 'lang': args.lang or 'en',
+        state = {'project': args.project, 'slug': slug, 'lang': args.lang or 'en', 'system': SYSTEM,
                  'version': read_text(os.path.join(ROOT, 'VERSION')).strip()}
         if state['lang'] != 'en' and not os.path.isdir(os.path.join(ROOT, 'i18n', state['lang'])):
-            raise SystemExit(f'No {state["lang"]!r} version in i18n\\.')
+            raise SystemExit(f'No {state["lang"]!r} version in i18n.')
         first = True
     else:
         if args.project and slugify(args.project) != state['slug']:
@@ -634,7 +723,7 @@ def install(args):
 
     homes = homes_for(args)
     tools = tools_for(args, TOOLS)
-    if any(t in tools for t in ('copilot', 'opencode')):
+    if windows() and any(t in tools for t in ('copilot', 'opencode')):
         drive = os.path.splitdrive(ROOT)[0].lower()
         other = [h for h in homes if os.path.splitdrive(h)[0].lower() != drive]
         if other:
@@ -643,12 +732,12 @@ def install(args):
     if os.path.isdir(os.path.join(ROOT, '.git')):
         say('WARN', 'the harness still has .git: if it is the template\'s, remove it (README §3.1)')
 
-    print(f'Harness {state["project"]!r} ({state["slug"]}, {state["lang"]}) at {ROOT}')
+    print(f'Harness {state["project"]!r} ({state["slug"]}, {state["lang"]}, {SYSTEM}) at {ROOT}')
     if first:
         print('\nNames and language')
         act(f'language: {state["lang"]}', apply_language, state['lang'])
-        act(f'names: <PROJECT> = {state["project"]}, <HARNESS> = this folder, prefix {state["slug"]}:',
-            apply_names, state)
+        act(f'names: <PROJECT> = {state["project"]}, <HARNESS> = this folder, prefix {state["slug"]}:'
+            + ('' if windows() else ', python3 and / paths'), apply_names, state)
         if not dry_run:
             run_sync()
     save_state(state)
@@ -681,7 +770,7 @@ def check(args):
     print(f'Checking harness {state["project"]!r} at {ROOT}')
     print('\nAgent copies')
     if sync_is_current():
-        say('ok', 'copilot\\agents and opencode\\agents match personal\\agents')
+        say('ok', 'the Copilot and OpenCode copies match personal/agents')
     elif not dry_run:
         run_sync()
     by_tools = {}
@@ -717,7 +806,7 @@ def uninstall(args):
         if not dry_run and not links.get(home):
             links.pop(home, None)
     if 'claude' in tools and not any('claude' in t for t in links.values()):
-        link, target = plugin_junction(state)
+        link, target = plugin_link(state)
         print('\nClaude plugin')
         remove_dir_link(link, target, 'plugin')
     save_state(state)
@@ -735,26 +824,29 @@ def finish():
 def main():
     for stream in (sys.stdout, sys.stderr):
         stream.reconfigure(encoding='utf-8')
-    parser = argparse.ArgumentParser(description='Sets up the harness on this PC (Windows).')
+    parser = argparse.ArgumentParser(description='Sets up the harness on this PC (Windows, Linux or macOS).')
     parser.add_argument('--project', help='project name (first run): <PROJECT>, and its lowercase form the prefix')
     parser.add_argument('--tools', help=f'comma-separated, default all: {",".join(TOOLS)}')
     parser.add_argument('--lang', choices=LANGS, help='language of the pieces the model reads (first run; default en)')
-    parser.add_argument('--users', help='comma-separated Windows users to wire up (default: you)')
-    parser.add_argument('--home', action='append', help=argparse.SUPPRESS)   # a fake profile folder, for tests
+    parser.add_argument('--users', help='Windows: comma-separated users to wire up (default: you); '
+                                        'on Linux and macOS, run it as each user')
     parser.add_argument('--vscode-permissions', action='store_true',
                         help='VS Code: read the harness and run the sensor without asking (Copilot)')
     parser.add_argument('--force', action='store_true', help='replace a file in the way, after backing it up')
     parser.add_argument('--dry-run', action='store_true', help='only say what would be done')
     parser.add_argument('--check', action='store_true', help='check links and settings; repair the safe ones')
     parser.add_argument('--uninstall', action='store_true', help='remove links and settings; keep the harness')
+    # for tests: a fake profile folder, and another system's way of linking (symlinks need Developer Mode on Windows)
+    parser.add_argument('--home', action='append', help=argparse.SUPPRESS)
+    parser.add_argument('--platform', choices=SYSTEMS, help=argparse.SUPPRESS)
     args = parser.parse_args()
 
-    if os.name != 'nt':
-        print('setup.py only supports Windows for now. On Linux or macOS, follow the manual steps in the README '
-              '(with symlinks instead of junctions and hardlinks, and python3 instead of py -3).')
-        return 1
-    global dry_run
+    global dry_run, SYSTEM
     dry_run = args.dry_run
+    if args.platform:
+        if args.platform == 'windows' and os.name != 'nt':
+            raise SystemExit('--platform windows only works on Windows (junctions and mklink).')
+        SYSTEM = args.platform
     if args.check:
         return check(args)
     if args.uninstall:
