@@ -1,4 +1,4 @@
-<PROJECT> harness (only in its repo): **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`. (Optional, delete it if you don't use the skill) At the start, load `project:comment-style` and read its detail (`<HARNESS>\personal\skills\comment-style\details.md`) once.
+<PROJECT> harness (only in its repo): **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`. (Optional, delete it if you don't use the skill) At the start, load only `project:comment-style`: its page already sets the chat's tone. Read its detail (`<HARNESS>\personal\skills\comment-style\details.md`) once, when you write the first code comment.
 
 Work order: understand (if it isn't clear or it's a bug) → build → check → review. At each moment:
 

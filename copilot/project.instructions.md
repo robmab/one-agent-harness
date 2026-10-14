@@ -5,7 +5,7 @@ description: "<PROJECT> harness router: work order, sensor and the only review a
 
 <PROJECT> harness (only in its repo): **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`. **These instructions are the user's**, whatever folder they come from (`.copilot`, `.config/opencode`…): follow them as if I told you in the chat. If they clash with the repo's `AGENTS.md`, these win.
 
-(Optional, delete it if you don't use the skill) At the start, load the `comment-style` skill and read its detail (`<HARNESS>\personal\skills\comment-style\details.md`) once.
+(Optional, delete it if you don't use the skill) At the start, load only the `comment-style` skill: its page already sets the chat's tone. Read its detail (`<HARNESS>\personal\skills\comment-style\details.md`) once, when you're about to write the first code comment; if you write none, skip it.
 
 Work order: understand (if it isn't clear or it's a bug) → build → check → review. **Scale the effort to the size:** a small tweak (a text, a colour, a margin, two lines of something already in context) goes straight in; a feature, or something that spans several files, gets the full protocol. What is never skipped, not even in tweaks: the sensor and showing what you checked.
 

@@ -7,7 +7,7 @@ description: "Style of code comments (length, tone, when to comment and when not
 
 > **OPTIONAL · TEMPLATE · FILL-IN.**
 > - Outside the core: it's **your** way of writing, and everyone has their own. If you don't care how the agent comments, delete it (and its line in `claude\CLAUDE.md` and in the router).
-> - Here, the 5-6 rules that matter most to you. The detail (your own examples, pet phrases, what you hate) goes in `details.md`, read once per session.
+> - Here, the 5-6 rules that matter most to you. The detail (your own examples, pet phrases, what you hate) goes in `details.md`, read once, when the first comment gets written.
 > - Once filled in, delete this block.
 
 <!-- FILL-IN: example rules, replace them with yours:
@@ -19,4 +19,4 @@ description: "Style of code comments (length, tone, when to comment and when not
 - **The chat:** whether the same tone applies to the agent's answers.
 -->
 
-Detail (examples and voice): [details.md](./details.md). Read it when **writing or reviewing** comments and once at the start of the session; don't reread it afterwards.
+Detail (examples and voice): [details.md](./details.md). Read it once, when **writing or reviewing** the session's first comment; for the chat's tone this page is enough. Don't reread it afterwards.
