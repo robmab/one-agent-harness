@@ -5,6 +5,8 @@ description: "Estilo de los comentarios del código (longitud, tono, cuándo se 
 
 # Estilo de comentarios y tono
 
+> **CONCEPTO:** tu voz: cómo comenta el agente el código y cómo te habla. Sin esto, los comentarios salen largos, impersonales y explicando lo obvio.
+
 > **OPTIONAL · PLANTILLA · FILL-IN.**
 > - Fuera del core: es **tu** forma de escribir, y cada persona tiene la suya. Si no te importa cómo comenta el agente, bórrala (y su línea en `claude\CLAUDE.md` y en el router).
 > - Aquí, las 5-6 reglas que más te importan. El detalle (ejemplos tuyos, muletillas, lo que odias) va en `detalle.md`, que se lee una vez, al escribir el primer comentario.

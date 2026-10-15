@@ -56,12 +56,14 @@ Ideas clave de las fuentes:
 |---|---|---|---|
 | `verify-before-done` | superpowers `verification-before-completion` | el agente dice "hecho" sin haber ejecutado nada | tabla de comandos del proyecto y salida honrada «Sin comprobar» |
 | `systematic-debugging` | superpowers `systematic-debugging` | arreglos a ciegas, parches sobre el síntoma | sin test obligatorio: vale una reproducción; tabla de capas del proyecto |
-| `interview-me` | addyosmani `interview-me` | tickets ambiguos que el agente rellena inventando | mirar antes el repo; preguntas para el cliente; nada de ficheros en el repo |
+| `interview-me` | addyosmani `interview-me` + la idea de superpowers `writing-plans` | tickets ambiguos que el agente rellena inventando; tareas grandes que se descubren sobre la marcha | mirar antes el repo; preguntas para el cliente; nada de ficheros en el repo; un plan corto sin código para las tareas grandes, dentro de la misma skill |
 | `official-sources` | addyosmani `source-driven-development` | código de memoria para la versión equivocada | el repo como primera fuente; tabla de versiones y trampas |
 | `reviewer` (único agente) | addyosmani `code-review-and-quality` | nadie revisa corrección, seguridad ni rendimiento | 6 ejes con los convenios incluidos; lee las skills de conocimiento como checklists; contexto limpio; no edita; pasa antes el sensor |
 | `check.py` + hook | propio | las reglas importantes dependían de la memoria del modelo | regex del stack + sintaxis, tras cada edición |
 
 **Un solo agente:** la tendencia de tener muchos revisores especializados se descarta. Cada subagente empieza sin contexto, gasta más tokens y repasa otra vez el mismo diff. Un agente nuevo solo compensa por ojos frescos, permisos distintos o para aislar un trabajo pesado. Un "revisor de X" se hace como skill (checklist) que lee el `reviewer`.
+
+**En la plantilla van como idea, no como skills terminadas** (desde la v0.4.1): cada una conserva su concepto (el hueco que tapa, el de la tabla de arriba) y deja sus apartados en `FILL-IN`. No hay un harness bueno para todos los proyectos, pero la estructura sí vale para todos; las versiones adaptadas siguen completas en [examples](examples/README.es.md), como punto de partida.
 
 **Probado en la práctica** (en el proyecto donde nació la plantilla):
 - un modelo local escribió sintaxis de una versión posterior aunque la skill la prohibía: solo la cumplía invocándola a mano;
@@ -71,7 +73,7 @@ Ideas clave de las fuentes:
 
 ### Descartadas
 - `brainstorming`: es "MUST antes de cualquier cosa creativa", demasiado invasiva; `interview-me` cubre lo útil.
-- `test-driven-development`, `writing-plans`, `executing-plans`, `subagent-driven-development`: TDD obligatorio, worktrees y planes pesados. Puede tener sentido en un proyecto con buena base de tests.
+- `test-driven-development`, `writing-plans`, `executing-plans`, `subagent-driven-development`: TDD obligatorio, worktrees y planes pesados. Puede tener sentido en un proyecto con buena base de tests. De `writing-plans` solo entró la idea: un plan corto para las tareas grandes, dentro de `interview-me`.
 - `doubt-driven-development`: tira de las CLIs de Codex y Gemini.
 - `constraint-driven-development`: escribe `CONSTRAINTS.md` en el repo.
 - `context-engineering`: es lo que hace esta plantilla.

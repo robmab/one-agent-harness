@@ -8,10 +8,14 @@
     "personal/skills/verify-before-done": "personal/skills/verificar-antes-de-acabar",
     "personal/skills/comment-style": "personal/skills/estilo-comentarios",
     "personal/skills/comment-style/details.md": "personal/skills/comment-style/detalle.md",
-    "personal/skills/interview-me/interview.md": "personal/skills/interview-me/entrevista.md",
     "personal/agents/reviewer.agent.md": "personal/agents/revisor.agent.md",
     "copilot/agents/reviewer.agent.md": "copilot/agents/revisor.agent.md",
     "opencode/agents/reviewer.md": "opencode/agents/revisor.md",
-    "personal/checklists/security.md": "personal/checklists/seguridad.md"
+    "personal/checklists/security.md": "personal/checklists/seguridad.md",
+    "examples/skills/interview-me": "examples/skills/entrevistame",
+    "examples/skills/systematic-debugging": "examples/skills/depuracion-sistematica",
+    "examples/skills/verify-before-done": "examples/skills/verificar-antes-de-acabar",
+    "examples/skills/official-sources": "examples/skills/fuentes-oficiales",
+    "examples/skills/interview-me/interview.md": "examples/skills/interview-me/entrevista.md"
   }
 }

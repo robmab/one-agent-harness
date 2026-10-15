@@ -90,6 +90,11 @@ def check_skills():
             error(path, 'missing description: it is the only thing the model sees before loading the skill')
         elif len(desc) > 1024:
             error(path, f'description is {len(desc)} chars (1024 max)')
+        elif 'Use when' not in desc:
+            error(path, 'the description has no "Use when:": say when the skill kicks in')
+        # a template skill opens with its concept: what it is for and what it prevents
+        if '**CONCEPT:**' not in body:
+            error(path, 'no "**CONCEPT:**" line: say what the skill is for before its FILL-IN sections')
         words = len(body.split())
         if words > SKILL_WORDS_WARN:
             warn(path, f'{words} words in the body (aim for 600 or fewer)')

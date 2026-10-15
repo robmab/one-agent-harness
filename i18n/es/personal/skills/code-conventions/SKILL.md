@@ -5,6 +5,8 @@ description: "Convenios de código de <PROJECT>: nombrado, dónde va la lógica,
 
 # Convenios de código — <PROJECT>
 
+> **CONCEPTO:** las reglas que valen siempre para el código del proyecto, cargadas antes de escribir o revisar nada. Sin ellas, el agente escribe "buen código" en general, no código que encaje aquí.
+
 > **PLANTILLA · FILL-IN.**
 > - Es la skill que más entra: antes de escribir o revisar cualquier código. Solo reglas que valgan **siempre**; lo de un módulo concreto, a otra skill.
 > - Objetivo: 700 palabras como mucho, reglas de una línea y sin ejemplos largos.

@@ -5,6 +5,8 @@ description: "<PROJECT> design system: components, colours, typography, spacing 
 
 # UI design — <PROJECT>
 
+> **CONCEPT:** the project's design system (tokens, components, patterns), loaded only when the UI is touched. Without it the agent invents components and colours that already exist.
+
 > **TEMPLATE · FILL-IN.**
 > - It only loads when the UI is touched, so it can be longer than the conventions. But past ~600 words, keep the **index** here and split the detail into side files (`components.md`, `colours.md`…) read only when needed.
 > - If the project already keeps its design system in a team repo, leave only the pointer to that file.

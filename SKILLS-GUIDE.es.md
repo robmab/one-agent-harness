@@ -23,7 +23,7 @@ Conocimiento y proceso son **guías** (skills, `SKILL.md`). Control son **sensor
 **Estado en la plantilla:**
 - **READY** (lista): vale tal cual.
 - **ADJUST** (ajustar): el método vale; hay que rellenar sus tablas del proyecto.
-- **FILL-IN** (rellenar): plantilla vacía; el contenido es del proyecto.
+- **FILL-IN** (rellenar): plantilla con su concepto (para qué sirve y qué evita); el contenido es del proyecto.
 - **OPTIONAL** (opcional): fuera del core (`comment-style`).
 
 ## 2. Qué es el core
@@ -36,7 +36,7 @@ Conocimiento y proceso son **guías** (skills, `SKILL.md`). Control son **sensor
 
 | Pieza | Qué es | Estado en la plantilla |
 |---|---|---|
-| **6 skills** | conocimiento: `code-conventions`, `ui-design`, `official-sources`. Proceso: `interview-me`, `systematic-debugging`, `verify-before-done` | 2 FILL-IN, 3 ADJUST, 1 READY |
+| **6 skills** | conocimiento: `code-conventions`, `ui-design`, `official-sources`. Proceso: `interview-me`, `systematic-debugging`, `verify-before-done` | 6 FILL-IN, cada una con su concepto |
 | **1 sensor** | `check` + hook | ADJUST (`MARKER`, `RULES`…) |
 | **1 agente** | `reviewer` | READY |
 | **base** | `AGENTS.md`, el índice que entra siempre | `AGENTS.template.md` |
@@ -82,33 +82,37 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 - **Qué rellenar:** las secciones. Si crece, un índice aquí y el detalle en ficheros al lado que se lean bajo demanda.
 - **Entra:** sola, **solo** con maquetación, estilos o componentes de UI.
 
-### 🔵 `official-sources` · ADJUST
+### 🔵 `official-sources` · FILL-IN
 - **Qué:** las versiones reales del stack, sus trampas y el orden para informarse: repo → trampas → doc oficial de esa versión.
 - **Tapa:** que el modelo escriba de memoria la última versión de cada librería. Visto en la práctica: un modelo local metió `slot-scope` (Vue 2.5) en un proyecto con Vue 2.3: el slot salía vacío sin avisar.
 - **Qué rellenar:** la tabla del stack (versión, dónde se ve, doc de esa versión) y las trampas, una línea por trampa con lo que **sí** se usa.
 - **Entra:** sola con modelos buenos. Con modelos locales pequeños, a mano: `/official-sources`.
+- **Ejemplo completo:** `fuentes-oficiales` en [examples](examples/README.es.md), para copiarlo o sacar ideas.
 
 ### 🔵 `comment-style` · OPTIONAL (fuera del core)
 - **Qué:** tu voz: cómo quieres los comentarios (longitud, tono, cuándo sí y cuándo no) y el tono del chat.
 - **Qué rellenar:** tus reglas, y en el detalle (`details.md`), **ejemplos reales tuyos**. Si no te importa cómo comenta el agente, bórrala.
 - **Entra:** al empezar la sesión: en Claude, por el hook `SessionStart`; en Copilot, porque se lo pide su router. Si no, `/comment-style`.
 
-### 🟢 `interview-me` · READY
+### 🟢 `interview-me` · FILL-IN
 - **Qué:** cuando un ticket no está claro, ni para el agente ni para ti. Primero **mira en el repo** qué hace hoy eso; luego hipótesis con %, **una pregunta cada vez con su suposición**, y un resumen con la línea "Fuera" obligatoria. Lo que solo sabe el cliente va a una lista de **preguntas para el cliente**.
 - **Y planifica:** si la tarea es grande, la baja a un plan de 10-20 líneas sin código (pasos por capas, cada uno con cómo se comprueba, qué reutiliza, qué no se toca) más un repaso de lo que se suele olvidar en el proyecto. Lo apruebas antes de editar. Inspirado en `writing-plans` de superpowers, sin su código por paso, sus commits ni sus subagentes. Vive dentro de `interview-me` para no sumar skills.
 - **Opcional:** lo que suele faltar en los tickets de ese proyecto y lo que se suele olvidar en sus planes.
 - **Entra:** cuando se lo pides ("entrevístame", "no sé a qué se refiere este ticket") o si el ticket no deja claro el qué, para quién o por qué. Nunca en tareas mecánicas.
+- **Ejemplo completo:** `entrevistame` en [examples](examples/README.es.md), para copiarlo o sacar ideas.
 
-### 🟢 `systematic-debugging` · ADJUST
+### 🟢 `systematic-debugging` · FILL-IN
 - **Qué:** sin causa raíz no hay arreglo. Reproducir → seguir el dato por las capas → una hipótesis cada vez → un solo arreglo. **Con 3 arreglos fallidos, para**: el problema es de diseño.
 - **Qué rellenar:** la tabla de capas de la aplicación y cómo mirar cada una, y las trampas propias del proyecto.
 - **Entra:** sola, ante un bug o un error, antes de proponer ningún arreglo.
+- **Ejemplo completo:** `depuracion-sistematica` en [examples](examples/README.es.md), para copiarlo o sacar ideas.
 
-### 🟢 `verify-before-done` · ADJUST
+### 🟢 `verify-before-done` · FILL-IN
 - **Qué:** nada de "hecho" sin una prueba ejecutada en ese mismo mensaje, y una salida honrada: «Comprobado» / «Sin comprobar».
 - **Tapa:** visto en la práctica: un modelo potente dijo "validado sin errores de editor" sin haber ejecutado nada.
 - **Qué rellenar:** las filas de la tabla con los comandos reales (tests, lint, build…).
 - **Entra:** sola, al ir a dar algo por terminado o antes de un commit.
+- **Ejemplo completo:** `verificar-antes-de-acabar` en [examples](examples/README.es.md), para copiarlo o sacar ideas.
 
 ### 🟠 `check` + hook · ADJUST
 - **Qué:** `personal\scripts\check.py`, solo con la librería estándar.

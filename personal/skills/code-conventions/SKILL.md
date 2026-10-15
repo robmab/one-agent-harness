@@ -5,6 +5,8 @@ description: "<PROJECT> code conventions: naming, where logic lives, database, f
 
 # Code conventions — <PROJECT>
 
+> **CONCEPT:** the rules that always apply to the project's code, loaded before writing or reviewing any of it. Without them the agent writes "good code" in general, not code that fits here.
+
 > **TEMPLATE · FILL-IN.**
 > - This is the skill that loads the most: before writing or reviewing any code. Only rules that **always** apply; anything specific to one module goes to another skill.
 > - Target: 700 words max, one-line rules, no long examples.

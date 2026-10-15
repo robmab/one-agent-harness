@@ -5,6 +5,8 @@ description: "Style of code comments (length, tone, when to comment and when not
 
 # Comment style and tone
 
+> **CONCEPT:** your voice: how the agent comments code and talks to you. Without it, comments come out long, impersonal and explaining the obvious.
+
 > **OPTIONAL · TEMPLATE · FILL-IN.**
 > - Outside the core: it's **your** way of writing, and everyone has their own. If you don't care how the agent comments, delete it (and its line in `claude\CLAUDE.md` and in the router).
 > - Here, the 5-6 rules that matter most to you. The detail (your own examples, pet phrases, what you hate) goes in `details.md`, read once, when the first comment gets written.

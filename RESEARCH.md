@@ -56,12 +56,14 @@ Key ideas from the sources:
 |---|---|---|---|
 | `verify-before-done` | superpowers `verification-before-completion` | the agent says "done" without having run anything | a table of the project's commands and an honest «Not checked» |
 | `systematic-debugging` | superpowers `systematic-debugging` | blind fixes, patches over the symptom | no mandatory test: a reproduction will do; a table of the project's layers |
-| `interview-me` | addyosmani `interview-me` | ambiguous tickets the agent fills in by inventing | look at the repo first; questions for the customer; no files in the repo |
+| `interview-me` | addyosmani `interview-me` + the idea of superpowers `writing-plans` | ambiguous tickets the agent fills in by inventing; big tasks discovered on the fly | look at the repo first; questions for the customer; no files in the repo; a short plan without code for big tasks, inside the same skill |
 | `official-sources` | addyosmani `source-driven-development` | code from memory for the wrong version | the repo as the first source; a table of versions and traps |
 | `reviewer` (the only agent) | addyosmani `code-review-and-quality` | nobody reviews correctness, security or performance | 6 axes with the conventions included; reads the knowledge skills as checklists; clean context; doesn't edit; runs the sensor first |
 | `check.py` + hook | our own | important rules depended on the model's memory | stack regexes + syntax, after every edit |
 
 **A single agent:** the trend of having many specialised reviewers is rejected. Every subagent starts with no context, spends more tokens and goes over the same diff again. A new agent only pays off for fresh eyes, different permissions or to isolate heavy work. A "reviewer for X" is written as a skill (checklist) that the `reviewer` reads.
+
+**In the template they ship as ideas, not as finished skills** (since v0.4.1): each one keeps its concept (the gap it fills, from the table above) and leaves its sections as `FILL-IN`. No harness is good for every project, but the structure is; the adapted versions stay complete in [examples](examples/README.md), as the starting point.
 
 **Tested in practice** (in the project where the template was born):
 - a local model wrote syntax from a later version even though the skill forbade it: it only followed it when invoked by hand;
@@ -71,7 +73,7 @@ Key ideas from the sources:
 
 ### Discarded
 - `brainstorming`: it's "MUST before anything creative", too invasive; `interview-me` covers the useful part.
-- `test-driven-development`, `writing-plans`, `executing-plans`, `subagent-driven-development`: mandatory TDD, worktrees and heavy plans. They may make sense in a project with a good test base.
+- `test-driven-development`, `writing-plans`, `executing-plans`, `subagent-driven-development`: mandatory TDD, worktrees and heavy plans. They may make sense in a project with a good test base. From `writing-plans` only the idea came in: a short plan for big tasks, inside `interview-me`.
 - `doubt-driven-development`: relies on the Codex and Gemini CLIs.
 - `constraint-driven-development`: writes `CONSTRAINTS.md` into the repo.
 - `context-engineering`: it's what this template does.

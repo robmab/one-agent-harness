@@ -5,6 +5,8 @@ description: "Design system de <PROJECT>: componentes, colores, tipografía, esp
 
 # Diseño de UI — <PROJECT>
 
+> **CONCEPTO:** el sistema de diseño del proyecto (tokens, componentes, patrones), cargado solo cuando se toca la UI. Sin él, el agente se inventa componentes y colores que ya existen.
+
 > **PLANTILLA · FILL-IN.**
 > - Entra solo cuando se toca interfaz, así que puede ser más larga que los convenios. Pero si pasa de ~600 palabras, deja aquí el **índice** y separa el detalle en ficheros al lado (`componentes.md`, `colores.md`…) que se lean solo cuando hagan falta.
 > - Si el proyecto ya tiene su design system en un repo de equipo, deja solo el puntero a ese fichero.

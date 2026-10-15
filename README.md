@@ -45,6 +45,8 @@ This isn't a demo: it's the harness I use **every day at work**, on a large prod
 
 > **It is inert:** no tool loads it. You don't use it here: you **copy** it to `<ROOT>\<Project>`, fill it in and wire it up. Every pending piece is marked `FILL-IN`.
 
+> **Structure, not content:** the 6 skills come as templates. Each one opens with its **concept** (what it's for and what it prevents) and leaves its sections as `FILL-IN` for your project: no harness is good for everything, but this structure is. The complete versions of the method skills are in [examples](examples/README.md), to copy or to take ideas from.
+
 > **Language:** the template (skills, agent, router, scripts) is in English, and `setup.py --lang es` sets it up in Spanish; the docs come in English and Spanish (`*.es.md`). Write the skills, and above all their `description`, **in the language you talk to the model in**: the model matches your requests against the descriptions, and instructions in your language keep its answers and comments in it. In another language, translate them as you fill them in. *Up to v0.3.0 the template was in Spanish; the [v0.3.5 release notes](https://github.com/robmab/one-agent-harness/releases) list the old names.*
 
 **Placeholders used throughout the template:**
@@ -60,6 +62,7 @@ This isn't a demo: it's the harness I use **every day at work**, on a large prod
 | **README** (this one) | what it contains, how to set up a new project and how to coexist with others |
 | [SKILLS-GUIDE](SKILLS-GUIDE.md) | what each piece does, what type it is, when it kicks in and what has to be filled in |
 | [RESEARCH](RESEARCH.md) | where it all comes from: what a harness is, repos analysed, skills adapted and discarded |
+| [examples](examples/README.md) | complete versions of the 4 method skills (v0.4.0), to copy or take ideas from; they aren't installed |
 | [OPTIONAL-SKILLS](OPTIONAL-SKILLS.md) | catalogue of optional skills: what each adds, when to add it, the noise it brings, and which ones are discouraged |
 | [AGENTS.template.md](AGENTS.template.md) | the index that goes at the root of the project repo |
 | [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | MIT licence and credits for the adapted skills (§9) |
@@ -93,6 +96,7 @@ one-agent-harness\
 ├─ LICENSE · THIRD-PARTY-NOTICES.md · .gitattributes
 ├─ .github\                              CI of this repo (not part of the template; drop it when copying)
 ├─ VERSION                               template version this harness was copied from
+├─ examples\skills\                      complete method skills, as reference: no tool loads them
 ├─ AGENTS.template.md                    → to the repo root as AGENTS.md
 ├─ setup.py                              READY     sets it up on this PC: names, language and links (§3.2)
 ├─ i18n\es\                              the pieces in Spanish, for setup.py --lang es (gone once set up)
@@ -113,10 +117,10 @@ one-agent-harness\
    ├─ skills\
    │  ├─ code-conventions\               FILL-IN   project conventions
    │  ├─ ui-design\                      FILL-IN   design system
-   │  ├─ official-sources\               ADJUST    stack table and traps
-   │  ├─ verify-before-done\             ADJUST    test commands
-   │  ├─ systematic-debugging\           ADJUST    layers and traps
-   │  ├─ interview-me\                   READY
+   │  ├─ official-sources\               FILL-IN   real stack versions and their traps
+   │  ├─ verify-before-done\             FILL-IN   evidence before saying "done"
+   │  ├─ systematic-debugging\           FILL-IN   root cause before fixing
+   │  ├─ interview-me\                   FILL-IN   clarify before building, and plan if it's big
    │  └─ comment-style\                  OPTIONAL  your voice (comments and chat); outside the core
    ├─ agents\
    │  └─ reviewer.agent.md               READY     the only agent: in-depth review, conventions included, never edits
@@ -127,7 +131,7 @@ one-agent-harness\
 
 - **READY:** works as is.
 - **ADJUST:** the method works; fill in its project tables.
-- **FILL-IN:** empty template; the content belongs to the project.
+- **FILL-IN:** template with its concept; the content belongs to the project (the method skills have a complete version in `examples\`).
 - **OPTIONAL:** outside the core; keep it or drop it.
 
 ## 2. How each tool finds it
@@ -206,6 +210,8 @@ To list everything pending:
 Select-String -Path '<HARNESS>\*' -Pattern 'FILL-IN' -Recurse
 ```
 
+Each skill opens with its **concept** and leaves its sections as `FILL-IN`. For the method ones (`interview-me`, `systematic-debugging`, `verify-before-done`, `official-sources`) you can start from their complete version in [examples](examples/README.md) and adapt it.
+
 Recommended order (most used first):
 
 1. **`code-conventions`:** used the most. If the team already has its conventions in the repo, just a pointer here.
@@ -267,6 +273,7 @@ Rules:
 ### Writing a skill that works
 
 - **`name`** equal to the folder name, lowercase letters, digits and hyphens, **no `_`**: otherwise it fails silently.
+- **Concept first:** a `**CONCEPT:**` line saying what the skill is for and what it prevents. The model follows a rule better when it knows why.
 - **The `description` is all the model sees** until it decides to load the skill. It must say **when** to use it, not summarise what it does, and include **concrete words** from real requests ("component", "slot", "query"…). If it's generic, it won't trigger.
 - **Short:** 600 words max, tables over paragraphs. If it needs more, an index plus side files read on demand.
 - **If it's project-specific**, first line: "If you're not in the <PROJECT> repo, ignore this skill". Claude skills apply across all projects.
@@ -332,7 +339,7 @@ OpenCode is the worked example (§A.5): step 2 uncovered the walk up to your hom
 ## 8. Checks (CI)
 
 On every push, [CI](.github/workflows/ci.yml) validates the template itself:
-- **Structure** ([`validate.py`](.github/scripts/validate.py)): skill and agent frontmatter (`name` equal to the folder, no `_`; the original agent with Claude's tool names), no BOM, valid JSON, no `strict`/`version` in the marketplace, the hook's script exists, well-formed SVGs, `VERSION` in SemVer, Markdown links and anchors, and no real user paths. And for OpenCode: the config parses, the allowlist covers every skill in `personal\skills`, the generated agent copies are up to date (OpenCode's without `tools:`, Copilot's with VS Code's names), and the script the plugin runs exists. And the translations in `i18n\`: one for every piece the model reads, with the same lines and headings as the English one (so a change in one shows up in the other), and the names they get after `setup.py`.
+- **Structure** ([`validate.py`](.github/scripts/validate.py)): skill and agent frontmatter (every skill with a `Use when` in its description and a `**CONCEPT:**` line; `name` equal to the folder, no `_`; the original agent with Claude's tool names), no BOM, valid JSON, no `strict`/`version` in the marketplace, the hook's script exists, well-formed SVGs, `VERSION` in SemVer, Markdown links and anchors, and no real user paths. And for OpenCode: the config parses, the allowlist covers every skill in `personal\skills`, the generated agent copies are up to date (OpenCode's without `tools:`, Copilot's with VS Code's names), and the script the plugin runs exists. And the translations in `i18n\`: one for every piece the model reads, with the same lines and headings as the English one (so a change in one shows up in the other), and the names they get after `setup.py`.
 - **Sensor:** `check.py --selftest` on Ubuntu and Windows (well-formed `RULES`, engine on sample files), in both languages.
 - **`setup.py`** ([`test_setup.py`](.github/scripts/test_setup.py), on Windows, Linux and macOS): on a temporary copy and fake profiles, one of them already in use, in every language: install, run again without changes, `--check` repairing a broken hardlink and a missing junction (and not touching a copy with other text), `--uninstall` leaving the profiles as they were.
 

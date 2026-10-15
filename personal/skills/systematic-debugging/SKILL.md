@@ -5,60 +5,30 @@ description: "Debug by finding the root cause before touching anything: reproduc
 
 # Systematic debugging
 
-**Iron rule: no root cause, no fix.** Patching the symptom is a failure, even if the symptom goes away.
+> **CONCEPT:** no root cause, no fix. Patching the symptom is a failure even if it goes away; without this, the agent piles up guesses and breaks something else by the third try.
 
-> **TEMPLATE · FILL-IN** the layer table and the project's traps. The method works as is. Once filled in, delete this block.
+> **TEMPLATE · FILL-IN** each section. Full example: [examples/skills/systematic-debugging](../../../examples/skills/systematic-debugging/SKILL.md). Once filled in, delete this block.
 
-## 1. Investigate (before proposing anything)
-
-- **Read the whole error:** the server trace, the browser console and the Network tab. The line and file usually give the answer.
-- **Reproduce it:** exact steps, with which user and which data. If it doesn't reproduce, gather more data; don't guess.
-- **Look at what changed:** `git log`, `git diff`, `git log -S "text"` to see when something came in.
-- **Follow the data through the layers** until you see where it goes wrong:
+## 1. Investigate
 
 | Layer | How to look at it |
 |---|---|
-| Database | a **read-only** query |
-| <!-- FILL-IN: model / service --> | what it returns: a temporary print or log |
-| <!-- FILL-IN: controller / API --> | what comes out; if it's JSON, the response in Network |
-| <!-- FILL-IN: template --> | the rendered HTML, not the template |
-| <!-- FILL-IN: frontend --> | `console.log` and the console |
+| <!-- FILL-IN: e.g. Database --> | <!-- e.g. a read-only query --> |
+| <!-- FILL-IN: e.g. API --> | <!-- e.g. the response in the Network tab --> |
+
+<!-- FILL-IN: before the layers, e.g.: read the whole error, reproduce it, look at what changed (git log). -->
 
 ## 2. Compare with something that works
-
-Find something similar in the repo that does work. Write down **every** difference, even the silly-looking ones.
+<!-- FILL-IN: e.g. find something similar in the repo that works and list every difference. -->
 
 ## 3. One hypothesis at a time
-
-- Write it down: "I think it's X because Y".
-- Test it with the **smallest** change, one variable only.
-- If that's not it, a new hypothesis; don't pile fixes on top of each other.
-- If you don't understand it, say so: "I don't understand X".
+<!-- FILL-IN: e.g. "I think it's X because Y", tested with the smallest change. -->
 
 ## 4. Fix
+<!-- FILL-IN: e.g. one change at the source; after 3 failed fixes, stop and rethink. -->
 
-- **First, have the reproduction at hand.** A test is better if possible, but a list of steps, a script or a query that shows the failure and then shows it's gone will do.
-- **One change, at the source.** No "while I'm at it, I'll fix this other thing".
-- **Check with `verify-before-done`** and remove the temporary prints and logs.
-- **After 3 failed fixes, stop.** The problem is probably in the design, not the line. Explain it and decide before a fourth attempt.
+## Project traps
+<!-- FILL-IN: what fails silently here (cache, data, a server that stays down…). -->
 
-## Typical traps
-
-- **No writes without permission** to the database or shared environments.
-- **Cache:** the browser caches JS and CSS; reload with Ctrl+F5 before judging a change broken.
-- **Data:** if the development database is a copy of production or of a customer, the failure may depend on that data. Try with other data.
-- **Silences:** an auto-reloading server can stay down after an import error; check its console.
-<!-- FILL-IN: the project's own traps (libraries that fail silently, files processed before being served, logs whose level must be raised…). -->
-
-## Signs you're skipping this
-
-- "Let me try changing X and see."
-- "It's probably X", without having seen it.
-- Several changes at once and "let's see now".
-- A list of fixes without having investigated.
-- "One more try" when you're already at two.
-
-If you catch yourself in one, go back to step 1.
-
----
-Adapted from `systematic-debugging` of [obra/superpowers](https://github.com/obra/superpowers) @ `bb92a77` (2026-10-10) (MIT).
+## Red flags
+<!-- FILL-IN: 2-3. E.g.: "let me try X and see"; several changes at once. -->

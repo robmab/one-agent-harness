@@ -45,6 +45,8 @@ No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una apl
 
 > **Es inerte:** no la carga ninguna herramienta. No se usa aquí: se **copia** a `<ROOT>\<Project>`, se rellena y se conecta. Cada pieza pendiente está marcada con `FILL-IN`.
 
+> **Estructura, no contenido:** las 6 skills vienen como plantillas. Cada una empieza con su **concepto** (para qué sirve y qué evita) y deja sus apartados en `FILL-IN` para tu proyecto: no hay un harness bueno para todo, pero esta estructura sí vale para todos. Las versiones completas de las skills de método están en [examples](examples/README.es.md), para copiarlas o sacar ideas.
+
 > **Idioma:** la plantilla (skills, agente, router y scripts) está **en inglés**, y `setup.py --lang es` la monta en español; la documentación, en inglés y en español (`*.es.md`). Escribe las skills, y sobre todo su `description`, **en el idioma en que hablas con el modelo**: el modelo compara lo que le pides con las descripciones, y unas instrucciones en tu idioma mantienen en él sus respuestas y sus comentarios. En otro idioma, tradúcelas al rellenarlas. *Hasta la v0.3.0 la plantilla estaba en español; las [notas de la v0.3.5](https://github.com/robmab/one-agent-harness/releases) traen los nombres antiguos.*
 
 **Nombres que se usan en toda la plantilla:**
@@ -60,6 +62,7 @@ No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una apl
 | **README** (este) | qué trae, cómo montar un proyecto nuevo y cómo convivir con otros |
 | [SKILLS-GUIDE](SKILLS-GUIDE.es.md) | qué hace cada pieza, de qué tipo es, en qué momento entra y qué hay que rellenar |
 | [RESEARCH](RESEARCH.es.md) | de dónde sale todo: qué es un harness, repos analizados, skills adaptadas y descartadas |
+| [examples](examples/README.es.md) | versiones completas de las 4 skills de método (v0.4.0), para copiar o sacar ideas; no se instalan |
 | [OPTIONAL-SKILLS](OPTIONAL-SKILLS.es.md) | catálogo de skills opcionales: qué aporta cada una, cuándo meterla, qué ruido mete y cuáles se desaconsejan |
 | [AGENTS.template.md](AGENTS.template.md) *(EN)* | el índice que va en la raíz del repo del proyecto |
 | [LICENSE](LICENSE) · [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md) | licencia MIT y créditos de las skills adaptadas (§9) |
@@ -76,6 +79,7 @@ one-agent-harness\
 ├─ LICENSE · THIRD-PARTY-NOTICES.md · .gitattributes
 ├─ .github\                              CI de este repo (no es de la plantilla; se quita al copiar)
 ├─ VERSION                               versión de la plantilla de la que sale este harness
+├─ examples\skills\                      las skills de método completas, de referencia: no las carga ninguna herramienta
 ├─ AGENTS.template.md                    → a la raíz del repo como AGENTS.md
 ├─ setup.py                              READY     lo monta en este PC: nombres, idioma y enlaces (§3.2)
 ├─ i18n\es\                              las piezas en español, para setup.py --lang es (se va al montar)
@@ -96,10 +100,10 @@ one-agent-harness\
    ├─ skills\
    │  ├─ code-conventions\               FILL-IN   convenios del proyecto
    │  ├─ ui-design\                      FILL-IN   design system
-   │  ├─ official-sources\               ADJUST    tabla del stack y trampas
-   │  ├─ verify-before-done\             ADJUST    comandos de prueba
-   │  ├─ systematic-debugging\           ADJUST    capas y trampas
-   │  ├─ interview-me\                   READY
+   │  ├─ official-sources\               FILL-IN   las versiones reales del stack y sus trampas
+   │  ├─ verify-before-done\             FILL-IN   pruebas antes de decir "hecho"
+   │  ├─ systematic-debugging\           FILL-IN   causa raíz antes de arreglar
+   │  ├─ interview-me\                   FILL-IN   aclarar antes de hacer, y planificar si es grande
    │  └─ comment-style\                  OPTIONAL  tu voz (comentarios y chat); fuera del core
    ├─ agents\
    │  └─ reviewer.agent.md               READY     el único agente: revisión a fondo, convenios incluidos, no edita
@@ -110,7 +114,7 @@ one-agent-harness\
 
 - **READY** (lista): vale tal cual.
 - **ADJUST** (ajustar): el método vale; hay que rellenar sus tablas.
-- **FILL-IN** (rellenar): plantilla vacía; el contenido es del proyecto.
+- **FILL-IN** (rellenar): plantilla con su concepto; el contenido es del proyecto (las skills de método tienen una versión completa en `examples\`).
 - **OPTIONAL** (opcional): fuera del core; se queda o se quita según la persona.
 
 El **core** son 6 skills + 1 sensor + 1 agente, sobre `AGENTS.md` (ver [SKILLS-GUIDE §2](SKILLS-GUIDE.es.md#2-qué-es-el-core)).
@@ -191,6 +195,8 @@ Para ver todo lo pendiente:
 Select-String -Path '<HARNESS>\*' -Pattern 'FILL-IN' -Recurse
 ```
 
+Cada skill empieza con su **concepto** y deja sus apartados en `FILL-IN`. Para las de método (`interview-me`, `systematic-debugging`, `verify-before-done`, `official-sources`) puedes partir de su versión completa en [examples](examples/README.es.md) y adaptarla.
+
 Orden recomendado (de más a menos uso):
 
 1. **`code-conventions`:** lo que más entra. Si el equipo ya tiene sus convenios en el repo, aquí solo un puntero.
@@ -252,6 +258,7 @@ Reglas:
 ### Escribir una skill que funcione
 
 - **`name`** igual que la carpeta, en minúsculas, números y guiones, **sin `_`**: si no, falla en silencio.
+- **Primero el concepto:** una línea `**CONCEPT:**` (o `**CONCEPTO:**`) que diga para qué sirve la skill y qué evita. El modelo sigue mejor una regla cuando sabe por qué.
 - **La `description` es lo único que ve el modelo** hasta que decide cargarla. Tiene que decir **cuándo** usarla, no resumir lo que hace, y llevar **palabras concretas** de las peticiones reales ("componente", "slot", "query"…). Si es genérica, no se dispara.
 - **Corta:** 600 palabras como mucho, con tablas antes que párrafos. Si necesita más, un índice y ficheros al lado que se lean bajo demanda.
 - **Si es del proyecto**, la primera línea: "Si no estás en el repo de <PROJECT>, ignora esta skill". Las skills de Claude valen en todos los proyectos.
@@ -317,7 +324,7 @@ OpenCode es el ejemplo ya hecho (§A.5): el paso 2 destapó la búsqueda hasta e
 ## 8. Comprobaciones (CI)
 
 En cada push, el [CI](.github/workflows/ci.yml) valida la propia plantilla:
-- **Estructura** ([`validate.py`](.github/scripts/validate.py)): frontmatter de skills y agente (`name` igual que la carpeta, sin `_`; el agente original con los nombres de herramienta de Claude), sin BOM, JSON válidos, sin `strict`/`version` en el marketplace, que exista el script del hook, SVG bien formados, `VERSION` en SemVer, enlaces y anclas de los Markdown, y ninguna ruta de usuario real. Y en OpenCode: la config se parsea, la lista blanca incluye todas las skills de `personal\skills`, las copias generadas del agente están al día (la de OpenCode sin `tools:`, la de Copilot con los nombres de VS Code), y existe el script que lanza el plugin. Y las traducciones de `i18n\`: una por cada pieza que lee el modelo, con las mismas líneas y encabezados que la inglesa (así un cambio en una se nota en la otra), y los nombres que reciben tras `setup.py`.
+- **Estructura** ([`validate.py`](.github/scripts/validate.py)): frontmatter de skills y agente (cada skill con un `Use when` en su descripción y una línea `**CONCEPT:**`; `name` igual que la carpeta, sin `_`; el agente original con los nombres de herramienta de Claude), sin BOM, JSON válidos, sin `strict`/`version` en el marketplace, que exista el script del hook, SVG bien formados, `VERSION` en SemVer, enlaces y anclas de los Markdown, y ninguna ruta de usuario real. Y en OpenCode: la config se parsea, la lista blanca incluye todas las skills de `personal\skills`, las copias generadas del agente están al día (la de OpenCode sin `tools:`, la de Copilot con los nombres de VS Code), y existe el script que lanza el plugin. Y las traducciones de `i18n\`: una por cada pieza que lee el modelo, con las mismas líneas y encabezados que la inglesa (así un cambio en una se nota en la otra), y los nombres que reciben tras `setup.py`.
 - **Sensor:** `check.py --selftest` en Ubuntu y Windows (`RULES` bien escritas y el motor sobre ficheros de ejemplo), en los dos idiomas.
 - **`setup.py`** ([`test_setup.py`](.github/scripts/test_setup.py), en Windows, Linux y macOS): sobre una copia temporal y perfiles falsos, uno de ellos ya en uso, en cada idioma: instalar, volver a lanzarlo sin cambios, `--check` reparando un hardlink roto y una junction que falta (y sin tocar una copia con otro texto), y `--uninstall` dejando los perfiles como estaban.
 

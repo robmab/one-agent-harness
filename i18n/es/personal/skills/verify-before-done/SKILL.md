@@ -5,71 +5,28 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 
 # Verificar antes de acabar
 
-**Regla de hierro: nada de "hecho" sin una prueba ejecutada en este mismo mensaje.** Si no has lanzado el comando ahora y leído su salida, no puedes afirmarlo.
+> **CONCEPTO:** nada de "hecho" sin una comprobación ejecutada en ese mismo mensaje y su salida leída; lo que no se puede comprobar se dice. Evita que el agente dé por bueno un éxito que no ha visto.
 
-> **PLANTILLA · FILL-IN** las filas de la tabla con los comandos reales del proyecto. El resto ya vale tal cual. Cuando esté rellena, borra este bloque.
+> **PLANTILLA · FILL-IN** cada apartado. Ejemplo completo: [examples/skills/verificar-antes-de-acabar](../../../examples/skills/verificar-antes-de-acabar/SKILL.md). Cuando esté relleno, borra este bloque.
 
 ## Antes de afirmar nada
+<!-- FILL-IN: los pasos. P. ej.: elegir la prueba que lo demuestra, ejecutarla ahora, leer la salida entera, decirlo con la prueba. -->
 
-1. **Qué lo demuestra:** elige el comando o la prueba que confirma la afirmación (tabla de abajo).
-2. **Ejecútalo entero**, ahora; no te fíes de una ejecución anterior.
-3. **Lee la salida completa:** código de salida, errores y avisos.
-4. **¿Confirma lo que ibas a decir?** Si sí, dilo con la prueba. Si no, di el estado real.
-
-## Qué prueba cada cosa en <PROJECT>
+## Qué prueba cada cosa
 
 | Afirmación | Prueba | No vale |
 |---|---|---|
-| Encaja con el stack y compila | `py -3 <HARNESS>\personal\scripts\check.py [ficheros]` (sin ficheros, lo cambiado en git; solo mira las líneas cambiadas): 0 errores; los avisos, revísalos | "lo he hecho con cuidado" |
-| Auditar un fichero **entero**, también lo antiguo ("audita este fichero", "¿qué incumple de los convenios?", antes de refactorizar) | el mismo comando con `--all <fichero>`; si salen muchos, **resúmelos por regla** en vez de listarlos uno a uno | revisar solo lo cambiado |
-| Pasan los tests | <!-- FILL-IN: comando de tests --> con 0 fallos | "deberían pasar" |
-| La pantalla funciona | cargar la página con el server levantado y mirar la consola del navegador | que la plantilla compile |
-| Se ve bien (bordes, sombras, solapes) | captura con zoom, en reposo y en el estado que fallaba | solo medidas |
-| Bug arreglado | repetir los pasos del síntoma original y que ya no salga | "he cambiado el código" |
-| Un subagente lo ha hecho | mirar el `git diff` tú mismo | fiarte de su informe |
-| Cumple lo pedido | releer la petición punto por punto | que compile |
-| <!-- FILL-IN: lint, build, migraciones, traducciones… --> | | |
-
-**Ojo:** lo que toque la base de datos o un entorno compartido es una prueba válida, pero **siempre con permiso antes**.
+| Encaja con el stack y compila | `py -3 <HARNESS>\personal\scripts\check.py` (sin ficheros, lo cambiado en git): 0 errores | "lo he hecho con cuidado" |
+| <!-- FILL-IN: p. ej. Pasan los tests --> | <!-- el comando de tests, 0 fallos --> | <!-- "deberían pasar" --> |
 
 ## Probar en local
-
-<!-- FILL-IN: sin credenciales (si para probar hace falta una contraseña, pide que intervenga el usuario). -->
-- **App:** <!-- FILL-IN: URL local; quién levanta el server -->
-- **Base de datos:** <!-- FILL-IN: de dónde se lee su conexión -->
-- **Datos y trucos útiles:** <!-- FILL-IN -->
+<!-- FILL-IN: sin credenciales (si para probar hace falta una contraseña, pide que intervenga el usuario). URL local y quién levanta el server, de dónde se lee la conexión a la BD, datos útiles. -->
 
 ## En el navegador
-
-- **La pestaña es la del usuario**: no le cambies el tamaño ni la dejes en otra vista.
-- **Interceptar peticiones:** en otra pestaña, y quitado al acabar (`page.unrouteAll()`). Si algo se cuelga, sospecha antes de tu instrumentación.
-- **Tres intentos fallidos sobre lo mismo: para** y busca la causa de fondo (`depuracion-sistematica`) o pregunta.
+<!-- FILL-IN (si el agente usa uno). P. ej.: la pestaña es la del usuario; intercepta peticiones en otra pestaña; tras 3 intentos fallidos, para. -->
 
 ## Si no se puede comprobar
+<!-- FILL-IN: cómo decirlo. P. ej. "Comprobado: … / Sin comprobar: …, porque …". -->
 
-Pasa a menudo: no hay tests, el server no está levantado o faltan datos. No pasa nada, pero **dilo claro** y separa lo comprobado de lo que no:
-
-```
-Comprobado: sintaxis de servicios/pedidos.py (check.py OK).
-Sin comprobar: la pantalla de edición, falta levantar el server. Para verlo: <pasos>.
-```
-
-## Señales de que te estás saltando esto
-
-- Escribir "debería funcionar", "probablemente", "parece que" o "en principio".
-- Un "¡Listo!" o "¡Perfecto!" antes de haber ejecutado nada.
-- Ir a hacer commit o PR sin comprobar.
-- Pensar "por esta vez no hace falta".
-- Dar por bueno el informe de un subagente sin mirar el diff.
-
-Si te pillas en una, para y vuelve al paso 1.
-
-| Excusa | Realidad |
-|---|---|
-| "Estoy seguro" | Estar seguro no es una prueba |
-| "Es un cambio pequeño" | Los pequeños también rompen |
-| "Ya lo probé antes" | Antes no vale, tiene que ser después del último cambio |
-| "Compila" o "el editor no se queja" | Compilar no es funcionar |
-
----
-Adaptada de `verification-before-completion` de [obra/superpowers](https://github.com/obra/superpowers) @ `bb92a77` (2026-10-10) (MIT).
+## Señales de alarma
+<!-- FILL-IN: 2-3. P. ej.: "debería funcionar"; "¡Listo!" antes de ejecutar nada; fiarse de un subagente sin el diff. -->

@@ -23,7 +23,7 @@ Knowledge and process are **guides** (skills, `SKILL.md`). Control is **sensors*
 **State in the template:**
 - **READY:** works as is.
 - **ADJUST:** the method works; its project tables have to be filled in.
-- **FILL-IN:** empty template; the content belongs to the project.
+- **FILL-IN:** template with its concept (what it is for and what it prevents); the content belongs to the project.
 - **OPTIONAL:** outside the core (`comment-style`).
 
 ## 2. What the core is
@@ -36,7 +36,7 @@ Knowledge and process are **guides** (skills, `SKILL.md`). Control is **sensors*
 
 | Piece | What it is | State in the template |
 |---|---|---|
-| **6 skills** | knowledge: `code-conventions`, `ui-design`, `official-sources`. Process: `interview-me`, `systematic-debugging`, `verify-before-done` | 2 FILL-IN, 3 ADJUST, 1 READY |
+| **6 skills** | knowledge: `code-conventions`, `ui-design`, `official-sources`. Process: `interview-me`, `systematic-debugging`, `verify-before-done` | 6 FILL-IN, each with its concept |
 | **1 sensor** | `check` + hook | ADJUST (`MARKER`, `RULES`…) |
 | **1 agent** | `reviewer` | READY |
 | **base** | `AGENTS.md`, the index that always loads | `AGENTS.template.md` |
@@ -82,33 +82,37 @@ If something isn't done in phase 3, back to 2. If a bug shows up in 2, it goes t
 - **What to fill in:** the sections. If it grows, an index here and the detail in side files read on demand.
 - **Kicks in:** on its own, **only** for layout, styles or UI components.
 
-### 🔵 `official-sources` · ADJUST
+### 🔵 `official-sources` · FILL-IN
 - **What:** the stack's real versions, their traps and the order for looking things up: repo → traps → official docs for that version.
 - **Covers:** the model writing the latest version of every library from memory. Seen in practice: a local model used `slot-scope` (Vue 2.5) in a project on Vue 2.3: the slot came out empty with no warning.
 - **What to fill in:** the stack table (version, where it shows, docs for that version) and the traps, one line per trap with what **is** used.
 - **Kicks in:** on its own with good models. With small local models, by hand: `/official-sources`.
+- **Complete example:** `official-sources` in [examples](examples/README.md), to copy or take ideas from.
 
 ### 🔵 `comment-style` · OPTIONAL (outside the core)
 - **What:** your voice: how you want comments (length, tone, when yes and when no) and the tone of the chat.
 - **What to fill in:** your rules and, in the detail, **real examples of yours**. If you don't care how the agent comments, delete it.
 - **Kicks in:** at the start of the session: in Claude, through the `SessionStart` hook; in Copilot, because its router asks for it. Otherwise, `/comment-style`.
 
-### 🟢 `interview-me` · READY
+### 🟢 `interview-me` · FILL-IN
 - **What:** when a ticket isn't clear, to the agent or to you. First it **looks in the repo** at what that does today; then a hypothesis with a %, **one question at a time with its guess**, and a summary with a mandatory "Out" line. What only the customer knows goes on a list of **questions for the customer**.
 - **And plans:** if the task is big, it turns it into a 10-20 line plan with no code (steps by layer, each with how it's checked, what it reuses, what isn't touched) plus a check of what usually gets forgotten in the project. You approve it before any edit. Inspired by superpowers' `writing-plans`, without its code per step, its commits or its subagents. It lives inside `interview-me` so the skill count doesn't grow.
 - **Optional:** what this project's tickets usually leave out, and what its plans usually forget.
 - **Kicks in:** when you ask for it ("interview me", "I don't know what this ticket means") or if the ticket doesn't make clear the what, for whom or why. Never on mechanical tasks.
+- **Complete example:** `interview-me` in [examples](examples/README.md), to copy or take ideas from.
 
-### 🟢 `systematic-debugging` · ADJUST
+### 🟢 `systematic-debugging` · FILL-IN
 - **What:** no root cause, no fix. Reproduce → follow the data through the layers → one hypothesis at a time → a single fix. **After 3 failed fixes, stop**: the problem is in the design.
 - **What to fill in:** the table of the application's layers and how to look at each one, and the project's own traps.
 - **Kicks in:** on its own, with a bug or an error, before proposing any fix.
+- **Complete example:** `systematic-debugging` in [examples](examples/README.md), to copy or take ideas from.
 
-### 🟢 `verify-before-done` · ADJUST
+### 🟢 `verify-before-done` · FILL-IN
 - **What:** no "done" without a check run in that same message, and an honest output: "Checked" / "Not checked".
 - **Covers:** seen in practice: a strong model said "validated with no editor errors" without running anything.
 - **What to fill in:** the table rows with the real commands (tests, lint, build…).
 - **Kicks in:** on its own, when about to finish something or before a commit.
+- **Complete example:** `verify-before-done` in [examples](examples/README.md), to copy or take ideas from.
 
 ### 🟠 `check` + hook · ADJUST
 - **What:** `personal\scripts\check.py`, standard library only.
