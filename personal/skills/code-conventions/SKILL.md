@@ -33,5 +33,8 @@ If you're not in the <PROJECT> repo, ignore this skill.
 ## Anti-patterns — DO NOT
 <!-- FILL-IN: what has already caused damage. The reviewer treats this section as critical. -->
 
+## Tests
+<!-- FILL-IN (if the project has tests): framework and where they live; how to run a single one; what deserves a test (business logic, calculations, permissions, every fixed bug) and what doesn't (layout, glue code). The user decides the cases; the agent writes them, and a review looks at the assertions. -->
+
 ## Formatting and comments
 <!-- FILL-IN: line length, the project's formatter or linter, the team's comment style. -->

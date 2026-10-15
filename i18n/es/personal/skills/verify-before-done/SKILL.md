@@ -18,6 +18,7 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 |---|---|---|
 | Encaja con el stack y compila | `py -3 <HARNESS>\personal\scripts\check.py` (sin ficheros, lo cambiado en git): 0 errores | "lo he hecho con cuidado" |
 | <!-- FILL-IN: p. ej. Pasan los tests --> | <!-- el comando de tests, 0 fallos --> | <!-- "deberían pasar" --> |
+| Bug arreglado | un test que fallaba antes del arreglo y ahora pasa (si el proyecto tiene tests); si no, los pasos del síntoma original | "he cambiado el código" |
 
 ## Probar en local
 <!-- FILL-IN: sin credenciales (si para probar hace falta una contraseña, pide que intervenga el usuario). URL local y quién levanta el server, de dónde se lee la conexión a la BD, datos útiles. -->

@@ -25,7 +25,7 @@ description: "Debug by finding the root cause before touching anything: reproduc
 <!-- FILL-IN: e.g. "I think it's X because Y", tested with the smallest change. -->
 
 ## 4. Fix
-<!-- FILL-IN: e.g. one change at the source; after 3 failed fixes, stop and rethink. -->
+<!-- FILL-IN: e.g. one change at the source; if the project has tests, the reproduction becomes a regression test; after 3 failed fixes, stop and rethink. -->
 
 ## Project traps
 <!-- FILL-IN: what fails silently here (cache, data, a server that stays down…). -->

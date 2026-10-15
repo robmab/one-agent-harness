@@ -50,6 +50,8 @@ It can also be seen by where the content comes from:
 - **What belongs to one module or screen:** skills that only load on demand, with a very precise `description` so they don't fire on every task.
 - **What's on hold:** commits, ticket plans, translations, migrations, receiving reviews. They only come in if something really fails and keeps failing (§6).
 
+**Tests aren't a skill:** they are a sensor, split across the skills that already exist. How they are written goes in `code-conventions`; when they are born, in `systematic-debugging` (the reproduction of a bug becomes its regression test); running them as evidence, in `verify-before-done`; and a plan's "how it's checked" can be one. The agent writes them; the user decides the cases. Strict TDD stays optional ([OPTIONAL-SKILLS](OPTIONAL-SKILLS.md)), for projects with a test base.
+
 ## 3. The workflow
 
 ![A ticket's flow: start, understand, build, check, review](img/flow.svg)

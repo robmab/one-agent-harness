@@ -50,6 +50,8 @@ Se puede ver también por de dónde sale el contenido:
 - **Lo de un módulo o pantalla concreta:** skills que solo entran bajo demanda, con una `description` muy precisa para que no se disparen en cualquier tarea.
 - **Lo que está en espera:** commits, planes de ticket, traducciones, migraciones, recibir revisiones. Solo entran si algo falla de verdad y se repite (§6).
 
+**Los tests no son una skill:** son un sensor, repartido entre las skills que ya hay. Cómo se escriben va en `code-conventions`; cuándo nacen, en `systematic-debugging` (la reproducción de un bug se queda como su test de regresión); ejecutarlos como prueba, en `verify-before-done`; y el "cómo se comprueba" de un plan puede ser uno. Los escribe el agente; los casos los decide el usuario. El TDD estricto sigue siendo opcional ([OPTIONAL-SKILLS](OPTIONAL-SKILLS.es.md)), para proyectos con base de tests.
+
 ## 3. El flujo de trabajo
 
 ![Flujo de un ticket: arrancar, entender, hacer, comprobar, revisar](img/flow.es.svg)

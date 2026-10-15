@@ -33,5 +33,8 @@ Si no estás en el repo de <PROJECT>, ignora esta skill.
 ## Anti-patrones — NO HACER
 <!-- FILL-IN: lo que ya ha hecho daño alguna vez. El revisor trata esta sección como crítica. -->
 
+## Tests
+<!-- FILL-IN (si el proyecto tiene tests): framework y dónde viven; cómo se lanza uno solo; qué merece test (lógica de negocio, cálculos, permisos, cada bug arreglado) y qué no (maquetación, código de unión). Los casos los decide el usuario; el agente los escribe, y al revisar se miran las aserciones. -->
+
 ## Formato y comentarios
 <!-- FILL-IN: longitud de línea, formateador o linter del proyecto, estilo de comentarios del equipo. -->

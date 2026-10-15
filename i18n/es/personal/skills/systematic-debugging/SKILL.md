@@ -25,7 +25,7 @@ description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, s
 <!-- FILL-IN: p. ej. "creo que es X porque Y", probado con el cambio más pequeño. -->
 
 ## 4. Arreglar
-<!-- FILL-IN: p. ej. un solo cambio y en el origen; tras 3 arreglos fallidos, parar y replantear. -->
+<!-- FILL-IN: p. ej. un solo cambio y en el origen; si el proyecto tiene tests, la reproducción se queda como test de regresión; tras 3 arreglos fallidos, parar y replantear. -->
 
 ## Trampas del proyecto
 <!-- FILL-IN: lo que aquí falla en silencio (caché, datos, un server que se queda caído…). -->
