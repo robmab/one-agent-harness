@@ -1,0 +1,5 @@
+{
+  "name": "web",
+  "description": "Reglas generales de web para las 6 skills, el sensor y el checklist de seguridad: capas, permisos, migraciones, assets, i18n, estados de pantalla, accesibilidad y tests. Válidas para casi cualquier stack; lo que depende del tuyo va marcado con TUNE.",
+  "reviewed": "2026-10-15"
+}

@@ -129,6 +129,7 @@ def test(lang, system, base):
 
     # names, placeholders, launcher and paths
     expect(not os.path.isdir(os.path.join(h, 'i18n')), f'{tag}: i18n should be gone')
+    expect(not os.path.isdir(os.path.join(h, 'profiles')), f'{tag}: profiles should be gone (no profile chosen)')
     router = os.path.join(h, 'copilot', 'demo-app.instructions.md')
     expect(os.path.isfile(router), f'{tag}: router not renamed')
     for folder, dirs, files in os.walk(h):
@@ -171,6 +172,8 @@ def test(lang, system, base):
         m = re.search(r'(?m)^name:\s*(\S+)', read(os.path.join(h, 'personal', 'skills', s, 'SKILL.md')))
         expect(m and m.group(1) == s, f'{tag}: skill {s} name does not match its folder')
     for old in names:
+        if old.startswith('profiles/'):
+            continue   # dropped after setup: only the chosen profile's content stays, in personal/
         expect(os.path.exists(os.path.join(h, *to(old).split('/'))), f'{tag}: {to(old)} missing')
         expect(not os.path.exists(os.path.join(h, *old.split('/'))), f'{tag}: {old} still there')
     agent = os.path.splitext(os.path.splitext(to('personal/agents/reviewer.agent.md').split('/')[-1])[0])[0]
@@ -272,6 +275,34 @@ def test(lang, system, base):
     expect(code != 0 and '.github' in out, f'{tag}: setup should refuse to run on the template repo')
 
 
+def test_profile(lang, system, base, profile='web'):
+    print(f'\n=== {lang} · {system} · --profile {profile}')
+    tag = f'{lang}/{system}/{profile}'
+    h = os.path.join(base, f'Harness {lang} {system} {profile}')
+    copy_template(h)
+    home = os.path.join(base, f'home-{lang}-{system}-{profile}')
+    code, out = run(h, system, '--project', 'Web App', '--lang', lang, '--profile', profile, '--home', home)
+    print(out)
+    expect(code == 0, f'{tag}: setup exited {code}')
+    expect(not os.path.isdir(os.path.join(h, 'profiles')), f'{tag}: profiles should be gone')
+    skills = os.path.join(h, 'personal', 'skills')
+    filled = 0
+    for s in sorted(os.listdir(skills)):
+        text = read(os.path.join(skills, s, 'SKILL.md'))
+        if 'TEMPLATE · FILL-IN' in text or 'PLANTILLA · FILL-IN' in text:
+            continue   # comment-style stays a template: it's the user's voice
+        filled += 1
+        expect('<PROJECT>' not in text, f'{tag}: placeholder left in the {s} skill')
+    expect(filled == 6, f'{tag}: the profile should fill in the 6 core skills, filled {filled}')
+    check = read(os.path.join(h, 'personal', 'scripts', 'check.py'))
+    expect('innerHTML' in check, f'{tag}: the profile\'s RULES should be in check.py')
+    expect('selftest OK' in out, f'{tag}: the sensor selftest should pass with the profile\'s RULES')
+    checklists = os.path.join(h, 'personal', 'checklists')
+    expect(any('CSRF' in read(os.path.join(checklists, f)) for f in os.listdir(checklists)),
+           f'{tag}: the profile\'s security checklist should be in place')
+    expect('TUNE' in out, f'{tag}: setup should list what is left to tune')
+
+
 def main():
     sys.stdout.reconfigure(encoding='utf-8')
     i18n = os.path.join(REPO, 'i18n')
@@ -288,6 +319,8 @@ def main():
         for system in systems:
             for lang in langs:
                 test(lang, system, base)
+        for lang in langs:
+            test_profile(lang, native, base)
     finally:
         # on Windows, links first, so rmtree never walks into what they point to
         if os.name == 'nt':

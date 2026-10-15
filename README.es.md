@@ -30,9 +30,9 @@ rm -rf ~/harness/mi-proyecto/.git ~/harness/mi-proyecto/.github
 python3 ~/harness/mi-proyecto/setup.py --project "Mi Proyecto" --lang es
 ```
 
-Después, rellena las partes `FILL-IN` que te lista ([§3.3](#33-rellenar)), recarga VS Code y comprueba cada herramienta ([§3.4](#34-verificar)).
+Después, rellena las partes `FILL-IN` que te lista (con un perfil, ajusta las `TUNE`) ([§3.3](#33-rellenar)), recarga VS Code y comprueba cada herramienta ([§3.4](#34-verificar)).
 
-- **Opciones** ([§3.2](#32-lanzar-setuppy)): `--lang es` (las piezas en español; sin ella, en inglés), `--tools claude,copilot` (solo algunas herramientas), `--vscode-permissions` (Copilot lee el harness sin preguntar), `--dry-run` (enseña lo que haría).
+- **Opciones** ([§3.2](#32-lanzar-setuppy)): `--profile web` (las skills, el sensor y el checklist de seguridad ya rellenos con reglas generales de web), `--lang es` (las piezas en español; sin ella, en inglés), `--tools claude,copilot` (solo algunas herramientas), `--vscode-permissions` (Copilot lee el harness sin preguntar), `--dry-run` (enseña lo que haría).
 - **Más adelante** ([§3.5](#35-mantenerlo-a-punto)): `--check` repara los enlaces rotos, y `--uninstall` quita lo que montó.
 
 ## En uso real, a diario
@@ -45,7 +45,7 @@ No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una apl
 
 > **Es inerte:** no la carga ninguna herramienta. No se usa aquí: se **copia** a `<ROOT>\<Project>`, se rellena y se conecta. Cada pieza pendiente está marcada con `FILL-IN`.
 
-> **Estructura, no contenido:** las 6 skills vienen como plantillas. Cada una empieza con su **concepto** (para qué sirve y qué evita) y deja sus apartados en `FILL-IN` para tu proyecto: no hay un harness bueno para todo, pero esta estructura sí vale para todos. Las versiones completas de las skills de método están en [examples](examples/README.es.md), para copiarlas o sacar ideas.
+> **Estructura, no contenido:** las 6 skills vienen como plantillas. Cada una empieza con su **concepto** (para qué sirve y qué evita) y deja sus apartados en `FILL-IN` para tu proyecto: no hay un harness bueno para todo, pero esta estructura sí vale para todos. Las versiones completas de las skills de método están en [examples](examples/README.es.md), para copiarlas o sacar ideas. O parte de un **perfil**: `setup.py --profile web` las rellena con reglas generales de web y marca con `TUNE` lo que conviene ajustar a tu stack.
 
 > **Idioma:** la plantilla (skills, agente, router y scripts) está **en inglés**, y `setup.py --lang es` la monta en español; la documentación, en inglés y en español (`*.es.md`). Escribe las skills, y sobre todo su `description`, **en el idioma en que hablas con el modelo**: el modelo compara lo que le pides con las descripciones, y unas instrucciones en tu idioma mantienen en él sus respuestas y sus comentarios. En otro idioma, tradúcelas al rellenarlas. *Hasta la v0.3.0 la plantilla estaba en español; las [notas de la v0.3.5](https://github.com/robmab/one-agent-harness/releases) traen los nombres antiguos.*
 
@@ -80,6 +80,7 @@ one-agent-harness\
 ├─ .github\                              CI de este repo (no es de la plantilla; se quita al copiar)
 ├─ VERSION                               versión de la plantilla de la que sale este harness
 ├─ examples\skills\                      las skills de método completas, de referencia: no las carga ninguna herramienta
+├─ profiles\web\                         contenido ya hecho para proyectos web (setup.py --profile web); se quita tras instalar
 ├─ AGENTS.template.md                    → a la raíz del repo como AGENTS.md
 ├─ setup.py                              READY     lo monta en este PC: nombres, idioma y enlaces (§3.2)
 ├─ i18n\es\                              las piezas en español, para setup.py --lang es (se va al montar)
@@ -173,8 +174,9 @@ Hace lo que antes eran cinco pasos a mano (están en el [anexo](#anexo-montaje-a
 
 - **Nombres:** `<PROJECT>` y `<HARNESS>` en todos los ficheros (sin BOM, y con `/` en JSON y TypeScript, donde una `\` sería un escape); el marketplace y el plugin (`harness-mi-proyecto`, `mi-proyecto`: el prefijo de las skills en Claude); el router, renombrado a `mi-proyecto.instructions.md`. En Linux y macOS, además, `python3` en vez de `py -3` y `/` en las rutas.
 - **Idioma** (`--lang es`): lo que lee el modelo (skills, agente, router, `CLAUDE.md`, checklist, `AGENTS.template.md` y los mensajes del sensor) en español, con nombres en español (`convenios-codigo`, `revisor`…). Por defecto, `en`. **Se elige una vez**, antes de rellenarlo: lo que escribas después es tuyo y no se puede traducir por ti.
+- **Perfil** (`--profile web`): copia encima de la plantilla las skills rellenas del perfil, su checklist de seguridad y las `RULES` del sensor, antes de poner los nombres. Sin él, la plantilla limpia. **Se elige una vez**, como el idioma. Lo que un perfil no puede saber (las versiones, carpetas y comandos de tu stack) queda marcado con `TUNE`.
 - **Enlaces,** por herramienta y usuario (junctions y hardlinks en Windows, symlinks en Linux y macOS): el enlace del plugin, el `settings.json` de Claude (marketplace, plugin y hook `SessionStart`), el `~/.copilot` de Copilot y el `~/.config/opencode` de OpenCode. Si una carpeta ya tiene otras cosas (skills de otro proyecto), enlaza skill a skill y deja lo demás como está; si hay un fichero en medio (otro router), para y te avisa (§5).
-- **Lo demás:** las copias generadas del agente (`sync.py`), el `--selftest` del sensor y la lista de lo que queda por rellenar (`FILL-IN`).
+- **Lo demás:** las copias generadas del agente (`sync.py`), el `--selftest` del sensor y la lista de lo que queda por rellenar (`FILL-IN`) o por ajustar (`TUNE`).
 
 | Opción | Para qué |
 |---|---|

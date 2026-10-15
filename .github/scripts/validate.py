@@ -69,9 +69,20 @@ def check_encoding():
                 error(path, 'absolute path to a real user folder; use a placeholder', n)
 
 
+def skill_folders():
+    # the template's skills and each profile's filled-in ones
+    bases = [os.path.join(ROOT, 'personal', 'skills')]
+    profiles = os.path.join(ROOT, 'profiles')
+    if os.path.isdir(profiles):
+        bases += [os.path.join(profiles, p, 'personal', 'skills') for p in sorted(os.listdir(profiles))]
+    for base in bases:
+        if os.path.isdir(base):
+            for d in sorted(os.listdir(base)):
+                yield base, d
+
+
 def check_skills():
-    base = os.path.join(ROOT, 'personal', 'skills')
-    for d in sorted(os.listdir(base)):
+    for base, d in skill_folders():
         path = os.path.join(base, d, 'SKILL.md')
         if not os.path.isfile(path):
             error(os.path.join(base, d), 'skill folder without SKILL.md')
@@ -197,7 +208,7 @@ def check_opencode():
 I18N_REQUIRED = ('AGENTS.template.md', 'claude/CLAUDE.md', 'claude/.claude-plugin/marketplace.json',
                  'copilot/project.instructions.md', 'opencode/opencode.jsonc', 'opencode/plugins/sensor.ts',
                  'opencode/scripts/review-pending.ps1', 'personal/scripts/check.py')
-I18N_REQUIRED_DIRS = ('personal/skills', 'personal/agents', 'personal/checklists')
+I18N_REQUIRED_DIRS = ('personal/skills', 'personal/agents', 'personal/checklists', 'profiles')
 
 
 def check_i18n():
@@ -205,7 +216,7 @@ def check_i18n():
     required = set(I18N_REQUIRED)
     for d in I18N_REQUIRED_DIRS:
         for folder, _, files in os.walk(os.path.join(ROOT, *d.split('/'))):
-            required.update(rel(os.path.join(folder, f)) for f in files if f.endswith('.md'))
+            required.update(rel(os.path.join(folder, f)) for f in files if f.endswith(('.md', '.py', '.json')))
     for ps1 in [p for p in required if p.endswith('.ps1')]:
         _, text = read(os.path.join(ROOT, ps1))
         if not text.isascii():
@@ -290,6 +301,50 @@ def check_i18n():
                 error(cfg_path, f'invalid JSONC (only full-line // comments are allowed): {e}')
 
 
+def check_profiles():
+    base = os.path.join(ROOT, 'profiles')
+    if not os.path.isdir(base):
+        return
+    for name in sorted(os.listdir(base)):
+        src = os.path.join(base, name)
+        manifest = load_json(os.path.join(src, 'profile.json'))
+        if not manifest:
+            error(src, 'profile without profile.json (name, description, reviewed)')
+        else:
+            if manifest.get('name') != name:
+                error(os.path.join(src, 'profile.json'), f'name "{manifest.get("name")}" must match the folder "{name}"')
+            if not manifest.get('description'):
+                error(os.path.join(src, 'profile.json'), 'missing description: setup.py users choose by it')
+            if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', manifest.get('reviewed', '')):
+                error(os.path.join(src, 'profile.json'), 'reviewed must be a YYYY-MM-DD date: profiles go stale')
+        # a profile fills in the template's pieces; it doesn't add new ones
+        for folder, _, files in os.walk(os.path.join(src, 'personal')):
+            for f in files:
+                path = os.path.join(folder, f)
+                own = os.path.relpath(path, src)
+                if not os.path.exists(os.path.join(ROOT, own)) and not os.path.isdir(
+                        os.path.join(ROOT, os.path.dirname(own))):
+                    error(path, f'{own} has no counterpart in the template: a profile only fills in its pieces')
+        rules = os.path.join(src, 'rules.py')
+        if os.path.isfile(rules):
+            _, text = read(rules)
+            scope = {}
+            try:
+                exec(compile(text, rules, 'exec'), scope)
+            except Exception as e:
+                error(rules, f'does not run: {e}')
+                continue
+            for i, rule in enumerate(scope.get('RULES', [])):
+                ok = (isinstance(rule, tuple) and len(rule) == 4 and rule[0] in ('ERROR', 'WARNING')
+                      and isinstance(rule[1], tuple) and rule[3])
+                try:
+                    re.compile(rule[2])
+                except (re.error, IndexError, TypeError):
+                    ok = False
+                if not ok:
+                    error(rules, f'RULES[{i}]: (level ERROR or WARNING, (extensions,), regex, message)')
+
+
 def check_svg():
     for base, _, files in os.walk(os.path.join(ROOT, 'img')):
         for f in files:
@@ -360,8 +415,8 @@ def check_links():
 def main():
     for stream in (sys.stdout, sys.stderr):
         stream.reconfigure(encoding='utf-8')
-    for check in (check_encoding, check_skills, check_agents, check_json, check_opencode, check_i18n, check_svg,
-                  check_version, check_links):
+    for check in (check_encoding, check_skills, check_agents, check_json, check_opencode, check_i18n, check_profiles,
+                  check_svg, check_version, check_links):
         check()
     for kind, items in (('warning', warnings), ('error', errors)):
         for path, line, msg in items:

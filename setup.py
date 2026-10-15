@@ -38,6 +38,9 @@ TEXT_EXT = ('.md', '.py', '.ts', '.json', '.jsonc', '.ps1')
 # in JSON and TypeScript a \ starts an escape: paths go with /
 FORWARD_EXT = ('.json', '.jsonc', '.ts')
 NAME_RE = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
+# ready-made content for a kind of project (profiles/<name>/): what it leaves to adjust is marked TUNE
+PROFILES_DIR = os.path.join(ROOT, 'profiles')
+PROFILES = sorted(os.listdir(PROFILES_DIR)) if os.path.isdir(PROFILES_DIR) else []
 VSCODE_KEYS = ('github.copilot.chat.additionalReadAccessPaths', 'chat.tools.terminal.autoApprove')
 
 SYSTEM = 'windows' if os.name == 'nt' else 'macos' if sys.platform == 'darwin' else 'linux'
@@ -536,6 +539,30 @@ def apply_language(lang):
     shutil.rmtree(base)
 
 
+def apply_profile(name):
+    """Copies profiles/<name>/personal over personal/ and its RULES into check.py; then drops profiles/."""
+    if name:
+        src = os.path.join(PROFILES_DIR, name)
+        for folder, _, files in os.walk(os.path.join(src, 'personal')):
+            for f in files:
+                rel = os.path.relpath(os.path.join(folder, f), src)
+                os.makedirs(os.path.dirname(os.path.join(ROOT, rel)), exist_ok=True)
+                shutil.copyfile(os.path.join(folder, f), os.path.join(ROOT, rel))
+        rules_path = os.path.join(src, 'rules.py')
+        if os.path.isfile(rules_path):
+            check_path = os.path.join(ROOT, 'personal', 'scripts', 'check.py')
+            block = re.compile(r'(?ms)^RULES = \[\n.*?^\]\n')
+            check_text = read_text(check_path)
+            current = block.search(check_text)
+            new = block.search(read_text(rules_path))
+            if not current or not new:
+                raise SystemExit(f'profile {name!r}: no "RULES = [ ... ]" block to swap in check.py')
+            write_text(check_path, check_text[:current.start()] + new.group(0) + check_text[current.end():])
+    # the project's harness only keeps its profile
+    if os.path.isdir(PROFILES_DIR):
+        shutil.rmtree(PROFILES_DIR)
+
+
 def template_files():
     for part in TEMPLATE_PARTS:
         path = os.path.join(ROOT, part)
@@ -605,9 +632,11 @@ def pending():
     for path in template_files():
         if path.startswith(generated):   # sync.py copies: they're filled in through personal/agents
             continue
-        n = read_text(path).count('FILL-IN')
-        if n:
-            out.append((os.path.relpath(path, ROOT), n))
+        text = read_text(path)
+        marks = ', '.join(f'{n} {mark}' for mark, n in (('FILL-IN', text.count('FILL-IN')), ('TUNE', text.count('TUNE')))
+                          if n)
+        if marks:
+            out.append((os.path.relpath(path, ROOT), marks))
     return out
 
 
@@ -709,7 +738,7 @@ def install(args):
         if not NAME_RE.match(slug):
             raise SystemExit(f'Can\'t make a name from {args.project!r}: use letters and digits.')
         state = {'project': args.project, 'slug': slug, 'lang': args.lang or 'en', 'system': SYSTEM,
-                 'version': read_text(os.path.join(ROOT, 'VERSION')).strip()}
+                 'profile': args.profile, 'version': read_text(os.path.join(ROOT, 'VERSION')).strip()}
         if state['lang'] != 'en' and not os.path.isdir(os.path.join(ROOT, 'i18n', state['lang'])):
             raise SystemExit(f'No {state["lang"]!r} version in i18n.')
         first = True
@@ -719,6 +748,8 @@ def install(args):
         if args.lang and args.lang != state['lang']:
             raise SystemExit(f'This harness is already in {state["lang"]!r}: the language is chosen once, before '
                              'filling it in. For another one, start from a fresh copy.')
+        if args.profile and args.profile != state.get('profile'):
+            raise SystemExit('The profile is chosen once, on the first run. For another one, start from a fresh copy.')
         first = False
 
     homes = homes_for(args)
@@ -736,6 +767,7 @@ def install(args):
     if first:
         print('\nNames and language')
         act(f'language: {state["lang"]}', apply_language, state['lang'])
+        act(f'profile: {state["profile"] or "none (the clean template)"}', apply_profile, state['profile'])
         act(f'names: <PROJECT> = {state["project"]}, <HARNESS> = this folder, prefix {state["slug"]}:'
             + ('' if windows() else ', python3 and / paths'), apply_names, state)
         if not dry_run:
@@ -754,10 +786,11 @@ def install(args):
             say('ok', res.stdout.strip())
     todo = pending() if not dry_run else []
     if todo:
-        print('\nStill to fill in (FILL-IN):')
-        for rel, n in todo:
-            print(f'  {rel} ({n})')
-    print('\nNext: fill in the FILL-IN parts (README §3.3), reload VS Code and check each tool (README §3.4).')
+        print('\nStill to fill in (FILL-IN) or to tune to your stack (TUNE):')
+        for rel, marks in todo:
+            print(f'  {rel} ({marks})')
+    print('\nNext: fill in the FILL-IN parts and tune the TUNE ones (README §3.3), reload VS Code and check each '
+          'tool (README §3.4).')
     return finish()
 
 
@@ -828,6 +861,8 @@ def main():
     parser.add_argument('--project', help='project name (first run): <PROJECT>, and its lowercase form the prefix')
     parser.add_argument('--tools', help=f'comma-separated, default all: {",".join(TOOLS)}')
     parser.add_argument('--lang', choices=LANGS, help='language of the pieces the model reads (first run; default en)')
+    parser.add_argument('--profile', choices=PROFILES or None,
+                        help='ready-made content for a kind of project (first run; default: the clean template)')
     parser.add_argument('--users', help='Windows: comma-separated users to wire up (default: you); '
                                         'on Linux and macOS, run it as each user')
     parser.add_argument('--vscode-permissions', action='store_true',

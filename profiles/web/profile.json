@@ -1,0 +1,5 @@
+{
+  "name": "web",
+  "description": "General web rules for the 6 skills, the sensor and the security checklist: layers, permissions, migrations, assets, i18n, screen states, accessibility and tests. Valid for most stacks; what depends on yours is marked TUNE.",
+  "reviewed": "2026-10-15"
+}

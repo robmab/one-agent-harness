@@ -16,6 +16,14 @@
     "examples/skills/systematic-debugging": "examples/skills/depuracion-sistematica",
     "examples/skills/verify-before-done": "examples/skills/verificar-antes-de-acabar",
     "examples/skills/official-sources": "examples/skills/fuentes-oficiales",
-    "examples/skills/interview-me/interview.md": "examples/skills/interview-me/entrevista.md"
+    "examples/skills/interview-me/interview.md": "examples/skills/interview-me/entrevista.md",
+    "profiles/web/personal/skills/code-conventions": "profiles/web/personal/skills/convenios-codigo",
+    "profiles/web/personal/skills/ui-design": "profiles/web/personal/skills/diseno-ui",
+    "profiles/web/personal/skills/official-sources": "profiles/web/personal/skills/fuentes-oficiales",
+    "profiles/web/personal/skills/interview-me": "profiles/web/personal/skills/entrevistame",
+    "profiles/web/personal/skills/systematic-debugging": "profiles/web/personal/skills/depuracion-sistematica",
+    "profiles/web/personal/skills/verify-before-done": "profiles/web/personal/skills/verificar-antes-de-acabar",
+    "profiles/web/personal/skills/interview-me/interview.md": "profiles/web/personal/skills/interview-me/entrevista.md",
+    "profiles/web/personal/checklists/security.md": "profiles/web/personal/checklists/seguridad.md"
   }
 }
