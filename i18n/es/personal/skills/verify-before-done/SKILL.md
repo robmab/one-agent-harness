@@ -24,12 +24,26 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 | Auditar un fichero **entero**, también lo antiguo ("audita este fichero", "¿qué incumple de los convenios?", antes de refactorizar) | el mismo comando con `--all <fichero>`; si salen muchos, **resúmelos por regla** en vez de listarlos uno a uno | revisar solo lo cambiado |
 | Pasan los tests | <!-- FILL-IN: comando de tests --> con 0 fallos | "deberían pasar" |
 | La pantalla funciona | cargar la página con el server levantado y mirar la consola del navegador | que la plantilla compile |
+| Se ve bien (bordes, sombras, solapes) | captura con zoom, en reposo y en el estado que fallaba | solo medidas |
 | Bug arreglado | repetir los pasos del síntoma original y que ya no salga | "he cambiado el código" |
 | Un subagente lo ha hecho | mirar el `git diff` tú mismo | fiarte de su informe |
 | Cumple lo pedido | releer la petición punto por punto | que compile |
 | <!-- FILL-IN: lint, build, migraciones, traducciones… --> | | |
 
 **Ojo:** lo que toque la base de datos o un entorno compartido es una prueba válida, pero **siempre con permiso antes**.
+
+## Probar en local
+
+<!-- FILL-IN: sin credenciales (si para probar hace falta una contraseña, pide que intervenga el usuario). -->
+- **App:** <!-- FILL-IN: URL local; quién levanta el server -->
+- **Base de datos:** <!-- FILL-IN: de dónde se lee su conexión -->
+- **Datos y trucos útiles:** <!-- FILL-IN -->
+
+## En el navegador
+
+- **La pestaña es la del usuario**: no le cambies el tamaño ni la dejes en otra vista.
+- **Interceptar peticiones:** en otra pestaña, y quitado al acabar (`page.unrouteAll()`). Si algo se cuelga, sospecha antes de tu instrumentación.
+- **Tres intentos fallidos sobre lo mismo: para** y busca la causa de fondo (`depuracion-sistematica`) o pregunta.
 
 ## Si no se puede comprobar
 

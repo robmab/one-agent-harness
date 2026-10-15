@@ -19,4 +19,9 @@ description: "Estilo de los comentarios del código (longitud, tono, cuándo se 
 - **El chat:** si el mismo tono vale para lo que te contesta el agente.
 -->
 
+<!-- FILL-IN: 2-3 "antes → después" de tu propio código, para que los primeros comentarios salgan bien (el detalle trae más). Por ejemplo:
+- `// Sincroniza los iconos del menú con el estado real de las cards` → `// Los iconos del menú van a la par de las cards`
+- `// Corregido: antes el nivel se perdía al filtrar` → sin comentario (es una corrección: va al commit)
+-->
+
 Detalle (ejemplos y voz): [detalle.md](./detalle.md). Léelo una vez, al **escribir o repasar** el primer comentario de la sesión; para el tono del chat basta con esta página. No lo releas después.

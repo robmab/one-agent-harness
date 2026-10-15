@@ -19,4 +19,9 @@ description: "Style of code comments (length, tone, when to comment and when not
 - **The chat:** whether the same tone applies to the agent's answers.
 -->
 
+<!-- FILL-IN: 2-3 "before → after" from your own code, so the first comments come out right (the detail has more). For example:
+- `// Synchronises the menu icons with the real state of the cards` → `// Menu icons follow the cards`
+- `// Fixed: the level used to get lost when filtering` → no comment (it's a fix: it goes in the commit)
+-->
+
 Detail (examples and voice): [details.md](./details.md). Read it once, when **writing or reviewing** the session's first comment; for the chat's tone this page is enough. Don't reread it afterwards.

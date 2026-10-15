@@ -24,12 +24,26 @@ description: "Before saying something is done, fixed or working, run the check a
 | Audit a **whole** file, old code included ("audit this file", "what breaks the conventions?", before refactoring) | the same command with `--all <file>`; if there are many, **summarise them by rule** instead of listing them one by one | reviewing only what changed |
 | Tests pass | <!-- FILL-IN: test command --> with 0 failures | "they should pass" |
 | The screen works | load the page with the server running and look at the browser console | the template compiling |
+| It looks right (borders, shadows, overlaps) | a zoomed screenshot, at rest and in the failing state | measurements only |
 | Bug fixed | repeat the steps of the original symptom and it no longer shows | "I changed the code" |
 | A subagent did it | look at the `git diff` yourself | trusting its report |
 | It does what was asked | reread the request point by point | it compiling |
 | <!-- FILL-IN: lint, build, migrations, translations… --> | | |
 
 **Careful:** anything that touches the database or a shared environment is valid evidence, but **always ask for permission first**.
+
+## Testing locally
+
+<!-- FILL-IN: no credentials here (if a test needs a password, ask the user to step in). -->
+- **App:** <!-- FILL-IN: local URL; who starts the server -->
+- **Database:** <!-- FILL-IN: where its connection is read from -->
+- **Useful data and tricks:** <!-- FILL-IN -->
+
+## In the browser
+
+- **The tab is the user's**: don't resize it or leave it on another view.
+- **Intercepting requests:** in another tab, removed when done (`page.unrouteAll()`). If something hangs, suspect your instrumentation first.
+- **Three failed attempts at the same thing: stop** and look for the root cause (`systematic-debugging`) or ask.
 
 ## If it can't be checked
 

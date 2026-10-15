@@ -169,10 +169,12 @@ def hook_mode():
     if errors:
         print('check encontró problemas en lo que acabas de editar:\n' + '\n'.join(lines), file=sys.stderr)
         return 2
+    # deja siempre una línea, para que el agente sepa que ha pasado (el silencio es igual que un hook que no saltó)
     if warnings:
-        print(json.dumps({'hookSpecificOutput': {
-            'hookEventName': 'PostToolUse',
-            'additionalContext': 'check (avisos, revisa si aplican):\n' + '\n'.join(lines)}}))
+        note = 'check (avisos, revisa si aplican):\n' + '\n'.join(lines)
+    else:
+        note = f'check: OK ({os.path.relpath(path, root)})'
+    print(json.dumps({'hookSpecificOutput': {'hookEventName': 'PostToolUse', 'additionalContext': note}}))
     return 0
 
 
