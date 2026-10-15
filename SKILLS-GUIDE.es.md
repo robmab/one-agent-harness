@@ -57,7 +57,7 @@ Se puede ver también por de dónde sale el contenido:
 | Fase | Qué pasa | Piezas |
 |---|---|---|
 | **0 · Arrancar** | al abrir sesión entra el índice del repo y tu forma de hablar | `AGENTS.md` (siempre), `comment-style` (hook `SessionStart` en Claude) |
-| **1 · Entender** | si no está claro qué piden: preguntas de una en una, mirando antes el repo. Si es un bug: reproducir, localizar la capa y una hipótesis cada vez | `interview-me`, `systematic-debugging` |
+| **1 · Entender** | si no está claro qué piden: preguntas de una en una, mirando antes el repo. Si es grande (3+ ficheros, pantalla o componente nuevo, varias capas): plan corto por capas que apruebas antes de editar. Si es un bug: reproducir, localizar la capa y una hipótesis cada vez | `interview-me`, `systematic-debugging` |
 | **2 · Hacer** | escribe con los convenios, el design system si es UI y las versiones reales del stack. **Tras cada edición**, el hook pasa el comprobador: si hay error, Claude lo corrige antes de seguir (el bucle naranja) | `code-conventions`, `ui-design`, `official-sources`, `check` |
 | **3 · Comprobar** | antes de decir "hecho": comando ejecutado y salida leída, o el navegador si es una pantalla. Lo que no se pueda probar se dice: «Sin comprobar» | `verify-before-done` (+ el comprobador a mano en Copilot) |
 | **4 · Revisar y cerrar** | revisión a fondo con contexto limpio, convenios incluidos, usando las skills de conocimiento como checklists. No edita: decides tú qué se aplica y haces el commit | `reviewer` |
@@ -95,7 +95,8 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 
 ### 🟢 `interview-me` · READY
 - **Qué:** cuando un ticket no está claro, ni para el agente ni para ti. Primero **mira en el repo** qué hace hoy eso; luego hipótesis con %, **una pregunta cada vez con su suposición**, y un resumen con la línea "Fuera" obligatoria. Lo que solo sabe el cliente va a una lista de **preguntas para el cliente**.
-- **Opcional:** lo que suele faltar en los tickets de ese proyecto.
+- **Y planifica:** si la tarea es grande, la baja a un plan de 10-20 líneas sin código (pasos por capas, cada uno con cómo se comprueba, qué reutiliza, qué no se toca) más un repaso de lo que se suele olvidar en el proyecto. Lo apruebas antes de editar. Inspirado en `writing-plans` de superpowers, sin su código por paso, sus commits ni sus subagentes. Vive dentro de `interview-me` para no sumar skills.
+- **Opcional:** lo que suele faltar en los tickets de ese proyecto y lo que se suele olvidar en sus planes.
 - **Entra:** cuando se lo pides ("entrevístame", "no sé a qué se refiere este ticket") o si el ticket no deja claro el qué, para quién o por qué. Nunca en tareas mecánicas.
 
 ### 🟢 `systematic-debugging` · ADJUST
@@ -152,7 +153,7 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 | `comment-style` | hook `SessionStart` | se lo pide el router al empezar; si no, `/comment-style` |
 | `code-conventions`, `ui-design` | sola, por su `description` | sola |
 | `official-sources`, `systematic-debugging`, `verify-before-done` | sola, por su `description` | sola, con el router marcando el momento; si un modelo local se la salta, `/nombre` |
-| `interview-me` | cuando se lo pides o el ticket es ambiguo | ídem, o `/interview-me` |
+| `interview-me` | cuando se lo pides, el ticket es ambiguo o la tarea es grande (plan) | ídem, o `/interview-me` |
 | `check` | **automático** tras cada edición | se lo ordena el router tras cada cambio, o a mano |
 | `reviewer` | al cerrar la sesión o a mano (subagente) | ídem (selector de agentes) |
 

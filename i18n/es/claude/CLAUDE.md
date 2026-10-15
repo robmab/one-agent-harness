@@ -1,6 +1,6 @@
 Harness de <PROJECT> (solo en su repo): **6 skills + 1 sensor + 1 agente**, sobre `AGENTS.md`. (Opcional, bórralo si no usas la skill) Al empezar, carga solo `project:estilo-comentarios`: su página ya marca el tono del chat. Su detalle (`<HARNESS>\personal\skills\estilo-comentarios\detalle.md`) léelo una vez, al escribir el primer comentario de código.
 
-Orden de trabajo: entender (si no está claro o es un bug) → hacer → comprobar → revisar. En cada momento:
+Orden de trabajo: entender (si no está claro o es un bug) → hacer → comprobar → revisar. **Si es grande** (3 o más ficheros, una pantalla o un componente nuevo, o cruza capas): antes de la primera edición, plan corto con `entrevistame`, y espera el sí del usuario. En cada momento:
 
 - **ANTES de escribir código:** carga `project:convenios-codigo`. Si es UI, también `project:diseno-ui`; si toca una API o librería del stack, también `project:fuentes-oficiales`. Si una skill es solo un puntero ("Lee `<ruta>`…"), abre el fichero al que apunta. Si un retoque crece (un segundo tipo de fichero, un componente nuevo), carga lo que falte antes de la siguiente edición.
 - **DESPUÉS de cada cambio de código:** el sensor (`check`) salta solo por hook y deja una línea (`OK`, avisos o ERROR). Si da ERROR, corrígelo antes de seguir.

@@ -1,86 +1,65 @@
 ---
 name: interview-me
-description: "Find out what really has to be done before planning or coding: look at the repo first, then one question at a time, each with your own guess, until you can predict the answers. Use when: you're asked to ('interview me', 'ask me', 'is this clear?', 'I don't know what this ticket means'), or a new ticket or request doesn't make clear who it's for, why, or when it's done. NOT for clear or mechanical tasks (rename, move, a fix with a stack trace)."
+description: "Before coding: find out what really has to be done (one question at a time, each with your own guess) and, if the task is big, turn it into a short plan the user approves. Use when: you're asked to ('interview me', 'ask me', 'is this clear?', 'plan it', 'make me a plan'); a ticket doesn't make clear who it's for, why or when it's done; or the task touches 3 or more files, creates a screen or a component, or crosses layers. NOT for clear, small tasks (rename, move, a tweak) or for bugs (that's systematic-debugging)."
 ---
 
-# Interview me
+# Interview me (and plan)
 
-What's asked for and what's needed rarely match: "a list" may turn out to be "knowing which customers haven't paid". The cheap moment to find out is **before** writing code.
+Two steps before writing code; use whichever fits:
 
-## 0. Look before you guess
+| Situation | What you do |
+|---|---|
+| It isn't clear what's wanted | **Interview** |
+| It's clear, but big | **Plan** |
+| Both | Interview and, with the yes, plan |
+| It's a bug | Neither: `systematic-debugging` |
 
-If the ticket names a screen, a piece of data or a feature, find it in the repo and see **what it does now**. That way your guesses have a basis: "right now the report adds both columns; I guess they want them separate". Read only: don't touch code or the database.
+## Interview
 
-## 1. Hypothesis with a number
+What's asked for and what's needed rarely match. The essentials:
 
-Before asking, write in one line what you think is wanted and how confident you are:
+1. **Look in the repo first** at what that screen or data does today (read only).
+2. **Hypothesis with a confidence %**; below ~70%, say what's missing.
+3. **One question at a time, with your guess**, and wait for the answer.
+4. **Summary** (what, for whom, why, done when, limit, out) once you can predict my next 3 answers.
+5. **Explicit yes, then stop.**
 
-```
-HYPOTHESIS: you want the manager to see open incidents without opening them one by one.
-CONFIDENCE: ~40% (missing: which role exactly and whether it's for every user)
-```
+How to do it, what's usually missing and the red flags: [interview.md](./interview.md). Read it **every time you are about to interview**.
 
-Below ~70%, say what's missing.
+## Plan
 
-## 2. One question at a time, with your guess
+When it's clear what to do but it's big. **Before the first edit**, and with the tool's plan mode if it has one.
 
-```
-Q: Is this for every user or only for whoever opened the ticket?
-I GUESS: for everyone, but only visible with the manager permission.
-```
+1. **Look for what already exists:** the project's shared components and a similar screen. Reuse before creating.
+2. **Write the plan, 10 to 20 lines and no code:**
 
-**Wait for the answer before the next one.** No lists of questions: the third one usually depends on the first. Sometimes guessing against the obvious helps, so you don't get a polite yes.
+   ```
+   GOAL: <one line; if you come from the interview, its "What">
+   STEPS (in layer order, drop the ones that don't apply):
+   1. migration             → files · how it's checked
+   2. model                 → …
+   3. endpoint (permission) → …
+   4. template              → …
+   5. front-end code        → …
+   6. styles                → …
+   REUSES: <shared components or code that already exists>
+   NOT TOUCHED: <what stays out>
+   RISKS: <which other screen it may break>
+   ```
 
-## What's usually missing
+   Each step has to be checkable (the sensor, the screen, a query), with no "we'll see".
+3. **Check it against the project:** <!-- FILL-IN: what usually gets forgotten here, e.g. cache-busting of CSS/JS, translations, the endpoint's permission, a migration --> does it reuse shared pieces?
+4. **Check it against the request**, point by point: nothing more, nothing less.
+5. **Show it and wait for a clear yes**, as in the interview. No code or edits in that turn.
 
-Ask only what isn't clear:
+If a step changes while building, say so before going on. When closing, the GOAL and the plan's files are the scope and intent you hand to the `reviewer`.
 
-- **Who:** which role uses it and from where (desktop or mobile).
-- **Scope:** for everyone, for one customer, or configurable.
-- **Data:** is a new field or table needed? That means a migration.
-- **Success:** how we'll know it's right: what the user sees or what stops happening.
-- **Limits:** deadline, performance, not breaking something that exists.
-- **Out of scope:** what is NOT done now.
-<!-- FILL-IN (optional): what this project's tickets usually leave out. -->
+## Plan red flags
 
-**If you don't know the answer** (it depends on the customer or on whoever opened the ticket), don't make it up: it goes on a list of **questions for the customer** and we carry on with the rest.
-
-## 3. Watch out for "textbook" answers
-
-"It should be scalable", "the standard way", "like everyone does it"… sound good but say nothing. Ask: *"if you didn't have to justify it to anyone, what would you really want?"*.
-
-## 4. Give it back as a summary
-
-When you can **predict my answers to your next 3 questions**, stop and summarise:
-
-```
-This is what I understand:
-- What:              ...
-- For whom:          ...
-- Why now:           ...
-- Done when:         ...
-- Limit:             ...
-- Out:               ...
-- Questions for the customer: ... (if any)
-Yes, no, or adjust?
-```
-
-The **"Out"** line is never skipped: half the misunderstandings are about what isn't done.
-
-## 5. Explicit yes, then stop
-
-- **A "whatever you think" or an "ok, go on" is not a yes:** ask again with two concrete options.
-- **With a clear yes, deliver the summary, offer the next step** (plan, code or asking the customer) **and stop.** No code or tools in that same turn.
-- **If after several questions your confidence doesn't go up,** say so: "something basic is missing; shall we stop and look at it from another angle?".
-
-## Red flags
-
-- Two or more questions in the same message.
-- A question without your guess.
-- Accepting a textbook answer without digging.
-- Starting to plan or code before the yes.
-- Making up what only the customer knows.
-- Saving the summary to a file in the repo: it stays in the chat unless asked.
+- Code in the plan, or steps like "adjust whatever is needed" or with no way to check them.
+- A new component without looking at what's shared.
+- Editing before the yes.
+- Planning a tweak: one or two clear files go straight in.
 
 ---
-Adapted from `interview-me` of [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT).
+Interview adapted from `interview-me` of [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT). Plan inspired by `writing-plans` of [obra/superpowers](https://github.com/obra/superpowers) @ `bb92a77` (MIT).

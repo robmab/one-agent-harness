@@ -1,86 +1,65 @@
 ---
 name: entrevistame
-description: "Sacar lo que de verdad hay que hacer antes de planificar o programar: mirar primero el repo, y preguntas de una en una, cada una con tu suposición, hasta poder predecir las respuestas. Use when: te lo piden ('entrevístame', 'pregúntame', '¿lo tenemos claro?', 'no sé a qué se refiere este ticket'), o un ticket o petición nueva no deja claro para quién es, por qué, o cuándo está bien hecho. NO para tareas claras o mecánicas (renombrar, mover, un fix con traza)."
+description: "Antes de programar: sacar lo que de verdad hay que hacer (preguntas de una en una, cada una con tu suposición) y, si la tarea es grande, bajarlo a un plan corto que aprueba el usuario. Use when: te lo piden ('entrevístame', 'pregúntame', '¿lo tenemos claro?', 'planifícalo', 'hazme un plan'); un ticket no deja claro para quién es, por qué o cuándo está bien hecho; o la tarea toca 3 o más ficheros, crea una pantalla o un componente, o cruza capas. NO para tareas claras y pequeñas (renombrar, mover, un retoque) ni para bugs (eso es depuracion-sistematica)."
 ---
 
-# Entrevístame
+# Entrevístame (y planifica)
 
-Lo que se pide y lo que se necesita no suelen coincidir: "un listado" puede ser "saber qué clientes no han pagado". El momento barato de descubrirlo es **antes** de escribir código.
+Dos pasos antes de escribir código; usa el que toque:
 
-## 0. Antes de suponer, mira
+| Situación | Qué haces |
+|---|---|
+| No está claro qué se quiere | **Entrevista** |
+| Está claro, pero es grande | **Plan** |
+| Las dos cosas | Entrevista y, con el sí, plan |
+| Es un bug | Ninguno: `depuracion-sistematica` |
 
-Si el ticket nombra una pantalla, un dato o una funcionalidad, búscalo en el repo y mira **qué hace ahora**. Así las suposiciones tienen base: "ahora el informe suma las dos columnas; supongo que quieren verlas por separado". Solo leer: nada de tocar código ni base de datos.
+## Entrevista
 
-## 1. Hipótesis con número
+Lo que se pide y lo que se necesita no suelen coincidir. Lo esencial:
 
-Antes de preguntar, escribe en una línea lo que crees que se quiere y cuánta confianza tienes:
+1. **Mira antes en el repo** qué hace hoy esa pantalla o ese dato (solo leer).
+2. **Hipótesis con % de confianza**; por debajo de ~70 %, di qué falta.
+3. **Una pregunta cada vez, con tu suposición**, y espera la respuesta.
+4. **Resumen** (qué, para quién, por qué, bien hecho si, límite, fuera) cuando puedas predecir mis 3 siguientes respuestas.
+5. **Sí explícito y parar.**
 
-```
-HIPÓTESIS: quieres que el responsable vea las incidencias abiertas sin entrar una a una.
-CONFIANZA: ~40% (falta: para qué rol exactamente y si es para todos los usuarios)
-```
+Cómo hacerlo, qué suele faltar y las señales de alarma: [entrevista.md](./entrevista.md). Léelo **cada vez que vayas a entrevistar**.
 
-Por debajo de ~70%, di qué falta.
+## Plan
 
-## 2. Una pregunta cada vez, con tu suposición
+Cuando está claro qué hacer pero es grande. **Antes de la primera edición**, y con el modo plan de la herramienta si lo tiene.
 
-```
-P: ¿Esto es para todos los usuarios o solo para el que abrió el ticket?
-SUPONGO: para todos, pero solo visible con permiso de responsable.
-```
+1. **Busca lo que ya existe:** los componentes compartidos del proyecto y alguna pantalla parecida. Reutilizar antes que crear.
+2. **Escribe el plan, de 10 a 20 líneas y sin código:**
 
-**Espera la respuesta antes de la siguiente.** Nada de listas de preguntas: la tercera suele depender de la primera. A veces, suponer en contra viene bien, para que no te diga que sí por educación.
+   ```
+   OBJETIVO: <una línea; si vienes de la entrevista, su "Qué">
+   PASOS (en orden de capas, quita las que no apliquen):
+   1. migración             → ficheros · cómo se comprueba
+   2. modelo                → …
+   3. endpoint (permiso)    → …
+   4. plantilla             → …
+   5. código del front      → …
+   6. estilos               → …
+   REUTILIZA: <componentes compartidos o código que ya existe>
+   NO SE TOCA: <lo que queda fuera>
+   RIESGOS: <qué otra pantalla puede romper>
+   ```
 
-## Qué suele faltar
+   Cada paso se tiene que poder comprobar (el sensor, la pantalla, una consulta), sin "ya se verá".
+3. **Repásalo contra el proyecto:** <!-- FILL-IN: lo que aquí se suele olvidar, p. ej. la caché de CSS/JS, las traducciones, el permiso del endpoint, una migración --> ¿reutiliza lo compartido?
+4. **Repásalo contra la petición**, punto por punto: ni de más ni de menos.
+5. **Enséñalo y espera un sí claro**, como en la entrevista. Ni código ni ediciones en ese turno.
 
-Pregunta solo lo que no esté claro:
+Si al hacerlo un paso cambia, dilo antes de seguir. Al cerrar, el OBJETIVO y los ficheros del plan son el alcance y la intención que le pasas al `revisor`.
 
-- **Quién:** qué rol lo usa y desde dónde (escritorio o móvil).
-- **Ámbito:** para todos, para un cliente o configurable.
-- **Datos:** ¿hace falta un campo o tabla nueva? Eso implica una migración.
-- **Éxito:** cómo sabremos que está bien: qué ve el usuario o qué deja de pasar.
-- **Límites:** plazo, rendimiento, no romper algo que ya existe.
-- **Fuera de alcance:** qué NO se hace ahora.
-<!-- FILL-IN (opcional): lo que suele faltar en los tickets de este proyecto en concreto. -->
+## Señales de alarma del plan
 
-**Si no sabes la respuesta** (depende del cliente o de quien abrió el ticket), no la inventamos: va a una lista de **preguntas para el cliente** y seguimos con lo demás.
-
-## 3. Ojo con las respuestas "de manual"
-
-"Que sea escalable", "lo estándar", "como lo hacen todos"… suenan bien, pero no dicen nada. Pregunta: *"si no tuvieras que justificarlo ante nadie, ¿qué querrías de verdad?"*.
-
-## 4. Devuélvelo resumido
-
-Cuando puedas **predecir mis respuestas a tus 3 siguientes preguntas**, para y resume:
-
-```
-Esto es lo que entiendo:
-- Qué:            ...
-- Para quién:     ...
-- Por qué ahora:  ...
-- Bien hecho si:  ...
-- Límite:         ...
-- Fuera:          ...
-- Preguntas para el cliente: ... (si hay)
-¿Sí, no o retocamos?
-```
-
-La línea **"Fuera"** no se salta: la mitad de los malentendidos son de lo que no se hace.
-
-## 5. Sí explícito y parar
-
-- **Un "lo que veas" o un "vale, venga" no es un sí:** vuelve a preguntar con dos opciones concretas.
-- **Con un sí claro, entrega el resumen, ofrece el siguiente paso** (plan, código o preguntar al cliente) **y para.** Ni código ni herramientas en ese mismo turno.
-- **Si tras varias preguntas tu confianza no sube,** dilo: "falta algo de base, ¿paramos y lo miramos desde otro lado?".
-
-## Señales de alarma
-
-- Dos o más preguntas en el mismo mensaje.
-- Una pregunta sin tu suposición.
-- Dar por buena una respuesta de manual sin rascar.
-- Empezar a planificar o programar antes del sí.
-- Inventar lo que solo sabe el cliente.
-- Guardar el resumen en un fichero del repo: se queda en el chat salvo que se pida.
+- Código en el plan, pasos tipo "ajustar lo que haga falta" o sin forma de comprobarlos.
+- Un componente nuevo sin haber mirado lo compartido.
+- Editar antes del sí.
+- Planificar un retoque: con uno o dos ficheros claros, se hace directo.
 
 ---
-Adaptada de `interview-me` de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT).
+Entrevista adaptada de `interview-me` de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT). Plan inspirado en `writing-plans` de [obra/superpowers](https://github.com/obra/superpowers) @ `bb92a77` (MIT).

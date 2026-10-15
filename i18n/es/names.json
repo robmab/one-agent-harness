@@ -8,6 +8,7 @@
     "personal/skills/verify-before-done": "personal/skills/verificar-antes-de-acabar",
     "personal/skills/comment-style": "personal/skills/estilo-comentarios",
     "personal/skills/comment-style/details.md": "personal/skills/comment-style/detalle.md",
+    "personal/skills/interview-me/interview.md": "personal/skills/interview-me/entrevista.md",
     "personal/agents/reviewer.agent.md": "personal/agents/revisor.agent.md",
     "copilot/agents/reviewer.agent.md": "copilot/agents/revisor.agent.md",
     "opencode/agents/reviewer.md": "opencode/agents/revisor.md",

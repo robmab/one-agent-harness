@@ -1,6 +1,6 @@
 <PROJECT> harness (only in its repo): **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`. (Optional, delete it if you don't use the skill) At the start, load only `project:comment-style`: its page already sets the chat's tone. Read its detail (`<HARNESS>\personal\skills\comment-style\details.md`) once, when you write the first code comment.
 
-Work order: understand (if it isn't clear or it's a bug) → build → check → review. At each moment:
+Work order: understand (if it isn't clear or it's a bug) → build → check → review. **If it's big** (3 or more files, a new screen or component, or it crosses layers): before the first edit, a short plan with `interview-me`, and wait for the user's yes. At each moment:
 
 - **BEFORE writing code:** load `project:code-conventions`. If it's UI, also `project:ui-design`; if it touches an API or library of the stack, also `project:official-sources`. If a skill is only a pointer ("Read `<path>`…"), open the file it points to. If a tweak grows (a second file type, a new component), load what's missing before the next edit.
 - **AFTER every code change:** the sensor (`check`) runs on its own through the hook and leaves a line (`OK`, warnings or ERROR). If it gives an ERROR, fix it before going on.

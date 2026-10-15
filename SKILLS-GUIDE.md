@@ -57,7 +57,7 @@ It can also be seen by where the content comes from:
 | Phase | What happens | Pieces |
 |---|---|---|
 | **0 · Start** | when the session opens, the repo index and your way of talking load | `AGENTS.md` (always), `comment-style` (`SessionStart` hook in Claude) |
-| **1 · Understand** | if what's asked isn't clear: questions one at a time, looking at the repo first. If it's a bug: reproduce, find the layer and one hypothesis at a time | `interview-me`, `systematic-debugging` |
+| **1 · Understand** | if what's asked isn't clear: questions one at a time, looking at the repo first. If it's big (3+ files, a new screen or component, several layers): a short plan by layers that you approve before any edit. If it's a bug: reproduce, find the layer and one hypothesis at a time | `interview-me`, `systematic-debugging` |
 | **2 · Build** | writes with the conventions, the design system if it's UI and the stack's real versions. **After every edit**, the hook runs the checker: if there's an error, Claude fixes it before going on (the orange loop) | `code-conventions`, `ui-design`, `official-sources`, `check` |
 | **3 · Check** | before saying "done": command run and output read, or the browser if it's a screen. Whatever can't be tested is said: "Not checked" | `verify-before-done` (+ the checker by hand in Copilot) |
 | **4 · Review and close** | in-depth review with a clean context, conventions included, using the knowledge skills as checklists. It doesn't edit: you decide what gets applied and you commit | `reviewer` |
@@ -95,7 +95,8 @@ If something isn't done in phase 3, back to 2. If a bug shows up in 2, it goes t
 
 ### 🟢 `interview-me` · READY
 - **What:** when a ticket isn't clear, to the agent or to you. First it **looks in the repo** at what that does today; then a hypothesis with a %, **one question at a time with its guess**, and a summary with a mandatory "Out" line. What only the customer knows goes on a list of **questions for the customer**.
-- **Optional:** what this project's tickets usually leave out.
+- **And plans:** if the task is big, it turns it into a 10-20 line plan with no code (steps by layer, each with how it's checked, what it reuses, what isn't touched) plus a check of what usually gets forgotten in the project. You approve it before any edit. Inspired by superpowers' `writing-plans`, without its code per step, its commits or its subagents. It lives inside `interview-me` so the skill count doesn't grow.
+- **Optional:** what this project's tickets usually leave out, and what its plans usually forget.
 - **Kicks in:** when you ask for it ("interview me", "I don't know what this ticket means") or if the ticket doesn't make clear the what, for whom or why. Never on mechanical tasks.
 
 ### 🟢 `systematic-debugging` · ADJUST
@@ -152,7 +153,7 @@ If something isn't done in phase 3, back to 2. If a bug shows up in 2, it goes t
 | `comment-style` | `SessionStart` hook | the router asks for it at the start; otherwise, `/comment-style` |
 | `code-conventions`, `ui-design` | on its own, through its `description` | on its own |
 | `official-sources`, `systematic-debugging`, `verify-before-done` | on its own, through its `description` | on its own, with the router marking the moment; if a local model skips it, `/name` |
-| `interview-me` | when you ask for it or the ticket is ambiguous | same, or `/interview-me` |
+| `interview-me` | when you ask for it, the ticket is ambiguous or the task is big (plan) | same, or `/interview-me` |
 | `check` | **automatic** after every edit | the router orders it after every change, or by hand |
 | `reviewer` | when the session closes or by hand (subagent) | same (agent picker) |
 
