@@ -52,7 +52,8 @@ one-agent-harness\
    │  └─ reviewer.agent.md               READY     the only agent: in-depth review, conventions included, never edits
    ├─ checklists\security.md             ADJUST    read only by the reviewer (axis 3); outside every catalogue
    ├─ scripts\check.py                   ADJUST    sensor: MARKER, PROJECT_PYTHON and RULES; changed lines only
-   └─ hooks\hooks.json                   READY     PostToolUse: runs check.py after every edit
+   ├─ hooks\hooks.json                   READY     PostToolUse: runs check.py after every edit
+   └─ closing.md                         FILL-IN   read when closing: reviewer, findings, clean-up, commit format
 ```
 
 - **READY:** works as is.

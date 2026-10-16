@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1184 470" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .hd{font-size:15px;font-weight:700;fill:#0f172a}
+    .sb{font-size:12px;fill:#475569}
+    .tx{font-size:12.5px;fill:#334155}
+    .ch{font-size:11px;font-weight:700}
+    .k{fill:#dbeafe;stroke:#2563eb;stroke-width:1.5}
+    .p{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}
+    .c{fill:#ffedd5;stroke:#ea580c;stroke-width:1.5}
+    .g{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}
+    .kt{fill:#1e3a8a} .pt{fill:#14532d} .ctt{fill:#7c2d12} .gt{fill:#0f172a}
+    .lbl{font-size:11px;font-weight:700;fill:#64748b;letter-spacing:.4px}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1184" height="470" rx="16" fill="#f8fafc"/>
+
+  <!-- columns -->
+  <g fill="#fff" stroke="#e2e8f0">
+    <rect x="20" y="20" width="548" height="430" rx="14"/>
+    <rect x="616" y="20" width="548" height="430" rx="14"/>
+  </g>
+  <g fill="#e2e8f0">
+    <rect x="20" y="20" width="548" height="58" rx="14"/><rect x="20" y="58" width="548" height="20"/>
+    <rect x="616" y="20" width="548" height="58" rx="14"/><rect x="616" y="58" width="548" height="20"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="294" y="45" class="hd">A catalogue of skills</text>
+    <text x="294" y="64" class="sb">the usual shape: one skill per topic</text>
+    <text x="890" y="45" class="hd">A tree (this harness)</text>
+    <text x="890" y="64" class="sb">one door per phase, an index, depth on demand</text>
+  </g>
+
+  <!-- catalogue: every turn -->
+  <rect x="36" y="94" width="516" height="186" rx="10" fill="#fff7ed" stroke="#fdba74" stroke-dasharray="4 3"/>
+  <text x="50" y="114" class="lbl">IN CONTEXT EVERY TURN: ALL THE DESCRIPTIONS</text>
+  <g>
+    <rect x="50" y="126" width="116" height="24" rx="12" class="g"/><text x="108" y="142" text-anchor="middle" class="ch gt">brainstorming</text>
+    <rect x="174" y="126" width="116" height="24" rx="12" class="g"/><text x="232" y="142" text-anchor="middle" class="ch gt">writing-plans</text>
+    <rect x="298" y="126" width="116" height="24" rx="12" class="g"/><text x="356" y="142" text-anchor="middle" class="ch gt">executing-plans</text>
+    <rect x="422" y="126" width="116" height="24" rx="12" class="g"/><text x="480" y="142" text-anchor="middle" class="ch gt">spec-driven</text>
+    <rect x="50" y="158" width="116" height="24" rx="12" class="g"/><text x="108" y="174" text-anchor="middle" class="ch gt">debugging</text>
+    <rect x="174" y="158" width="116" height="24" rx="12" class="g"/><text x="232" y="174" text-anchor="middle" class="ch gt">error-recovery</text>
+    <rect x="298" y="158" width="116" height="24" rx="12" class="g"/><text x="356" y="174" text-anchor="middle" class="ch gt">TDD</text>
+    <rect x="422" y="158" width="116" height="24" rx="12" class="g"/><text x="480" y="174" text-anchor="middle" class="ch gt">verification</text>
+    <rect x="50" y="190" width="116" height="24" rx="12" class="g"/><text x="108" y="206" text-anchor="middle" class="ch gt">code-review</text>
+    <rect x="174" y="190" width="116" height="24" rx="12" class="g"/><text x="232" y="206" text-anchor="middle" class="ch gt">security</text>
+    <rect x="298" y="190" width="116" height="24" rx="12" class="g"/><text x="356" y="206" text-anchor="middle" class="ch gt">performance</text>
+    <rect x="422" y="190" width="116" height="24" rx="12" class="g"/><text x="480" y="206" text-anchor="middle" class="ch gt">frontend-ui</text>
+    <rect x="50" y="222" width="116" height="24" rx="12" class="g"/><text x="108" y="238" text-anchor="middle" class="ch gt">context-eng.</text>
+    <rect x="174" y="222" width="116" height="24" rx="12" class="g"/><text x="232" y="238" text-anchor="middle" class="ch gt">simplification</text>
+    <rect x="298" y="222" width="116" height="24" rx="12" class="g"/><text x="356" y="238" text-anchor="middle" class="ch gt">worktrees</text>
+    <rect x="422" y="222" width="116" height="24" rx="12" class="g"/><text x="480" y="238" text-anchor="middle" class="ch gt">… 20 more</text>
+  </g>
+  <text x="50" y="268" class="sb">overlapping topics: which one? two at once? none?</text>
+  <g class="tx">
+    <text x="36" y="312">The agent decides <tspan font-weight="700">among many similar skills at once</tspan>, on</text>
+    <text x="36" y="330">every turn. That's where it skips one or loads the wrong one.</text>
+    <text x="36" y="356">Each one loads whole, and discipline comes from strong</text>
+    <text x="36" y="374">orders ("MUST") repeated across the skills.</text>
+  </g>
+  <g class="sb">
+    <text x="36" y="410">+ precise triggers and deep, specialised skills</text>
+    <text x="36" y="428">− fixed cost every turn, overlaps, a long process to keep up</text>
+  </g>
+
+  <!-- tree -->
+  <rect x="632" y="94" width="516" height="104" rx="10" fill="#fff7ed" stroke="#fdba74" stroke-dasharray="4 3"/>
+  <text x="646" y="114" class="lbl">IN CONTEXT EVERY TURN: THE ROUTER AND 6 DESCRIPTIONS</text>
+  <rect x="646" y="124" width="488" height="24" rx="12" class="c"/>
+  <text x="890" y="140" text-anchor="middle" class="ch ctt">router: always (sensor · show what you checked · git) + a table of moments</text>
+  <g>
+    <rect x="646" y="160" width="74" height="26" rx="13" class="k"/><text x="683" y="177" text-anchor="middle" class="ch kt">conventions</text>
+    <rect x="726" y="160" width="74" height="26" rx="13" class="k"/><text x="763" y="177" text-anchor="middle" class="ch kt">ui</text>
+    <rect x="806" y="160" width="74" height="26" rx="13" class="k"/><text x="843" y="177" text-anchor="middle" class="ch kt">stack</text>
+    <rect x="886" y="160" width="74" height="26" rx="13" class="p" stroke-width="2.5"/><text x="923" y="177" text-anchor="middle" class="ch pt">prepare</text>
+    <rect x="966" y="160" width="74" height="26" rx="13" class="p"/><text x="1003" y="177" text-anchor="middle" class="ch pt">diagnose</text>
+    <rect x="1046" y="160" width="88" height="26" rx="13" class="p"/><text x="1090" y="177" text-anchor="middle" class="ch pt">verify</text>
+  </g>
+  <text x="646" y="222" class="lbl">ONLY WHEN THE MOMENT COMES</text>
+  <path d="M923 188V236" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+  <rect x="818" y="240" width="210" height="28" rx="14" class="g"/>
+  <text x="923" y="258" text-anchor="middle" class="ch gt">index: which branch? (~100 words)</text>
+  <path d="M870 270L790 300" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+  <path d="M976 270L1056 300" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+  <rect x="700" y="302" width="170" height="28" rx="14" class="p"/>
+  <text x="785" y="320" text-anchor="middle" class="ch pt">interview.md · not clear</text>
+  <rect x="976" y="302" width="170" height="28" rx="14" class="p"/>
+  <text x="1061" y="320" text-anchor="middle" class="ch pt">plan.md · it's big</text>
+  <g class="tx">
+    <text x="632" y="358">The agent decides <tspan font-weight="700">one thing at a time</tspan>: which phase (the</text>
+    <text x="632" y="376">router), then which branch (the index). Only the branch it needs</text>
+    <text x="632" y="394">is read, so a branch can be as deep as a whole skill.</text>
+  </g>
+  <g class="sb">
+    <text x="632" y="420">+ small fixed cost, one clear role per skill, depth only when used</text>
+    <text x="632" y="438">− it all hinges on a clear description and index</text>
+  </g>
+</svg>

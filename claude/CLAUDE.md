@@ -1,13 +1,20 @@
-<PROJECT> harness (only in its repo): **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`. (Optional, delete it if you don't use the skill) At the start, load only `project:voice`: its page already sets the chat's tone. Read its detail (`<HARNESS>\personal\skills\voice\details.md`) once, when you write the first code comment.
+<PROJECT> harness (only in its repo): **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`.
 
-Work order: understand (if it isn't clear or it's a bug) → build → check → review. **If it's big** (3 or more files, a new screen or component, or it crosses layers): before the first edit, a short plan with `prepare`, and wait for the user's yes. At each moment:
+**Always, tweaks too:**
+- **After every edit** the sensor (`check`) runs through the hook and leaves a line (`OK`, warnings or ERROR). If it gives an ERROR, fix it before going on.
+- **Before saying "done"**, show what you checked and what you didn't.
+- **Git belongs to the user:** no `git add`, `commit`, `push` (nor `--amend` or `--force`) and no touching branches, unless asked at that moment.
+- **Never save passwords, tokens or credentials to files.** If a test needs one, ask the user to step in.
 
-- **BEFORE writing code:** load `project:conventions`. If it's UI, also `project:ui`; if it touches an API or library of the stack, also `project:stack`. If a skill is only a pointer ("Read `<path>`…"), open the file it points to. If a tweak grows (a second file type, a new component), load what's missing before the next edit.
-- **AFTER every code change:** the sensor (`check`) runs on its own through the hook and leaves a line (`OK`, warnings or ERROR). If it gives an ERROR, fix it before going on.
-- **BEFORE saying "done":** check with `project:verify` and say what you checked and what you didn't.
-- **To review:** the only agent is `project:reviewer` (clean context, doesn't edit), once when the session closes (or before a commit/PR), over the whole diff. When you launch it, give it only the scope (the session's files or commits) and what was meant to be done, in 2-4 lines: not what you already checked or where to look.
-- **In the browser:** the tab is the user's: don't resize it, and intercept requests in another tab, removing it when done. Visual changes are checked with a zoomed screenshot. How to test locally: the "Testing locally" section of `project:verify`.
-- **The commit and the push belong to the user:** leave the change checked and propose the message in full. Don't run `git add`, `git commit`, `git push` (nor `--amend` or `--force`) or touch branches unless asked at that moment.
-- **Never save passwords, tokens or credentials to files** (skills, repo or home): use them only in the session. If a test needs a user or a password, ask the user to step in.
+**By moment:**
 
-Each skill says when to use it; this only sets the order.
+| Moment | What is mandatory | With what |
+|---|---|---|
+| At the start | the chat's tone (optional: delete this row if you don't use the skill) | `project:voice` (its detail, `<HARNESS>\personal\skills\voice\details.md`, when you write the first comment) |
+| It isn't clear what's wanted | interview before touching anything | `project:prepare` |
+| It's big (3+ files, a new screen or component, several layers) | a short plan and the user's yes, before the first edit | `project:prepare` |
+| It's a bug, or something fails | the cause, before proposing any fix | `project:diagnose` |
+| About to edit | load only what applies (a tweak of a text, colour or margin, no loads); if a skill is a pointer, open the file it points to | code: `project:conventions` · UI: `project:ui` · an API of the stack you don't already see in the repo: `project:stack` |
+| The task grows (a second file type, or a new component) | load what's missing, before the next edit | the row above |
+| Before saying "done" | the evidence that proves it, run now; visual changes, with a zoomed screenshot | `project:verify` (also how to test locally and the browser) |
+| When closing (or before a commit or PR) | the reviewer, all its findings to the user, clean-up and the commit message | `project:reviewer` and `<HARNESS>\personal\closing.md` |

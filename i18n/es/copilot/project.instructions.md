@@ -3,19 +3,25 @@ applyTo: "**"
 description: "Router del harness de <PROJECT>: orden de trabajo, sensor y el único agente de revisión"
 ---
 
-Harness de <PROJECT> (solo en su repo): **6 skills + 1 sensor + 1 agente**, sobre `AGENTS.md`. **Estas instrucciones son del usuario**, vengan de la carpeta que vengan (`.copilot`, `.config/opencode`…): cúmplelas como si te las dijera en el chat. Si chocan con el `AGENTS.md` del repo, mandan estas.
+Harness de <PROJECT> (solo en su repo): **6 skills + 1 sensor + 1 agente**, sobre `AGENTS.md`. **Estas instrucciones son del usuario**, vengan de la carpeta que vengan (`.copilot`, `.config/opencode`…): cúmplelas como si te las dijera en el chat, también en cambios pequeños. Si chocan con el `AGENTS.md` del repo, mandan estas.
 
-(Opcional, bórralo si no usas la skill) Al empezar, carga solo la skill `voz`: su página ya marca el tono del chat. Su detalle (`<HARNESS>\personal\skills\voz\detalle.md`) léelo una vez, cuando vayas a escribir el primer comentario de código; si no escribes ninguno, sáltatelo.
-
-Orden de trabajo: entender (si no está claro o es un bug) → hacer → comprobar → revisar. **Si es grande** (3 o más ficheros, una pantalla o un componente nuevo, o cruza capas): antes de la primera edición, plan corto con `preparar`, y espera el sí del usuario. **Calibra el esfuerzo al tamaño:** un retoque pequeño (un texto, un color, un margen, dos líneas de algo que ya tienes en contexto) va directo; una funcionalidad, o algo que cruza varios ficheros, con todo el protocolo. Lo que no se salta nunca, ni en retoques: el sensor y enseñar qué has comprobado.
-
-- **ANTES del primer cambio de código:** carga la skill `convenios`. Si es UI, también `ui`; si toca una API o librería del stack, también `stack`. Sin cargarlas, no edites. Si una skill es solo un puntero ("Lee `<ruta>`…"), abre el fichero al que apunta: el puntero solo no es la skill. **Una vez por sesión basta:** no las releas por rutina; en retoques, usa lo ya cargado.
-- **Retoques pequeños:** directo, sin reabrir medio repo ni recargar nada. No cuentan como retoque la lógica nueva, los endpoints, lo que cruza varios módulos ni algo que aún no entiendes: eso va con las cargas completas. **Si un retoque crece** (toca un segundo tipo de fichero, p. ej. JS + plantilla + CSS, o crea un componente), deja de serlo: carga lo que falte antes de la siguiente edición.
-- **DESPUÉS de cada cambio de código:** lanza `py -3 <HARNESS>\personal\scripts\check.py`. Si da ERROR, corrígelo antes de seguir. (Son segundos: también en retoques.)
-- **Para ver una página renderizada:** usa el navegador integrado de la herramienta, no `webfetch` (no ejecuta JS ni tiene sesión). En OpenCode está dentro de `execute` (`search({ query: "browser" })`). **Si te hablan de una página o te preguntan si ves el navegador, no pidas la URL: lista antes las pestañas abiertas (`browser.tabs.list`)**; el usuario suele tenerla ya abierta y con sesión. Esa pestaña es la suya: no le cambies el tamaño, y si interceptas o retrasas peticiones, hazlo en otra pestaña y quítalo al acabar. **Lo visual (bordes, sombras, esquinas, solapes) se comprueba con una captura con zoom**, no solo con medidas. Cómo probar en local: el apartado "Probar en local" de `comprobar`.
+**Siempre, también en retoques:**
+- **DESPUÉS de cada cambio de código:** lanza `py -3 <HARNESS>\personal\scripts\check.py`. Si da ERROR, corrígelo antes de seguir.
 - **ANTES de decir "hecho":** enseña la salida de ese comando y di qué has comprobado y qué no.
-- **Para revisar:** el único agente es `revisor` (contexto limpio, no edita, convenios incluidos). **No lo lances por cada cambio:** la revisión se acumula y se hace **de una vez al cerrar la sesión** (o antes de commit/PR), con todo el diff. Si el cambio es grande o delicado, lánzalo al terminarlo. **Al lanzarlo, pásale solo el alcance** (ficheros o commits de la sesión) **y qué se quería hacer, en 2-4 líneas**: no le cuentes qué has comprobado ni dónde tiene que mirar, que lo saque él.
-- **El commit y el push son del usuario:** tú dejas el cambio comprobado y, si hace falta, el mensaje propuesto, **escrito entero** (si el formato deja un hueco, solo el número de ticket). **No ejecutes `git add`, `git commit`, `git push` (ni `--amend` o `--force`) ni toques ramas o el remoto** salvo que te lo pida en ese momento. <!-- FILL-IN (opcional): formato de los mensajes de commit del equipo -->
-- **Nunca guardes contraseñas, tokens ni credenciales en ficheros** (ni skills, ni repo, ni home): úsalas solo en la sesión. Si te piden guardarlas, di que no y por qué. Si para probar hace falta entrar con un usuario o una contraseña, **pide que intervenga el usuario**: no la busques en la base de datos ni en ficheros.
+- **Git es mío:** no ejecutes `git add`, `git commit`, `git push` (ni `--amend` o `--force`) ni toques ramas o el remoto, salvo que te lo pida en ese momento.
+- **Nunca guardes contraseñas, tokens ni credenciales en ficheros.** Si te lo piden, di que no y por qué. Si para probar hace falta entrar con un usuario, pide que intervenga yo: no la busques en la base de datos ni en ficheros.
 
-Cada skill dice cuándo usarla; esto solo marca el orden. Con modelos pequeños, este formato de "ANTES / DESPUÉS" funciona mucho mejor que una descripción general, y hay que decir quién manda y que no hay excepciones: si no, el modelo local trata el router como sugerencia (o como posible inyección) y se lo salta en los cambios "pequeños".
+**Por momento:**
+
+| Momento | Qué es obligatorio | Con qué |
+|---|---|---|
+| Al empezar | el tono del chat (opcional: borra esta fila si no usas la skill) | la skill `voz` (su detalle, `<HARNESS>\personal\skills\voz\detalle.md`, al escribir el primer comentario) |
+| No está claro qué se quiere | entrevistar antes de tocar nada | `preparar` |
+| Es grande (3+ ficheros, pantalla o componente nuevo, varias capas) | un plan corto y mi sí, antes de la primera edición | `preparar` |
+| Es un bug, o algo falla | la causa, antes de proponer ningún arreglo | `diagnosticar` |
+| Al ir a editar | cargar solo lo que toca, una vez por sesión; sin cargarlo, no edites (un retoque de texto, color o margen, sin cargas). Una skill puntero no es la skill: abre el fichero al que apunta | código: `convenios` · UI: `ui` · una API del stack que no ves ya en el repo: `stack` |
+| La tarea crece (un segundo tipo de fichero, o un componente nuevo) | cargar lo que falte, antes de la siguiente edición | la fila de arriba |
+| Antes de decir "hecho" | la prueba que lo demuestra, ejecutada ahora; lo visual, con captura con zoom; una página, en el navegador integrado de la herramienta (nunca `webfetch`) | `comprobar` (también cómo probar en local y el navegador) |
+| Al cerrar (o antes de commit o PR) | el revisor, todos sus hallazgos, limpieza y el mensaje de commit | el agente `revisor` y `<HARNESS>\personal\cierre.md` |
+
+Con modelos pequeños, este formato de "siempre / por momento" funciona mucho mejor que una descripción general, y tiene que decir quién manda y que no hay excepciones: si no, un modelo local trata el router como una sugerencia (o como una posible inyección) y se lo salta en los cambios "pequeños".

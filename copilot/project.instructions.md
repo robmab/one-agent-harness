@@ -3,19 +3,25 @@ applyTo: "**"
 description: "<PROJECT> harness router: work order, sensor and the only review agent"
 ---
 
-<PROJECT> harness (only in its repo): **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`. **These instructions are the user's**, whatever folder they come from (`.copilot`, `.config/opencode`…): follow them as if I told you in the chat. If they clash with the repo's `AGENTS.md`, these win.
+<PROJECT> harness (only in its repo): **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`. **These instructions are the user's**, whatever folder they come from (`.copilot`, `.config/opencode`…): follow them as if I told you in the chat, small changes too. If they clash with the repo's `AGENTS.md`, these win.
 
-(Optional, delete it if you don't use the skill) At the start, load only the `voice` skill: its page already sets the chat's tone. Read its detail (`<HARNESS>\personal\skills\voice\details.md`) once, when you're about to write the first code comment; if you write none, skip it.
-
-Work order: understand (if it isn't clear or it's a bug) → build → check → review. **If it's big** (3 or more files, a new screen or component, or it crosses layers): before the first edit, a short plan with `prepare`, and wait for the user's yes. **Scale the effort to the size:** a small tweak (a text, a colour, a margin, two lines of something already in context) goes straight in; a feature, or something that spans several files, gets the full protocol. What is never skipped, not even in tweaks: the sensor and showing what you checked.
-
-- **BEFORE the first code change:** load the `conventions` skill. If it's UI, also `ui`; if it touches an API or library of the stack, also `stack`. Don't edit without loading them. If a skill is only a pointer ("Read `<path>`…"), open the file it points to: the pointer alone isn't the skill. **Once per session is enough:** don't reread them by routine; for tweaks, use what's already loaded.
-- **Small tweaks:** straight in, without reopening half the repo or reloading anything. New logic, endpoints, anything spanning several modules or something you don't understand yet are not tweaks: those get the full loads. **If a tweak grows** (it touches a second file type, e.g. JS + template + CSS, or creates a component), it stops being one: load what's missing before the next edit.
-- **AFTER every code change:** run `py -3 <HARNESS>\personal\scripts\check.py`. If it gives an ERROR, fix it before going on. (It takes seconds: tweaks too.)
-- **To see a rendered page:** use the tool's built-in browser, not `webfetch` (it doesn't run JS and has no session). In OpenCode it's inside `execute` (`search({ query: "browser" })`). **If you're told about a page or asked whether you see the browser, don't ask for the URL: list the open tabs first (`browser.tabs.list`)**; the user usually has it open already, with a session. That tab is theirs: don't resize it, and if you intercept or delay requests, do it in another tab and remove it when done. **Visual changes (borders, shadows, corners, overlaps) are checked with a zoomed screenshot**, not only with measurements. How to test locally: the "Testing locally" section of `verify`.
+**Always, tweaks too:**
+- **AFTER every code change:** run `py -3 <HARNESS>\personal\scripts\check.py`. If it gives an ERROR, fix it before going on.
 - **BEFORE saying "done":** show the output of that command and say what you checked and what you didn't.
-- **To review:** the only agent is `reviewer` (clean context, doesn't edit, conventions included). **Don't launch it after every change:** reviews pile up and run **once, when the session closes** (or before a commit/PR), over the whole diff. If the change is big or delicate, launch it when you finish it. **When you launch it, give it only the scope** (the session's files or commits) **and what was meant to be done, in 2-4 lines**: don't tell it what you already checked or where to look; let it find out.
-- **The commit and the push belong to the user:** you leave the change checked and, if needed, a proposed message, **written in full** (if the format leaves a gap, only the ticket number). **Don't run `git add`, `git commit`, `git push` (nor `--amend` or `--force`) or touch branches or the remote** unless I ask you to at that moment. <!-- FILL-IN (optional): the team's commit message format -->
-- **Never save passwords, tokens or credentials to files** (not in skills, not in the repo, not in home): use them only in the session. If you're asked to save them, say no and why. If a test needs logging in with a user or a password, **ask the user to step in**: don't go looking for it in the database or in files.
+- **Git is mine:** don't run `git add`, `git commit`, `git push` (nor `--amend` or `--force`) or touch branches or the remote, unless I ask you to at that moment.
+- **Never save passwords, tokens or credentials to files.** If you're asked to, say no and why. If a test needs logging in, ask me to step in: don't go looking for it in the database or in files.
 
-Each skill says when to use it; this only sets the order. With small models, this "BEFORE / AFTER" format works much better than a general description, and it has to say who's in charge and that there are no exceptions: otherwise a local model treats the router as a suggestion (or as a possible injection) and skips it on "small" changes.
+**By moment:**
+
+| Moment | What is mandatory | With what |
+|---|---|---|
+| At the start | the chat's tone (optional: delete this row if you don't use the skill) | the `voice` skill (its detail, `<HARNESS>\personal\skills\voice\details.md`, when you write the first comment) |
+| It isn't clear what's wanted | interview before touching anything | `prepare` |
+| It's big (3+ files, a new screen or component, several layers) | a short plan and my yes, before the first edit | `prepare` |
+| It's a bug, or something fails | the cause, before proposing any fix | `diagnose` |
+| About to edit | load only what applies, once per session; without it loaded, don't edit (a tweak of a text, colour or margin, no loads). A pointer skill isn't the skill: open the file it points to | code: `conventions` · UI: `ui` · an API of the stack you don't already see in the repo: `stack` |
+| The task grows (a second file type, or a new component) | load what's missing, before the next edit | the row above |
+| Before saying "done" | the evidence that proves it, run now; visual changes, with a zoomed screenshot; a page, in the tool's built-in browser (never `webfetch`) | `verify` (also how to test locally and the browser) |
+| When closing (or before a commit or PR) | the reviewer, all its findings, clean-up and the commit message | the `reviewer` agent and `<HARNESS>\personal\closing.md` |
+
+With small models, this "always / by moment" format works much better than a general description, and it has to say who's in charge and that there are no exceptions: otherwise a local model treats the router as a suggestion (or as a possible injection) and skips it on "small" changes.

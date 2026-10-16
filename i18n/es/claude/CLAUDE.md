@@ -1,13 +1,20 @@
-Harness de <PROJECT> (solo en su repo): **6 skills + 1 sensor + 1 agente**, sobre `AGENTS.md`. (Opcional, bórralo si no usas la skill) Al empezar, carga solo `project:voz`: su página ya marca el tono del chat. Su detalle (`<HARNESS>\personal\skills\voz\detalle.md`) léelo una vez, al escribir el primer comentario de código.
+Harness de <PROJECT> (solo en su repo): **6 skills + 1 sensor + 1 agente**, sobre `AGENTS.md`.
 
-Orden de trabajo: entender (si no está claro o es un bug) → hacer → comprobar → revisar. **Si es grande** (3 o más ficheros, una pantalla o un componente nuevo, o cruza capas): antes de la primera edición, plan corto con `preparar`, y espera el sí del usuario. En cada momento:
+**Siempre, también en retoques:**
+- **Tras cada edición** salta el sensor (`check`) por el hook y deja una línea (`OK`, avisos o ERROR). Si da ERROR, se corrige antes de seguir.
+- **Antes de decir "hecho"**, enseña qué has comprobado y qué no.
+- **Git es del usuario:** nada de `git add`, `commit`, `push` (ni `--amend` o `--force`) ni tocar ramas, salvo que te lo pida en ese momento.
+- **Nunca guardes contraseñas, tokens ni credenciales en ficheros.** Si para probar hace falta una, pide que intervenga el usuario.
 
-- **ANTES de escribir código:** carga `project:convenios`. Si es UI, también `project:ui`; si toca una API o librería del stack, también `project:stack`. Si una skill es solo un puntero ("Lee `<ruta>`…"), abre el fichero al que apunta. Si un retoque crece (un segundo tipo de fichero, un componente nuevo), carga lo que falte antes de la siguiente edición.
-- **DESPUÉS de cada cambio de código:** el sensor (`check`) salta solo por hook y deja una línea (`OK`, avisos o ERROR). Si da ERROR, corrígelo antes de seguir.
-- **ANTES de decir "hecho":** comprueba con `project:comprobar` y di qué has comprobado y qué no.
-- **Para revisar:** el único agente es `project:revisor` (contexto limpio, no edita), de una vez al cerrar la sesión (o antes de commit/PR), con todo el diff. Al lanzarlo, pásale solo el alcance (ficheros o commits de la sesión) y qué se quería hacer, en 2-4 líneas: ni qué has comprobado ni dónde mirar.
-- **En el navegador:** la pestaña es la del usuario: no le cambies el tamaño, y las intercepciones de red, en otra pestaña y quitadas al acabar. Lo visual se comprueba con captura con zoom. Cómo probar en local: el apartado "Probar en local" de `project:comprobar`.
-- **El commit y el push son del usuario:** deja el cambio comprobado y propón el mensaje entero. No ejecutes `git add`, `git commit`, `git push` (ni `--amend` o `--force`) ni toques ramas salvo que te lo pida en ese momento.
-- **Nunca guardes contraseñas, tokens ni credenciales en ficheros** (skills, repo ni home): úsalas solo en la sesión. Si para probar hace falta un usuario o una contraseña, pide que intervenga el usuario.
+**Por momento:**
 
-Cada skill dice cuándo usarla; esto solo marca el orden.
+| Momento | Qué es obligatorio | Con qué |
+|---|---|---|
+| Al empezar | el tono del chat (opcional: borra esta fila si no usas la skill) | `project:voz` (su detalle, `<HARNESS>\personal\skills\voz\detalle.md`, al escribir el primer comentario) |
+| No está claro qué se quiere | entrevistar antes de tocar nada | `project:preparar` |
+| Es grande (3+ ficheros, pantalla o componente nuevo, varias capas) | un plan corto y el sí del usuario, antes de la primera edición | `project:preparar` |
+| Es un bug, o algo falla | la causa, antes de proponer ningún arreglo | `project:diagnosticar` |
+| Al ir a editar | cargar solo lo que toca (un retoque de texto, color o margen, sin cargas); si una skill es un puntero, abre el fichero al que apunta | código: `project:convenios` · UI: `project:ui` · una API del stack que no ves ya en el repo: `project:stack` |
+| La tarea crece (un segundo tipo de fichero, o un componente nuevo) | cargar lo que falte, antes de la siguiente edición | la fila de arriba |
+| Antes de decir "hecho" | la prueba que lo demuestra, ejecutada ahora; lo visual, con captura con zoom | `project:comprobar` (también cómo probar en local y el navegador) |
+| Al cerrar (o antes de commit o PR) | el revisor, todos sus hallazgos al usuario, limpieza y el mensaje de commit | `project:revisor` y `<HARNESS>\personal\cierre.md` |

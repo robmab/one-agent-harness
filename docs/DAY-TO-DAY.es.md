@@ -23,8 +23,8 @@ Cada fichero tiene un papel; si se repite algo entre ellos, se gasta contexto en
 | Fichero | Quién lo lee | Qué va | Qué NO va |
 |---|---|---|---|
 | `AGENTS.md` (raíz del repo) | Claude y Copilot, siempre | el índice del repo: qué es, comandos que no se pueden adivinar, qué skill o agente usar para qué. Corto: cada línea, por un fallo real | lo personal, el detalle de las skills, el orden de trabajo |
-| `claude\CLAUDE.md` (harness) | Claude, siempre (hook `SessionStart`) | el **router**: el orden de trabajo (entender → hacer → comprobar → revisar), el papel del sensor y del agente. Corto y condicionado a "si estás en el repo de X" | el *cuándo* de cada skill (ya está en su `description`); nada de lo que dice `AGENTS.md` |
-| `copilot\<project>.instructions.md` (harness) | Copilot y OpenCode, siempre: el chat de VS Code, Copilot CLI (hardlink en `~/.copilot`) y OpenCode (hardlink `~/.config/opencode/AGENTS.md`) | el mismo router, sin prefijos, con el sensor lanzado a mano y en formato de órdenes **ANTES / DESPUÉS** (con modelos pequeños, la diferencia entre cumplirlo o no) | lo mismo que en `CLAUDE.md` |
+| `claude\CLAUDE.md` (harness) | Claude, siempre (hook `SessionStart`) | el **router**: lo que vale siempre (sensor, enseñar qué se comprobó, git, credenciales) y una tabla de momentos, cada uno con lo obligatorio y la skill o pieza que usa. Corto; el detalle de cada momento vive en su skill o en `personal\cierre.md` | el *cuándo* de cada skill (ya está en su `description`); nada de lo que dice `AGENTS.md` |
+| `copilot\<project>.instructions.md` (harness) | Copilot y OpenCode, siempre: el chat de VS Code, Copilot CLI (hardlink en `~/.copilot`) y OpenCode (hardlink `~/.config/opencode/AGENTS.md`) | el mismo router, sin prefijos, con el sensor lanzado a mano, diciendo de quién son las instrucciones y que valen también en retoques (con modelos pequeños, la diferencia entre cumplirlo o no) | lo mismo que en `CLAUDE.md` |
 | `SKILL.md` de cada skill | el modelo, cuando la `description` encaja | el *qué* y el *cómo*; la `description`, el *cuándo* | reglas que valgan siempre (esas, a `AGENTS.md` o a los convenios) |
 
 Reglas:

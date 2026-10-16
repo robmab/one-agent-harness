@@ -23,8 +23,8 @@ Each file has one job; anything repeated between them costs context in every ses
 | File | Who reads it | What goes in | What does NOT |
 |---|---|---|---|
 | `AGENTS.md` (repo root) | Claude and Copilot, always | the repo index: what it is, commands nobody can guess, which skill or agent to use for what. Short: every line backed by a real failure | personal pieces, skill details, the work order |
-| `claude\CLAUDE.md` (harness) | Claude, always (`SessionStart` hook) | the **router**: the work order (understand → build → check → review), the role of the sensor and the agent. Short, gated by "if you're in repo X" | the *when* of each skill (already in its `description`); anything `AGENTS.md` says |
-| `copilot\<project>.instructions.md` (harness) | Copilot and OpenCode, always: VS Code chat, Copilot CLI (hardlink in `~/.copilot`) and OpenCode (hardlink `~/.config/opencode/AGENTS.md`) | the same router, without prefixes, with the sensor run by hand and written as **BEFORE / AFTER** orders (with small models, the difference between following it or not) | same as `CLAUDE.md` |
+| `claude\CLAUDE.md` (harness) | Claude, always (`SessionStart` hook) | the **router**: what holds always (sensor, showing what was checked, git, credentials) and a table of moments, each with what's mandatory and the skill or piece it uses. Short; the detail of each moment lives in its skill or in `personal\closing.md` | the *when* of each skill (already in its `description`); anything `AGENTS.md` says |
+| `copilot\<project>.instructions.md` (harness) | Copilot and OpenCode, always: VS Code chat, Copilot CLI (hardlink in `~/.copilot`) and OpenCode (hardlink `~/.config/opencode/AGENTS.md`) | the same router, without prefixes, with the sensor run by hand, saying whose instructions they are and that tweaks count too (with small models, the difference between following it or not) | same as `CLAUDE.md` |
 | each skill's `SKILL.md` | the model, when the `description` matches | the *what* and *how*; the `description`, the *when* | rules that always apply (those go to `AGENTS.md` or the conventions) |
 
 Rules:

@@ -61,6 +61,14 @@ No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una apl
 
 Opcional, fuera del core: `voz` (tu propia voz en los comentarios y en el chat). Los nombres son los de `--lang es`; en inglés, `conventions`, `prepare`, `verify`… Qué hace cada pieza y cuándo entra: **[SKILLS-GUIDE](docs/SKILLS-GUIDE.es.md)**.
 
+### Una puerta por fase, no un catálogo
+
+La mayoría de colecciones de skills son catálogos: una skill por tema, todas sus descripciones en contexto en cada turno, y el agente eligiendo entre muchas parecidas a la vez. Aquí cada fase tiene **una sola skill**, su página es **un índice** que elige la rama, y el detalle vive en **ficheros aparte que solo se leen cuando hace falta esa rama**. El agente decide una cosa cada vez, y una rama puede ser tan profunda como una skill entera, con el coste fijo de seis descripciones.
+
+![Un catálogo de skills frente al árbol de este harness: una puerta por fase, un índice, profundidad bajo demanda](img/tree.es.svg)
+
+Lo nuevo entra como una rama más de la skill a la que pertenece; solo pasa a ser una skill propia cuando su disparador no puede compartir la puerta.
+
 ## Qué trae
 
 - **El motor, completo:** un router por herramienta, el sensor (`check.py` + hook), el `revisor`, la instalación (`setup.py`) y las comprobaciones que lo mantienen todo coherente.

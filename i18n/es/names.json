@@ -19,6 +19,7 @@
     "profiles/web/personal/skills/diagnose": "profiles/web/personal/skills/diagnosticar",
     "profiles/web/personal/skills/verify": "profiles/web/personal/skills/comprobar",
     "profiles/web/personal/skills/prepare/interview.md": "profiles/web/personal/skills/prepare/entrevista.md",
-    "profiles/web/personal/checklists/security.md": "profiles/web/personal/checklists/seguridad.md"
+    "profiles/web/personal/checklists/security.md": "profiles/web/personal/checklists/seguridad.md",
+    "personal/closing.md": "personal/cierre.md"
   }
 }

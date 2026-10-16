@@ -61,6 +61,14 @@ This isn't a demo: it's the harness I use **every day at work**, on a large prod
 
 Optional, outside the core: `voice` (your own voice for code comments and chat). What each piece does and when it kicks in: **[SKILLS-GUIDE](docs/SKILLS-GUIDE.md)**.
 
+### One door per phase, not a catalogue
+
+Most skill collections are catalogues: one skill per topic, every description in context on every turn, and the agent choosing among many similar ones at once. Here each phase has **a single skill**, its page is **an index** that picks the branch, and the detail lives in **side files read only when that branch is needed**. The agent decides one thing at a time, and a branch can be as deep as a whole skill, at the fixed cost of six descriptions.
+
+![A catalogue of skills against the tree of this harness: one door per phase, an index, depth on demand](img/tree.svg)
+
+New knowledge goes in as a new branch of the skill it belongs to; it only becomes a skill of its own when its trigger can't share the door.
+
 ## What you get
 
 - **The engine, complete:** a router for each tool, the sensor (`check.py` + hook), the `reviewer`, the installer (`setup.py`) and the checks that keep it all consistent.
