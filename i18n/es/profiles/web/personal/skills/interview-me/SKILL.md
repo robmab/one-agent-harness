@@ -56,7 +56,7 @@ Cuando está claro qué hacer pero es grande. **Antes de la primera edición**, 
 4. **Repásalo contra la petición**, punto por punto: ni de más ni de menos.
 5. **Enséñalo y espera un sí claro**, como en la entrevista. Ni código ni ediciones en ese turno.
 
-Si al hacerlo un paso cambia, dilo antes de seguir. Al cerrar, el OBJETIVO y los ficheros del plan son el alcance y la intención que le pasas al `revisor`.
+Si al hacerlo un paso cambia, dilo antes de seguir. **Al acabar, repasa lo hecho contra los PASOS:** cada cosa en el sitio que dice el plan; si algo ha quedado en otro, dilo antes de cerrar. Al cerrar, el OBJETIVO y los ficheros del plan son el alcance y la intención que le pasas al `revisor`.
 
 ## Señales de alarma del plan
 

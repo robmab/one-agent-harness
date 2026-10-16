@@ -22,7 +22,7 @@ description: "Antes de programar: sacar lo que de verdad hay que hacer (pregunta
 <!-- FILL-IN: lo que dejan fuera los tickets de este proyecto. P. ej.: qué rol, qué clientes, un campo nuevo (migración), cómo sabremos que está bien. -->
 
 ## Plan
-<!-- FILL-IN: la forma del plan. P. ej.: 10-20 líneas sin código; pasos en orden de capas, cada uno con cómo se comprueba; qué reutiliza; qué no se toca; el sí del usuario antes de editar. -->
+<!-- FILL-IN: la forma del plan. P. ej.: 10-20 líneas sin código; pasos en orden de capas, cada uno con cómo se comprueba; qué reutiliza; qué no se toca; el sí del usuario antes de editar; al acabar, lo hecho repasado contra los pasos. -->
 
 ## Señales de alarma
 <!-- FILL-IN: 2-3. P. ej.: dos preguntas en un mensaje; programar antes del sí; planificar un retoque de un fichero. -->

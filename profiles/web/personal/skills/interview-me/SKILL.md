@@ -56,7 +56,7 @@ When it's clear what to do but it's big. **Before the first edit**, and with the
 4. **Check it against the request**, point by point: nothing more, nothing less.
 5. **Show it and wait for a clear yes**, as in the interview. No code or edits in that turn.
 
-If a step changes while building, say so before going on. When closing, the GOAL and the plan's files are the scope and intent you hand to the `reviewer`.
+If a step changes while building, say so before going on. **When done, check what was built against the STEPS:** each thing where the plan put it; if something ended up elsewhere, say so before closing. When closing, the GOAL and the plan's files are the scope and intent you hand to the `reviewer`.
 
 ## Plan red flags
 

@@ -22,7 +22,7 @@ description: "Before coding: find out what really has to be done (one question a
 <!-- FILL-IN: what this project's tickets leave out. E.g.: which role, which customers, a new field (migration), how we'll know it's right. -->
 
 ## Plan
-<!-- FILL-IN: the shape of a plan. E.g.: 10-20 lines, no code; steps in layer order, each with how it's checked; what it reuses; what isn't touched; the user's yes before editing. -->
+<!-- FILL-IN: the shape of a plan. E.g.: 10-20 lines, no code; steps in layer order, each with how it's checked; what it reuses; what isn't touched; the user's yes before editing; when done, what was built checked against the steps. -->
 
 ## Red flags
 <!-- FILL-IN: 2-3. E.g.: two questions in one message; coding before the yes; planning a one-file tweak. -->
