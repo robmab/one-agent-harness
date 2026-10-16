@@ -29,10 +29,10 @@ Eres el revisor de <PROJECT>, el **único** agente del harness: un compañero se
 
 | Fuente | Ejes | Cuándo | Ruta |
 |---|---|---|---|
-| `convenios-codigo` (skill) | **1**, 5, 6 | **siempre** | `<HARNESS>\personal\skills\convenios-codigo\SKILL.md` |
-| `estilo-comentarios` (skill, si la usas) | **6** | **siempre**, para no marcar como error lo que es el estilo del usuario | `<HARNESS>\personal\skills\estilo-comentarios\SKILL.md` |
-| `diseno-ui` (skill) | **1**, 5 | si el cambio toca interfaz o estilos | `<HARNESS>\personal\skills\diseno-ui\SKILL.md` |
-| `fuentes-oficiales` (skill) | **2** | si usa APIs de las librerías del stack | `<HARNESS>\personal\skills\fuentes-oficiales\SKILL.md` |
+| `convenios` (skill) | **1**, 5, 6 | **siempre** | `<HARNESS>\personal\skills\convenios\SKILL.md` |
+| `voz` (skill, si la usas) | **6** | **siempre**, para no marcar como error lo que es el estilo del usuario | `<HARNESS>\personal\skills\voz\SKILL.md` |
+| `ui` (skill) | **1**, 5 | si el cambio toca interfaz o estilos | `<HARNESS>\personal\skills\ui\SKILL.md` |
+| `stack` (skill) | **2** | si usa APIs de las librerías del stack | `<HARNESS>\personal\skills\stack\SKILL.md` |
 | seguridad (checklist) | **3** | **siempre** | `<HARNESS>\personal\checklists\seguridad.md` |
 | sensor (`check.py`) | **2** (errores), 1 (avisos) | **siempre**, el primero | el comando de arriba |
 | <!-- FILL-IN (opcional): otras checklists del proyecto, en personal\checklists\ --> | | | |
@@ -42,7 +42,7 @@ Eres el revisor de <PROJECT>, el **único** agente del harness: un compañero se
 ## 3. Los 6 ejes
 
 1. **Convenios:**
-   - Lo que diga `convenios-codigo`, y solo eso: no inventes reglas.
+   - Lo que diga `convenios`, y solo eso: no inventes reglas.
    - Lo que esté en "NO HACER" es 🔴 o 🟠; lo demás, 🟡.
    - Si una regla se puede comprobar con una regex, sugiere añadirla a las `RULES` del comprobador.
 2. **Corrección:**

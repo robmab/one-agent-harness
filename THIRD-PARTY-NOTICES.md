@@ -4,8 +4,8 @@ This template includes material adapted from the following MIT-licensed projects
 
 | Project | Adapted into |
 |---|---|
-| [obra/superpowers](https://github.com/obra/superpowers) | `examples/skills/verify-before-done` (from `verification-before-completion`), `examples/skills/systematic-debugging` (from `systematic-debugging`), the plan part of `examples/skills/interview-me` (inspired by `writing-plans`); the concept of the matching templates in `personal/skills/`; and their filled-in versions in `profiles/web/` |
-| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | `examples/skills/interview-me` (from `interview-me`), `examples/skills/official-sources` (from `source-driven-development`), the concept of the matching templates in `personal/skills/`, `personal/agents/reviewer.agent.md` (axes and criteria from `code-review-and-quality`), `personal/checklists/security.md` (points from `security-and-hardening`); and their filled-in versions in `profiles/web/` |
+| [obra/superpowers](https://github.com/obra/superpowers) | `examples/skills/verify` (from `verification-before-completion`), `examples/skills/diagnose` (from `systematic-debugging`), the plan part of `examples/skills/prepare` (inspired by `writing-plans`); the concept of the matching templates in `personal/skills/`; and their filled-in versions in `profiles/web/` |
+| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | `examples/skills/prepare` (from `interview-me`), `examples/skills/stack` (from `source-driven-development`), the concept of the matching templates in `personal/skills/`, `personal/agents/reviewer.agent.md` (axes and criteria from `code-review-and-quality`), `personal/checklists/security.md` (points from `security-and-hardening`); and their filled-in versions in `profiles/web/` |
 
 The adaptations are shortened and modified (they were first translated to Spanish and later back to English); any errors are ours, not the original authors'.
 

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1184 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .hd{font-size:15px;font-weight:700;fill:#0f172a}
+    .sb{font-size:12px;fill:#475569}
+    .tx{font-size:12.5px;fill:#334155}
+    .ch{font-size:11.5px;font-weight:700}
+    .k{fill:#dbeafe;stroke:#2563eb;stroke-width:1.5}
+    .p{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}
+    .c{fill:#ffedd5;stroke:#ea580c;stroke-width:1.5}
+    .g{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}
+    .t{fill:#fef9c3;stroke:#ca8a04;stroke-width:1.5}
+    .kt{fill:#1e3a8a} .pt{fill:#14532d} .ctt{fill:#7c2d12} .gt{fill:#0f172a} .tt{fill:#713f12}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1184" height="360" rx="16" fill="#f8fafc"/>
+
+  <!-- columns -->
+  <g fill="#fff" stroke="#e2e8f0">
+    <rect x="20" y="20" width="352" height="320" rx="14"/>
+    <rect x="416" y="20" width="352" height="320" rx="14"/>
+    <rect x="812" y="20" width="352" height="320" rx="14"/>
+  </g>
+  <g fill="#e2e8f0">
+    <rect x="20" y="20" width="352" height="58" rx="14"/><rect x="20" y="58" width="352" height="20"/>
+    <rect x="416" y="20" width="352" height="58" rx="14"/><rect x="416" y="58" width="352" height="20"/>
+    <rect x="812" y="20" width="352" height="58" rx="14"/><rect x="812" y="58" width="352" height="20"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="196" y="45" class="hd">La plantilla</text>
+    <text x="196" y="64" class="sb">la misma para cada proyecto</text>
+    <text x="592" y="45" class="hd">+ setup.py --profile web</text>
+    <text x="592" y="64" class="sb">opcional: reglas generales de un área</text>
+    <text x="988" y="45" class="hd">= tu harness</text>
+    <text x="988" y="64" class="sb">lo que queda es de tu stack</text>
+  </g>
+  <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)">
+    <path d="M374 180H412"/><path d="M770 180H808"/>
+  </g>
+
+  <!-- template -->
+  <g>
+    <rect x="38" y="92" width="152" height="28" rx="14" class="k"/><text x="114" y="110" text-anchor="middle" class="ch kt">convenios</text>
+    <rect x="202" y="92" width="152" height="28" rx="14" class="k"/><text x="278" y="110" text-anchor="middle" class="ch kt">ui · stack</text>
+    <rect x="38" y="128" width="152" height="28" rx="14" class="p"/><text x="114" y="146" text-anchor="middle" class="ch pt">preparar · diagnosticar</text>
+    <rect x="202" y="128" width="152" height="28" rx="14" class="p"/><text x="278" y="146" text-anchor="middle" class="ch pt">comprobar</text>
+    <rect x="38" y="164" width="152" height="28" rx="14" class="c"/><text x="114" y="182" text-anchor="middle" class="ch ctt">sensor (check.py)</text>
+    <rect x="202" y="164" width="152" height="28" rx="14" class="c"/><text x="278" y="182" text-anchor="middle" class="ch ctt">revisor</text>
+  </g>
+  <g class="tx">
+    <text x="38" y="222">Router, motor del sensor, revisor e</text>
+    <text x="38" y="240">instalación: completos. Las 6 skills</text>
+    <text x="38" y="258">empiezan con su concepto; sus apartados</text>
+    <text x="38" y="276">los rellenas tú (<tspan font-weight="700">FILL-IN</tspan>).</text>
+    <text x="38" y="304" class="sb">Sin perfil, esto es lo que te llevas.</text>
+  </g>
+
+  <!-- profile web -->
+  <g class="tx">
+    <text x="434" y="104">Rellena las 6 skills, las RULES del sensor</text>
+    <text x="434" y="122">y el checklist de seguridad con reglas</text>
+    <text x="434" y="140">que valen para casi cualquier stack web:</text>
+  </g>
+  <g>
+    <rect x="434" y="154" width="152" height="26" rx="13" class="g"/><text x="510" y="171" text-anchor="middle" class="ch gt">capas BD → CSS</text>
+    <rect x="598" y="154" width="152" height="26" rx="13" class="g"/><text x="674" y="171" text-anchor="middle" class="ch gt">permisos · CSRF</text>
+    <rect x="434" y="188" width="152" height="26" rx="13" class="g"/><text x="510" y="205" text-anchor="middle" class="ch gt">migraciones</text>
+    <rect x="598" y="188" width="152" height="26" rx="13" class="g"/><text x="674" y="205" text-anchor="middle" class="ch gt">assets · i18n</text>
+    <rect x="434" y="222" width="152" height="26" rx="13" class="g"/><text x="510" y="239" text-anchor="middle" class="ch gt">estados de pantalla</text>
+    <rect x="598" y="222" width="152" height="26" rx="13" class="g"/><text x="674" y="239" text-anchor="middle" class="ch gt">accesibilidad · tests</text>
+  </g>
+  <g class="tx">
+    <text x="434" y="278">Se copia encima de la plantilla en la</text>
+    <text x="434" y="296">primera vez; se elige una vez, como el idioma.</text>
+  </g>
+
+  <!-- result -->
+  <g class="tx">
+    <text x="830" y="104">Funciona desde la primera sesión. Lo que</text>
+    <text x="830" y="122">un perfil no sabe va marcado con <tspan font-weight="700">TUNE</tspan>,</text>
+    <text x="830" y="140">y setup.py te lo lista:</text>
+  </g>
+  <g>
+    <rect x="830" y="154" width="152" height="26" rx="13" class="t"/><text x="906" y="171" text-anchor="middle" class="ch tt">TUNE: versiones</text>
+    <rect x="994" y="154" width="152" height="26" rx="13" class="t"/><text x="1070" y="171" text-anchor="middle" class="ch tt">TUNE: comando de tests</text>
+    <rect x="830" y="188" width="152" height="26" rx="13" class="t"/><text x="906" y="205" text-anchor="middle" class="ch tt">TUNE: carpetas</text>
+    <rect x="994" y="188" width="152" height="26" rx="13" class="t"/><text x="1070" y="205" text-anchor="middle" class="ch tt">TUNE: tokens</text>
+    <rect x="830" y="222" width="152" height="26" rx="13" class="t"/><text x="906" y="239" text-anchor="middle" class="ch tt">TUNE: los logs</text>
+    <rect x="994" y="222" width="152" height="26" rx="13" class="t"/><text x="1070" y="239" text-anchor="middle" class="ch tt">TUNE: tus trampas</text>
+  </g>
+  <g class="tx">
+    <text x="830" y="278">Si tu framework trae guías para agentes,</text>
+    <text x="830" y="296">apunta el perfil a ellas.</text>
+  </g>
+</svg>

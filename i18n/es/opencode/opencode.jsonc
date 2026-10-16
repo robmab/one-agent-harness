@@ -88,12 +88,12 @@
     // Solo las skills del harness: OpenCode sube desde el proyecto hasta el home buscando .claude/skills y .agents/skills,
     // y si el repo cuelga de tu home se trae las de otras herramientas. Cada skill nueva, aquí (la CI lo comprueba)
     { "action": "skill", "resource": "*", "effect": "deny" },
-    { "action": "skill", "resource": "convenios-codigo", "effect": "allow" },
-    { "action": "skill", "resource": "diseno-ui", "effect": "allow" },
-    { "action": "skill", "resource": "fuentes-oficiales", "effect": "allow" },
-    { "action": "skill", "resource": "entrevistame", "effect": "allow" },
-    { "action": "skill", "resource": "depuracion-sistematica", "effect": "allow" },
-    { "action": "skill", "resource": "verificar-antes-de-acabar", "effect": "allow" },
-    { "action": "skill", "resource": "estilo-comentarios", "effect": "allow" }
+    { "action": "skill", "resource": "convenios", "effect": "allow" },
+    { "action": "skill", "resource": "ui", "effect": "allow" },
+    { "action": "skill", "resource": "stack", "effect": "allow" },
+    { "action": "skill", "resource": "preparar", "effect": "allow" },
+    { "action": "skill", "resource": "diagnosticar", "effect": "allow" },
+    { "action": "skill", "resource": "comprobar", "effect": "allow" },
+    { "action": "skill", "resource": "voz", "effect": "allow" }
   ]
 }

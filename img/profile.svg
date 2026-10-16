@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1184 360" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .hd{font-size:15px;font-weight:700;fill:#0f172a}
+    .sb{font-size:12px;fill:#475569}
+    .tx{font-size:12.5px;fill:#334155}
+    .ch{font-size:11.5px;font-weight:700}
+    .k{fill:#dbeafe;stroke:#2563eb;stroke-width:1.5}
+    .p{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}
+    .c{fill:#ffedd5;stroke:#ea580c;stroke-width:1.5}
+    .g{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}
+    .t{fill:#fef9c3;stroke:#ca8a04;stroke-width:1.5}
+    .kt{fill:#1e3a8a} .pt{fill:#14532d} .ctt{fill:#7c2d12} .gt{fill:#0f172a} .tt{fill:#713f12}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1184" height="360" rx="16" fill="#f8fafc"/>
+
+  <!-- columns -->
+  <g fill="#fff" stroke="#e2e8f0">
+    <rect x="20" y="20" width="352" height="320" rx="14"/>
+    <rect x="416" y="20" width="352" height="320" rx="14"/>
+    <rect x="812" y="20" width="352" height="320" rx="14"/>
+  </g>
+  <g fill="#e2e8f0">
+    <rect x="20" y="20" width="352" height="58" rx="14"/><rect x="20" y="58" width="352" height="20"/>
+    <rect x="416" y="20" width="352" height="58" rx="14"/><rect x="416" y="58" width="352" height="20"/>
+    <rect x="812" y="20" width="352" height="58" rx="14"/><rect x="812" y="58" width="352" height="20"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="196" y="45" class="hd">The template</text>
+    <text x="196" y="64" class="sb">the same for every project</text>
+    <text x="592" y="45" class="hd">+ setup.py --profile web</text>
+    <text x="592" y="64" class="sb">optional: general rules for an area</text>
+    <text x="988" y="45" class="hd">= your harness</text>
+    <text x="988" y="64" class="sb">what's left is your stack's</text>
+  </g>
+  <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)">
+    <path d="M374 180H412"/><path d="M770 180H808"/>
+  </g>
+
+  <!-- template -->
+  <g>
+    <rect x="38" y="92" width="152" height="28" rx="14" class="k"/><text x="114" y="110" text-anchor="middle" class="ch kt">conventions</text>
+    <rect x="202" y="92" width="152" height="28" rx="14" class="k"/><text x="278" y="110" text-anchor="middle" class="ch kt">ui · stack</text>
+    <rect x="38" y="128" width="152" height="28" rx="14" class="p"/><text x="114" y="146" text-anchor="middle" class="ch pt">prepare · diagnose</text>
+    <rect x="202" y="128" width="152" height="28" rx="14" class="p"/><text x="278" y="146" text-anchor="middle" class="ch pt">verify</text>
+    <rect x="38" y="164" width="152" height="28" rx="14" class="c"/><text x="114" y="182" text-anchor="middle" class="ch ctt">sensor (check.py)</text>
+    <rect x="202" y="164" width="152" height="28" rx="14" class="c"/><text x="278" y="182" text-anchor="middle" class="ch ctt">reviewer</text>
+  </g>
+  <g class="tx">
+    <text x="38" y="222">Router, sensor engine, reviewer and</text>
+    <text x="38" y="240">installer: complete. The 6 skills open</text>
+    <text x="38" y="258">with their concept; their sections are</text>
+    <text x="38" y="276">yours to fill in (<tspan font-weight="700">FILL-IN</tspan>).</text>
+    <text x="38" y="304" class="sb">Without a profile, this is what you get.</text>
+  </g>
+
+  <!-- profile web -->
+  <g class="tx">
+    <text x="434" y="104">Fills the 6 skills, the sensor RULES</text>
+    <text x="434" y="122">and the security checklist with rules</text>
+    <text x="434" y="140">that hold for almost any web stack:</text>
+  </g>
+  <g>
+    <rect x="434" y="154" width="152" height="26" rx="13" class="g"/><text x="510" y="171" text-anchor="middle" class="ch gt">layers DB → CSS</text>
+    <rect x="598" y="154" width="152" height="26" rx="13" class="g"/><text x="674" y="171" text-anchor="middle" class="ch gt">permissions · CSRF</text>
+    <rect x="434" y="188" width="152" height="26" rx="13" class="g"/><text x="510" y="205" text-anchor="middle" class="ch gt">migrations</text>
+    <rect x="598" y="188" width="152" height="26" rx="13" class="g"/><text x="674" y="205" text-anchor="middle" class="ch gt">assets · i18n</text>
+    <rect x="434" y="222" width="152" height="26" rx="13" class="g"/><text x="510" y="239" text-anchor="middle" class="ch gt">screen states</text>
+    <rect x="598" y="222" width="152" height="26" rx="13" class="g"/><text x="674" y="239" text-anchor="middle" class="ch gt">accessibility · tests</text>
+  </g>
+  <g class="tx">
+    <text x="434" y="278">Copied over the template on the first</text>
+    <text x="434" y="296">run; chosen once, like the language.</text>
+  </g>
+
+  <!-- result -->
+  <g class="tx">
+    <text x="830" y="104">Works from the first session. What a</text>
+    <text x="830" y="122">profile can't know is marked <tspan font-weight="700">TUNE</tspan>,</text>
+    <text x="830" y="140">and setup.py lists it:</text>
+  </g>
+  <g>
+    <rect x="830" y="154" width="152" height="26" rx="13" class="t"/><text x="906" y="171" text-anchor="middle" class="ch tt">TUNE: versions</text>
+    <rect x="994" y="154" width="152" height="26" rx="13" class="t"/><text x="1070" y="171" text-anchor="middle" class="ch tt">TUNE: test command</text>
+    <rect x="830" y="188" width="152" height="26" rx="13" class="t"/><text x="906" y="205" text-anchor="middle" class="ch tt">TUNE: folders</text>
+    <rect x="994" y="188" width="152" height="26" rx="13" class="t"/><text x="1070" y="205" text-anchor="middle" class="ch tt">TUNE: tokens</text>
+    <rect x="830" y="222" width="152" height="26" rx="13" class="t"/><text x="906" y="239" text-anchor="middle" class="ch tt">TUNE: where logs are</text>
+    <rect x="994" y="222" width="152" height="26" rx="13" class="t"/><text x="1070" y="239" text-anchor="middle" class="ch tt">TUNE: your traps</text>
+  </g>
+  <g class="tx">
+    <text x="830" y="278">If your framework ships guidance for</text>
+    <text x="830" y="296">agents, point the profile to it.</text>
+  </g>
+</svg>

@@ -221,7 +221,7 @@ def ensure_file_link(link, target, label, force):
         newer = 'that copy' if os.path.getmtime(link) > os.path.getmtime(target) else 'the harness original'
         problem(f'{label}: {link} has other content (newer: {newer}). If it is the link broken by an editor, '
                 f'copy the text you want to keep into {short(target)} and run --check again; if it is another '
-                f'project\'s, merge them (README §5) or use --force to back it up and replace it')
+                f'project\'s, merge them (docs/SETUP.md §6) or use --force to back it up and replace it')
 
 
 def ensure_dir_link(link, target, label, force, per_item=True):
@@ -234,7 +234,7 @@ def ensure_dir_link(link, target, label, force, per_item=True):
             say('ok', f'{label}: {link}')
         else:
             problem(f'{label}: {link} already points to {link_target(link)} (another project?). '
-                    'See README §5 to share it')
+                    'See docs/SETUP.md §6 to share it')
     elif os.path.isdir(link):
         if not os.listdir(link):
             act(f'{label}: {word} {link}', lambda: (os.rmdir(link), make_dir_link(link, target)))
@@ -480,11 +480,11 @@ def ensure_vscode(home, state):
     taken = [k for k in VSCODE_KEYS if f'"{k}"' in text]
     if taken:
         problem(f'{label}: {path} already has {", ".join(taken)}; add this harness by hand '
-                f'(README §A.4):\n{block}')
+                f'(docs/SETUP.md §A.4):\n{block}')
         return
     closing = len(text.rstrip()) - 1
     if closing < 0 or text[closing] != '}':
-        problem(f'{label}: {path} doesn\'t end with }}: add the settings by hand (README §A.4)')
+        problem(f'{label}: {path} doesn\'t end with }}: add the settings by hand (docs/SETUP.md §A.4)')
         return
     # inserted right after the last setting, so removing it gives back the file byte for byte
     body = text[:closing].rstrip()
@@ -730,9 +730,9 @@ def install(args):
             raise SystemExit('First run: say the project name with --project "Name".')
         if os.path.isdir(os.path.join(ROOT, '.github')):
             raise SystemExit('This looks like the template repo itself (it has .github). Copy it first '
-                             '(README §3.1) and run setup.py from the copy.')
+                             '(docs/SETUP.md §1) and run setup.py from the copy.')
         if '<PROJECT>' not in read_text(os.path.join(ROOT, 'claude', 'CLAUDE.md')):
-            raise SystemExit('This copy was already named by hand. setup.py names a fresh copy (README §3.1); '
+            raise SystemExit('This copy was already named by hand. setup.py names a fresh copy (docs/SETUP.md §1); '
                              'to wire up a harness set up by hand, follow the appendix instead.')
         slug = slugify(args.project)
         if not NAME_RE.match(slug):
@@ -761,7 +761,7 @@ def install(args):
             raise SystemExit(f'The harness ({drive.upper()}) and these profiles are on different drives: '
                              f'{", ".join(other)}. Hardlinks only work within one drive; move the harness.')
     if os.path.isdir(os.path.join(ROOT, '.git')):
-        say('WARN', 'the harness still has .git: if it is the template\'s, remove it (README §3.1)')
+        say('WARN', 'the harness still has .git: if it is the template\'s, remove it (docs/SETUP.md §1)')
 
     print(f'Harness {state["project"]!r} ({state["slug"]}, {state["lang"]}, {SYSTEM}) at {ROOT}')
     if first:
@@ -789,8 +789,8 @@ def install(args):
         print('\nStill to fill in (FILL-IN) or to tune to your stack (TUNE):')
         for rel, marks in todo:
             print(f'  {rel} ({marks})')
-    print('\nNext: fill in the FILL-IN parts and tune the TUNE ones (README §3.3), reload VS Code and check each '
-          'tool (README §3.4).')
+    print('\nNext: fill in the FILL-IN parts and tune the TUNE ones (docs/SETUP.md §3), reload VS Code and check each '
+          'tool (docs/SETUP.md §4).')
     return finish()
 
 

@@ -24,19 +24,19 @@
   <text x="40" y="120" class="def">What the model can't work out</text>
   <text x="40" y="138" class="def">from the code or know from memory.</text>
 
-  <text x="40" y="172" class="n" fill="#1e3a8a">code-conventions</text>
+  <text x="40" y="172" class="n" fill="#1e3a8a">conventions</text>
   <rect x="276" y="160" width="72" height="17" rx="8.5" class="rl"/><text x="312" y="172" class="pill rlt" text-anchor="middle">FILL-IN</text>
   <text x="40" y="191" class="s">how the project's code is written</text>
 
-  <text x="40" y="226" class="n" fill="#1e3a8a">ui-design</text>
+  <text x="40" y="226" class="n" fill="#1e3a8a">ui</text>
   <rect x="276" y="214" width="72" height="17" rx="8.5" class="rl"/><text x="312" y="226" class="pill rlt" text-anchor="middle">FILL-IN</text>
   <text x="40" y="245" class="s">design system: layout and styles only</text>
 
-  <text x="40" y="280" class="n" fill="#1e3a8a">official-sources</text>
+  <text x="40" y="280" class="n" fill="#1e3a8a">stack</text>
   <rect x="284" y="268" width="64" height="17" rx="8.5" class="aj"/><text x="316" y="280" class="pill ajt" text-anchor="middle">ADJUST</text>
   <text x="40" y="299" class="s">real stack versions and their traps</text>
 
-  <text x="40" y="334" class="n" fill="#1e3a8a">comment-style</text>
+  <text x="40" y="334" class="n" fill="#1e3a8a">voice</text>
   <rect x="270" y="322" width="78" height="17" rx="8.5" fill="#e2e8f0"/><text x="309" y="334" class="pill" fill="#334155" text-anchor="middle">OPTIONAL</text>
   <text x="40" y="353" class="s">your voice in comments and in the chat</text>
 
@@ -53,15 +53,15 @@
   <text x="406" y="120" class="def">Fixes the model's habits: inventing,</text>
   <text x="406" y="138" class="def">patching blindly, assuming it's done.</text>
 
-  <text x="406" y="172" class="n" fill="#14532d">interview-me</text>
+  <text x="406" y="172" class="n" fill="#14532d">prepare</text>
   <rect x="664" y="160" width="50" height="17" rx="8.5" class="li"/><text x="689" y="172" class="pill lit" text-anchor="middle">READY</text>
   <text x="406" y="191" class="s">understand before building</text>
 
-  <text x="406" y="226" class="n" fill="#14532d">systematic-debugging</text>
+  <text x="406" y="226" class="n" fill="#14532d">diagnose</text>
   <rect x="650" y="214" width="64" height="17" rx="8.5" class="aj"/><text x="682" y="226" class="pill ajt" text-anchor="middle">ADJUST</text>
   <text x="406" y="245" class="s">root cause before fixing</text>
 
-  <text x="406" y="280" class="n" fill="#14532d">verify-before-done</text>
+  <text x="406" y="280" class="n" fill="#14532d">verify</text>
   <rect x="650" y="268" width="64" height="17" rx="8.5" class="aj"/><text x="682" y="280" class="pill ajt" text-anchor="middle">ADJUST</text>
   <text x="406" y="299" class="s">evidence before saying “done”</text>
 

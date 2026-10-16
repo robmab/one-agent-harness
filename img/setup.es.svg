@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1184 330" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .hd{font-size:15px;font-weight:700;fill:#0f172a}
+    .tx{font-size:12.5px;fill:#334155}
+    .cs{font-size:11.5px;fill:#475569}
+    .ch{font-size:11.5px;font-weight:700}
+    .k{fill:#dbeafe;stroke:#2563eb;stroke-width:1.5}
+    .p{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}
+    .c{fill:#ffedd5;stroke:#ea580c;stroke-width:1.5}
+    .g{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}
+    .kt{fill:#1e3a8a} .pt{fill:#14532d} .ctt{fill:#7c2d12} .gt{fill:#0f172a}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1184" height="330" rx="16" fill="#f8fafc"/>
+
+  <!-- four steps -->
+  <g fill="#fff" stroke="#e2e8f0">
+    <rect x="20" y="20" width="262" height="230" rx="14"/>
+    <rect x="314" y="20" width="262" height="230" rx="14"/>
+    <rect x="608" y="20" width="262" height="230" rx="14"/>
+    <rect x="902" y="20" width="262" height="230" rx="14"/>
+  </g>
+  <g fill="#e2e8f0">
+    <rect x="20" y="20" width="262" height="46" rx="14"/><rect x="20" y="46" width="262" height="20"/>
+    <rect x="314" y="20" width="262" height="46" rx="14"/><rect x="314" y="46" width="262" height="20"/>
+    <rect x="608" y="20" width="262" height="46" rx="14"/><rect x="608" y="46" width="262" height="20"/>
+    <rect x="902" y="20" width="262" height="46" rx="14"/><rect x="902" y="46" width="262" height="20"/>
+  </g>
+  <g class="hd" text-anchor="middle">
+    <text x="151" y="49">1 · Copiar</text>
+    <text x="445" y="49">2 · Lanzar setup.py</text>
+    <text x="739" y="49">3 · Rellenar y afinar</text>
+    <text x="1033" y="49">4 · Verificar</text>
+  </g>
+  <g stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)">
+    <path d="M284 135H310"/><path d="M578 135H604"/><path d="M872 135H898"/>
+  </g>
+
+  <!-- 1 copy -->
+  <g class="tx">
+    <text x="38" y="94">Clona la plantilla, o baja el zip</text>
+    <text x="38" y="112">de la release, a su propia carpeta:</text>
+    <text x="38" y="130">fuera de tus repos, en la misma</text>
+    <text x="38" y="148">unidad que los perfiles de usuario.</text>
+  </g>
+  <rect x="38" y="166" width="226" height="30" rx="15" class="g"/>
+  <text x="151" y="185" text-anchor="middle" class="ch gt">quita .git y .github</text>
+  <rect x="38" y="204" width="226" height="30" rx="15" class="g"/>
+  <text x="151" y="223" text-anchor="middle" class="ch gt">conserva VERSION</text>
+
+  <!-- 2 setup.py -->
+  <g>
+    <rect x="332" y="80" width="226" height="30" rx="15" class="g"/>
+    <text x="445" y="99" text-anchor="middle" class="ch gt">nombres: &lt;PROJECT&gt; y &lt;HARNESS&gt;</text>
+    <rect x="332" y="118" width="108" height="30" rx="15" class="k"/>
+    <text x="386" y="137" text-anchor="middle" class="ch kt">--lang es</text>
+    <rect x="450" y="118" width="108" height="30" rx="15" class="p"/>
+    <text x="504" y="137" text-anchor="middle" class="ch pt">--profile web</text>
+    <rect x="332" y="156" width="226" height="30" rx="15" class="g"/>
+    <text x="445" y="175" text-anchor="middle" class="ch gt">enlaces: Claude · Copilot · OpenCode</text>
+    <text x="332" y="210" class="cs">cada usuario del PC; el idioma y</text>
+    <text x="332" y="226" class="cs">el perfil se eligen una vez</text>
+  </g>
+
+  <!-- 3 fill in / tune -->
+  <g class="tx">
+    <text x="626" y="94">setup.py lista lo que falta:</text>
+    <text x="626" y="112"><tspan font-weight="700">FILL-IN</tspan> por escribir, <tspan font-weight="700">TUNE</tspan> por ajustar.</text>
+    <text x="626" y="134">Primero lo de más impacto:</text>
+  </g>
+  <g>
+    <rect x="626" y="144" width="226" height="26" rx="13" class="k"/>
+    <text x="739" y="161" text-anchor="middle" class="ch kt">convenios · stack (versiones reales)</text>
+    <rect x="626" y="176" width="226" height="26" rx="13" class="c"/>
+    <text x="739" y="193" text-anchor="middle" class="ch ctt">sensor: MARKER y RULES</text>
+    <rect x="626" y="208" width="226" height="26" rx="13" class="p"/>
+    <text x="739" y="225" text-anchor="middle" class="ch pt">comprobar: el comando de tests real</text>
+  </g>
+
+  <!-- 4 verify -->
+  <g class="tx">
+    <text x="920" y="94">En una sesión nueva de cada herramienta:</text>
+  </g>
+  <g>
+    <rect x="920" y="106" width="226" height="30" rx="15" class="g"/>
+    <text x="1033" y="125" text-anchor="middle" class="ch gt">skills y revisor, una sola vez</text>
+    <rect x="920" y="144" width="226" height="30" rx="15" class="g"/>
+    <text x="1033" y="163" text-anchor="middle" class="ch gt">el router y AGENTS.md cargados</text>
+    <rect x="920" y="182" width="226" height="30" rx="15" class="c"/>
+    <text x="1033" y="201" text-anchor="middle" class="ch ctt">una regla rota → el ERROR del sensor</text>
+  </g>
+
+  <!-- later -->
+  <rect x="20" y="266" width="1144" height="46" rx="12" fill="#fff" stroke="#e2e8f0"/>
+  <text x="40" y="294" class="tx"><tspan font-weight="700">Más adelante:</tspan>  setup.py --check repara enlaces rotos y copias desfasadas  ·  --users / --tools añaden a alguien o algo  ·  --uninstall quita solo lo que montó</text>
+</svg>

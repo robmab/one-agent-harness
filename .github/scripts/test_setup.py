@@ -290,7 +290,7 @@ def test_profile(lang, system, base, profile='web'):
     for s in sorted(os.listdir(skills)):
         text = read(os.path.join(skills, s, 'SKILL.md'))
         if 'TEMPLATE · FILL-IN' in text or 'PLANTILLA · FILL-IN' in text:
-            continue   # comment-style stays a template: it's the user's voice
+            continue   # voice stays a template: it's the user's voice
         filled += 1
         expect('<PROJECT>' not in text, f'{tag}: placeholder left in the {s} skill')
     expect(filled == 6, f'{tag}: the profile should fill in the 6 core skills, filled {filled}')

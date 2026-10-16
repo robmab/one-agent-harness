@@ -15,8 +15,8 @@ This is only the index. The detail lives in the skills and in `docs/`.
 
 | Skill | When |
 |---|---|
-| `code-conventions` | before writing or reviewing ANY code |
-| `ui-design` | only layout, styles or UI components |
+| `conventions` | before writing or reviewing ANY code |
+| `ui` | only layout, styles or UI components |
 | <!-- FILL-IN: other skills in the repo, if any --> | |
 
 ## Agents

@@ -88,12 +88,12 @@
     // Only the harness skills: OpenCode walks up from the project to your home looking for .claude/skills and .agents/skills,
     // and if the repo lives under your home it picks up other tools' skills. Every new skill goes here (CI checks it)
     { "action": "skill", "resource": "*", "effect": "deny" },
-    { "action": "skill", "resource": "code-conventions", "effect": "allow" },
-    { "action": "skill", "resource": "ui-design", "effect": "allow" },
-    { "action": "skill", "resource": "official-sources", "effect": "allow" },
-    { "action": "skill", "resource": "interview-me", "effect": "allow" },
-    { "action": "skill", "resource": "systematic-debugging", "effect": "allow" },
-    { "action": "skill", "resource": "verify-before-done", "effect": "allow" },
-    { "action": "skill", "resource": "comment-style", "effect": "allow" }
+    { "action": "skill", "resource": "conventions", "effect": "allow" },
+    { "action": "skill", "resource": "ui", "effect": "allow" },
+    { "action": "skill", "resource": "stack", "effect": "allow" },
+    { "action": "skill", "resource": "prepare", "effect": "allow" },
+    { "action": "skill", "resource": "diagnose", "effect": "allow" },
+    { "action": "skill", "resource": "verify", "effect": "allow" },
+    { "action": "skill", "resource": "voice", "effect": "allow" }
   ]
 }

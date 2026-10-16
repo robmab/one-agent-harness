@@ -68,31 +68,31 @@
   <text x="128" y="182" text-anchor="middle" class="cs">repo index</text>
   <text x="128" y="195" text-anchor="middle" class="cs">always loaded</text>
   <rect x="32" y="214" width="192" height="60" rx="10" class="k"/>
-  <text x="128" y="236" text-anchor="middle" class="ct kt">comment-style</text>
+  <text x="128" y="236" text-anchor="middle" class="ct kt">voice</text>
   <text x="128" y="252" text-anchor="middle" class="cs">your voice in comments and chat</text>
   <text x="128" y="265" text-anchor="middle" class="cs">optional · hook at startup</text>
 
   <!-- 1 · Understand -->
   <rect x="264" y="144" width="192" height="60" rx="10" class="p"/>
-  <text x="360" y="166" text-anchor="middle" class="ct pt">interview-me</text>
+  <text x="360" y="166" text-anchor="middle" class="ct pt">prepare</text>
   <text x="360" y="182" text-anchor="middle" class="cs">if what's asked isn't clear</text>
   <text x="360" y="195" text-anchor="middle" class="cs">repo → hypothesis → questions</text>
   <rect x="264" y="214" width="192" height="60" rx="10" class="p"/>
-  <text x="360" y="236" text-anchor="middle" class="ct pt">systematic-debugging</text>
+  <text x="360" y="236" text-anchor="middle" class="ct pt">diagnose</text>
   <text x="360" y="252" text-anchor="middle" class="cs">if it's a bug</text>
   <text x="360" y="265" text-anchor="middle" class="cs">reproduce → layer → hypothesis</text>
 
   <!-- 2 · Build -->
   <rect x="496" y="144" width="192" height="60" rx="10" class="k"/>
-  <text x="592" y="166" text-anchor="middle" class="ct kt">code-conventions</text>
+  <text x="592" y="166" text-anchor="middle" class="ct kt">conventions</text>
   <text x="592" y="182" text-anchor="middle" class="cs">how it's written</text>
   <text x="592" y="195" text-anchor="middle" class="cs">auto, on all code</text>
   <rect x="496" y="214" width="192" height="60" rx="10" class="k"/>
-  <text x="592" y="236" text-anchor="middle" class="ct kt">ui-design</text>
+  <text x="592" y="236" text-anchor="middle" class="ct kt">ui</text>
   <text x="592" y="252" text-anchor="middle" class="cs">design system</text>
   <text x="592" y="265" text-anchor="middle" class="cs">auto, UI and styles only</text>
   <rect x="496" y="284" width="192" height="60" rx="10" class="k"/>
-  <text x="592" y="306" text-anchor="middle" class="ct kt">official-sources</text>
+  <text x="592" y="306" text-anchor="middle" class="ct kt">stack</text>
   <text x="592" y="322" text-anchor="middle" class="cs">real stack versions</text>
   <text x="592" y="335" text-anchor="middle" class="cs">auto (local model: by hand)</text>
   <rect x="496" y="354" width="192" height="60" rx="10" class="c"/>
@@ -103,7 +103,7 @@
 
   <!-- 3 · Check -->
   <rect x="728" y="144" width="192" height="60" rx="10" class="p"/>
-  <text x="824" y="166" text-anchor="middle" class="ct pt">verify-before-done</text>
+  <text x="824" y="166" text-anchor="middle" class="ct pt">verify</text>
   <text x="824" y="182" text-anchor="middle" class="cs">command + output, browser</text>
   <text x="824" y="195" text-anchor="middle" class="cs">“Checked” / “Not checked”</text>
   <rect x="728" y="214" width="192" height="60" rx="10" class="c"/>

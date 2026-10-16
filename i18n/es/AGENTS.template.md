@@ -15,8 +15,8 @@ Esto es solo el índice. El detalle vive en las skills y en `docs/`.
 
 | Skill | Cuándo |
 |---|---|
-| `convenios-codigo` | antes de escribir o revisar CUALQUIER código |
-| `diseno-ui` | solo maquetación, estilos o componentes de UI |
+| `convenios` | antes de escribir o revisar CUALQUIER código |
+| `ui` | solo maquetación, estilos o componentes de UI |
 | <!-- FILL-IN: otras del repo, si las hay --> | |
 
 ## Agentes

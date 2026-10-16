@@ -17,17 +17,17 @@
 
   <g>
     <rect x="330" y="80" width="120" height="78" rx="10" fill="#dbeafe" stroke="#2563eb"/>
-    <text x="390" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">code-conventions</text>
+    <text x="390" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">conventions</text>
     <text x="390" y="118" text-anchor="middle" class="hs" fill="#1e3a8a">skill</text>
     <text x="390" y="146" text-anchor="middle" class="hw">always</text>
 
     <rect x="461" y="80" width="120" height="78" rx="10" fill="#dbeafe" stroke="#2563eb"/>
-    <text x="521" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">ui-design</text>
+    <text x="521" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">ui</text>
     <text x="521" y="118" text-anchor="middle" class="hs" fill="#1e3a8a">skill</text>
     <text x="521" y="146" text-anchor="middle" class="hw">if there is UI</text>
 
     <rect x="592" y="80" width="120" height="78" rx="10" fill="#dbeafe" stroke="#2563eb"/>
-    <text x="652" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">official-sources</text>
+    <text x="652" y="102" text-anchor="middle" class="hn" fill="#1e3a8a">stack</text>
     <text x="652" y="118" text-anchor="middle" class="hs" fill="#1e3a8a">skill</text>
     <text x="652" y="146" text-anchor="middle" class="hw">if it uses the stack</text>
 

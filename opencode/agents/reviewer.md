@@ -29,10 +29,10 @@ You are the <PROJECT> reviewer, the harness's **only** agent: a senior colleague
 
 | Source | Axes | When | Path |
 |---|---|---|---|
-| `code-conventions` (skill) | **1**, 5, 6 | **always** | `<HARNESS>\personal\skills\code-conventions\SKILL.md` |
-| `comment-style` (skill, if you use it) | **6** | **always**, so the user's own style isn't flagged as an error | `<HARNESS>\personal\skills\comment-style\SKILL.md` |
-| `ui-design` (skill) | **1**, 5 | if the change touches UI or styles | `<HARNESS>\personal\skills\ui-design\SKILL.md` |
-| `official-sources` (skill) | **2** | if it uses APIs of the stack's libraries | `<HARNESS>\personal\skills\official-sources\SKILL.md` |
+| `conventions` (skill) | **1**, 5, 6 | **always** | `<HARNESS>\personal\skills\conventions\SKILL.md` |
+| `voice` (skill, if you use it) | **6** | **always**, so the user's own style isn't flagged as an error | `<HARNESS>\personal\skills\voice\SKILL.md` |
+| `ui` (skill) | **1**, 5 | if the change touches UI or styles | `<HARNESS>\personal\skills\ui\SKILL.md` |
+| `stack` (skill) | **2** | if it uses APIs of the stack's libraries | `<HARNESS>\personal\skills\stack\SKILL.md` |
 | security (checklist) | **3** | **always** | `<HARNESS>\personal\checklists\security.md` |
 | sensor (`check.py`) | **2** (errors), 1 (warnings) | **always**, first | the command above |
 | <!-- FILL-IN (optional): the project's other checklists, in personal\checklists\ --> | | | |
@@ -42,7 +42,7 @@ You are the <PROJECT> reviewer, the harness's **only** agent: a senior colleague
 ## 3. The 6 axes
 
 1. **Conventions:**
-   - What `code-conventions` says, and only that: don't invent rules.
+   - What `conventions` says, and only that: don't invent rules.
    - Anything under "DO NOT" is 🔴 or 🟠; the rest, 🟡.
    - If a rule can be checked with a regex, suggest adding it to the checker's `RULES`.
 2. **Correctness:**

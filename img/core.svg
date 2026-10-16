@@ -29,25 +29,25 @@
   <text x="40" y="124" class="sub">guides: they load before writing, in the same conversation</text>
 
   <circle cx="46" cy="152" r="6" fill="#2563eb"/><text x="58" y="157" class="col" fill="#1e3a8a">KNOWLEDGE</text>
-  <text x="40" y="190" class="n">code-conventions</text>
+  <text x="40" y="190" class="n">conventions</text>
   <rect x="248" y="178" width="72" height="17" rx="8.5" class="rl"/><text x="284" y="190" class="pill rlt" text-anchor="middle">FILL-IN</text>
   <text x="40" y="207" class="d">how the code is written</text>
-  <text x="40" y="236" class="n">ui-design</text>
+  <text x="40" y="236" class="n">ui</text>
   <rect x="248" y="224" width="72" height="17" rx="8.5" class="rl"/><text x="284" y="236" class="pill rlt" text-anchor="middle">FILL-IN</text>
   <text x="40" y="253" class="d">design system, UI only</text>
-  <text x="40" y="282" class="n">official-sources</text>
+  <text x="40" y="282" class="n">stack</text>
   <rect x="256" y="270" width="64" height="17" rx="8.5" class="aj"/><text x="288" y="282" class="pill ajt" text-anchor="middle">ADJUST</text>
   <text x="40" y="299" class="d">real stack versions and traps</text>
 
   <line x1="330" y1="146" x2="330" y2="306" stroke="#e2e8f0"/>
   <circle cx="346" cy="152" r="6" fill="#16a34a"/><text x="358" y="157" class="col" fill="#14532d">PROCESS</text>
-  <text x="340" y="190" class="n">interview-me</text>
+  <text x="340" y="190" class="n">prepare</text>
   <rect x="570" y="178" width="50" height="17" rx="8.5" class="li"/><text x="595" y="190" class="pill lit" text-anchor="middle">READY</text>
   <text x="340" y="207" class="d">understand before building</text>
-  <text x="340" y="236" class="n">systematic-debugging</text>
+  <text x="340" y="236" class="n">diagnose</text>
   <rect x="556" y="224" width="64" height="17" rx="8.5" class="aj"/><text x="588" y="236" class="pill ajt" text-anchor="middle">ADJUST</text>
   <text x="340" y="253" class="d">root cause before fixing</text>
-  <text x="340" y="282" class="n">verify-before-done</text>
+  <text x="340" y="282" class="n">verify</text>
   <rect x="556" y="270" width="64" height="17" rx="8.5" class="aj"/><text x="588" y="282" class="pill ajt" text-anchor="middle">ADJUST</text>
   <text x="340" y="299" class="d">evidence before saying “done”</text>
 
@@ -86,7 +86,7 @@
   <text x="44" y="426" font-size="17" font-weight="700" fill="#64748b">Optional · outside the core</text>
 
   <text x="44" y="458" class="oh">Personal</text>
-  <circle cx="50" cy="477" r="5" fill="#2563eb"/><text x="62" y="482" class="n" font-size="13">comment-style</text>
+  <circle cx="50" cy="477" r="5" fill="#2563eb"/><text x="62" y="482" class="n" font-size="13">voice</text>
   <text x="44" y="502" class="ot">your voice in comments and chat;</text>
   <text x="44" y="519" class="ot">everyone has their own</text>
 
