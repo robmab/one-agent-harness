@@ -12,7 +12,7 @@ A template for setting up the AI harness of **any project**: skills, agents, an 
 
 ## At a glance
 
-<p align="center"><img src="img/factory.png" alt="The harness as a line of stations: a ticket comes in, prepare writes the spec, the builder codes with the sensor after every edit, the guard holds the reviewer back until the close, the reviewer checks six axes, the close acts as approver and the user commits. Retro feeds the brain (AGENTS.md and conventions), which spec and builder read; the router runs under the whole line. Dashed, the options: factory intake with its two stop points, one reviewer per axis and an automatic approver in rounds" width="100%"></p>
+<p align="center"><img src="img/factory.png" alt="The harness as a line of stations: a ticket comes in, prepare (or diagnose, for a bug) writes the spec, the builder codes with the sensor after every edit and verify at the end, the guard holds the reviewer back until the close, the reviewer checks six axes, the close acts as approver and the user commits. Retro feeds the brain (AGENTS.md and the knowledge skills: conventions, ui, stack), which spec and builder read; the router runs under the whole line. Dashed, the options: factory intake with its two stop points, one reviewer per axis and an automatic approver in rounds" width="100%"></p>
 
 Read it left to right, like a production line: **you drive it**, from the ticket to the commit, and the harness makes every station do its job. Dashed, what you can switch on: an automatic approver, one reviewer per axis, and **factory mode**, where tickets open their own session and wait for you in a tray ([FACTORY](docs/FACTORY.md)).
 
@@ -59,11 +59,11 @@ This isn't a demo: it's the harness I use **every day at work**, on a large prod
 
 > **6 skills + 1 sensor + 1 agent**, on top of `AGENTS.md`
 
-| Type | Question | Pieces |
-|---|---|---|
-| 🔵 Knowledge | what does it need to know? | `conventions` (code conventions), `ui` (design system), `stack` (real stack versions and their traps) |
-| 🟢 Process | how should it work? | `prepare` (clarify, and plan if it's big), `diagnose` (root cause before fixing), `verify` (evidence before saying "done") |
-| 🟠 Control | who checks it? | `check` + hook (fixed checks after every edit), `reviewer` (the only agent: in-depth review, never edits), `guard` (a hook that blocks credentials, and the reviewer before the close) |
+| Type | Question | Pieces | In the factory view |
+|---|---|---|---|
+| 🔵 Knowledge | what does it need to know? | `conventions` (code conventions), `ui` (design system), `stack` (real stack versions and their traps) | the **Brain**, with `AGENTS.md` |
+| 🟢 Process | how should it work? | `prepare` (clarify, and plan if it's big), `diagnose` (root cause before fixing), `verify` (evidence before saying "done") | **Spec** (`prepare` or `diagnose`) and **Builder** (`verify`) |
+| 🟠 Control | who checks it? | `check` + hook (fixed checks after every edit), `reviewer` (the only agent: in-depth review, never edits), `guard` (a hook that blocks credentials, and the reviewer before the close) | the sensor in the **Builder**; **Guard**, **Reviewer** and **Close** |
 
 Optional, outside the core: `voice` (your own voice for code comments and chat) and `retro` (a fresh subagent reviews how each piece of the harness did in a session, with evidence from the log, so the harness can improve, or shrink, from what really happens). What each piece does and when it kicks in: **[SKILLS-GUIDE](docs/SKILLS-GUIDE.md)**.
 

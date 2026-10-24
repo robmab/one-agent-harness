@@ -12,7 +12,7 @@ Plantilla para montar el harness de IA de **cualquier proyecto**: skills, agente
 
 ## De un vistazo
 
-<p align="center"><img src="img/factory.png" alt="El harness como una cadena de estaciones: entra un ticket, prepare escribe la spec, el builder programa con el sensor tras cada edición, el guard retiene al revisor hasta el cierre, el revisor mira seis ejes, el cierre hace de approver y el usuario hace commit. La retro alimenta el brain (AGENTS.md y convenios), que leen spec y builder; el router corre bajo toda la cadena. En discontinuo, las opciones: la entrada de la fábrica con sus dos paradas, un revisor por eje y un approver automático por rondas" width="100%"></p>
+<p align="center"><img src="img/factory.png" alt="El harness como una cadena de estaciones: entra un ticket, prepare (o diagnose, si es un bug) escribe la spec, el builder programa con el sensor tras cada edición y verify al final, el guard retiene al revisor hasta el cierre, el revisor mira seis ejes, el cierre hace de approver y el usuario hace commit. La retro alimenta el brain (AGENTS.md y las skills de conocimiento: conventions, ui, stack), que leen spec y builder; el router corre bajo toda la cadena. En discontinuo, las opciones: la entrada de la fábrica con sus dos paradas, un revisor por eje y un approver automático por rondas" width="100%"></p>
 
 Se lee de izquierda a derecha, como una cadena de montaje: **la llevas tú**, del ticket al commit, y el harness hace que cada estación cumpla su parte. En discontinuo, lo que puedes activar: un approver automático, un revisor por eje y el **modo fábrica**, en el que los tickets abren su propia sesión y te esperan en una bandeja ([FACTORY](docs/FACTORY.es.md)).
 
@@ -59,11 +59,11 @@ No es una demo: es el harness que uso **cada día en mi trabajo**, sobre una apl
 
 > **6 skills + 1 sensor + 1 agente**, sobre `AGENTS.md`
 
-| Tipo | Pregunta | Piezas |
-|---|---|---|
-| 🔵 Conocimiento | ¿qué tiene que saber? | `conventions` (convenios de código), `ui` (sistema de diseño), `stack` (versiones reales del stack y sus trampas) |
-| 🟢 Proceso | ¿cómo tiene que trabajar? | `prepare` (aclarar y, si es grande, planificar), `diagnose` (causa raíz antes de arreglar), `verify` (pruebas antes de decir "hecho") |
-| 🟠 Control | ¿quién lo comprueba? | `check` + hook (comprobaciones fijas tras cada edición), `reviewer` (el único agente: revisión a fondo, nunca edita), `guard` (un hook que bloquea credenciales, y el revisor antes del cierre) |
+| Tipo | Pregunta | Piezas | En la vista de fábrica |
+|---|---|---|---|
+| 🔵 Conocimiento | ¿qué tiene que saber? | `conventions` (convenios de código), `ui` (sistema de diseño), `stack` (versiones reales del stack y sus trampas) | el **Brain**, con `AGENTS.md` |
+| 🟢 Proceso | ¿cómo tiene que trabajar? | `prepare` (aclarar y, si es grande, planificar), `diagnose` (causa raíz antes de arreglar), `verify` (pruebas antes de decir "hecho") | **Spec** (`prepare` o `diagnose`) y **Builder** (`verify`) |
+| 🟠 Control | ¿quién lo comprueba? | `check` + hook (comprobaciones fijas tras cada edición), `reviewer` (el único agente: revisión a fondo, nunca edita), `guard` (un hook que bloquea credenciales, y el revisor antes del cierre) | el sensor en el **Builder**; **Guard**, **Reviewer** y **Close** |
 
 Opcional, fuera del core: `voice` (tu propia voz en los comentarios y en el chat) y `retro` (un subagente nuevo repasa cómo le ha ido a cada pieza del harness en una sesión, con pruebas del log, para que el harness mejore, o encoja, con lo que pasa de verdad). Los nombres son los mismos con `--lang es`: se traduce el contenido, no los nombres. Qué hace cada pieza y cuándo entra: **[SKILLS-GUIDE](docs/SKILLS-GUIDE.es.md)**.
 

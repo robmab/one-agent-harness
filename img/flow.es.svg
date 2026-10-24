@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1184 488" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1184 528" font-family="Segoe UI, Helvetica, Arial, sans-serif">
   <style>
     .hd{font-size:15px;font-weight:700;fill:#0f172a}
     .st{font-size:14.5px;font-weight:700;fill:#0f172a}
@@ -15,7 +15,7 @@
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
     <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ea580c"/></marker>
   </defs>
-  <rect width="1184" height="488" rx="16" fill="#f8fafc"/>
+  <rect width="1184" height="528" rx="16" fill="#f8fafc"/>
 
   <!-- columnas -->
   <g>
@@ -125,10 +125,25 @@
   <text x="1056" y="322" text-anchor="middle" class="cs">qué se aplica</text>
   <text x="1056" y="335" text-anchor="middle" class="cs">y haces el commit</text>
 
+  <!-- stations of the factory view (README) -->
+  <g fill="#fff" stroke="#0f172a" stroke-width="1.5">
+    <rect x="32" y="452" width="192" height="28" rx="14"/>
+    <rect x="264" y="452" width="192" height="28" rx="14"/>
+    <rect x="496" y="452" width="424" height="28" rx="14"/>
+    <rect x="960" y="452" width="192" height="28" rx="14"/>
+  </g>
+  <g class="st" text-anchor="middle">
+    <text x="128" y="471">Brain</text>
+    <text x="360" y="471">Spec</text>
+    <text x="708" y="471">Builder · lee el Brain</text>
+    <text x="1056" y="471">Reviewer → Close</text>
+  </g>
+
   <!-- leyenda -->
-  <rect x="20" y="456" width="22" height="16" rx="4" class="k"/><text x="50" y="469" class="lg">conocimiento</text>
-  <rect x="170" y="456" width="22" height="16" rx="4" class="p"/><text x="200" y="469" class="lg">proceso</text>
-  <rect x="290" y="456" width="22" height="16" rx="4" class="c"/><text x="320" y="469" class="lg">control</text>
-  <rect x="404" y="456" width="22" height="16" rx="4" class="g"/><text x="434" y="469" class="lg">paso del flujo / tú</text>
-  <line x1="590" y1="464" x2="626" y2="464" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4"/><text x="636" y="469" class="lg">bucle del hook: error → se corrige antes de seguir</text>
+  <rect x="20" y="496" width="22" height="16" rx="4" class="k"/><text x="50" y="509" class="lg">conocimiento</text>
+  <rect x="170" y="496" width="22" height="16" rx="4" class="p"/><text x="200" y="509" class="lg">proceso</text>
+  <rect x="290" y="496" width="22" height="16" rx="4" class="c"/><text x="320" y="509" class="lg">control</text>
+  <rect x="404" y="496" width="22" height="16" rx="4" class="g"/><text x="434" y="509" class="lg">paso del flujo / tú</text>
+  <line x1="590" y1="504" x2="626" y2="504" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4"/><text x="636" y="509" class="lg">bucle del hook: error → se corrige antes de seguir</text>
+  <rect x="985" y="496" width="22" height="16" rx="8" fill="#fff" stroke="#0f172a" stroke-width="1.5"/><text x="1015" y="509" class="lg">estación del esquema</text>
 </svg>
