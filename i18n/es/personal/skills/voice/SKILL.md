@@ -1,5 +1,5 @@
 ---
-name: voz
+name: voice
 description: "Estilo de los comentarios del código (longitud, tono, cuándo se comenta y cuándo no) y tono del chat con el usuario. Use when: escribir o revisar comentarios de código, o al empezar la conversación."
 ---
 
@@ -9,7 +9,7 @@ description: "Estilo de los comentarios del código (longitud, tono, cuándo se 
 
 > **OPTIONAL · PLANTILLA · FILL-IN.**
 > - Fuera del core: es **tu** forma de escribir, y cada persona tiene la suya. Si no te importa cómo comenta el agente, bórrala (y su línea en `claude\CLAUDE.md` y en el router).
-> - Aquí, las 5-6 reglas que más te importan. El detalle (ejemplos tuyos, muletillas, lo que odias) va en `detalle.md`, que se lee una vez, al escribir el primer comentario.
+> - Aquí, las 5-6 reglas que más te importan. El detalle (ejemplos tuyos, muletillas, lo que odias) va en `details.md`, que se lee una vez, al escribir el primer comentario.
 > - Cuando esté rellena, borra este bloque.
 
 <!-- FILL-IN: ejemplo de reglas, cámbialas por las tuyas:
@@ -26,4 +26,4 @@ description: "Estilo de los comentarios del código (longitud, tono, cuándo se 
 - `// Corregido: antes el nivel se perdía al filtrar` → sin comentario (es una corrección: va al commit)
 -->
 
-Detalle (ejemplos y voz): [detalle.md](./detalle.md). Léelo una vez, al **escribir o repasar** el primer comentario de la sesión; para el tono del chat basta con esta página. No lo releas después.
+Detalle (ejemplos y voz): [details.md](./details.md). Léelo una vez, al **escribir o repasar** el primer comentario de la sesión; para el tono del chat basta con esta página. No lo releas después.

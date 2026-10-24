@@ -15,5 +15,9 @@ desktop.ini
 # Reports from opencode/scripts/review-pending.ps1
 opencode/reports/
 
+# What factory/intake.py leaves: the tray and the tickets it already took
+factory/reports/
+factory/state.json
+
 # What setup.py set up on this PC (project, language, users and tools)
 .setup.json

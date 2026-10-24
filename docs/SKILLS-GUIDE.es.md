@@ -24,7 +24,7 @@ Conocimiento y proceso son **guías** (skills, `SKILL.md`). Control son **sensor
 - **READY** (lista): vale tal cual.
 - **ADJUST** (ajustar): el método vale; hay que rellenar sus tablas del proyecto.
 - **FILL-IN** (rellenar): plantilla con su concepto (para qué sirve y qué evita); el contenido es del proyecto.
-- **OPTIONAL** (opcional): fuera del core (`voice`).
+- **OPTIONAL** (opcional): fuera del core (`voice`, `retro`).
 
 ## 2. Qué es el core
 
@@ -47,6 +47,7 @@ Se puede ver también por de dónde sale el contenido:
 
 **Opcional · fuera del core:**
 - **Personal:** `voice`, tu voz en comentarios y chat. Cada uno tendría el suyo.
+- **Para mejorar el harness:** `retro`, el repaso de una sesión (cómo ha funcionado cada pieza, con pruebas del log). Solo entra si lo pides o lo aceptas al cerrar.
 - **Lo de un módulo o pantalla concreta:** skills que solo entran bajo demanda, con una `description` muy precisa para que no se disparen en cualquier tarea.
 - **Lo que está en espera:** commits, planes de ticket, traducciones, migraciones, recibir revisiones. Solo entran si algo falla de verdad y se repite (§6).
 
@@ -101,20 +102,20 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 - **Y planifica:** si la tarea es grande, la baja a un plan de 10-20 líneas sin código (pasos por capas, cada uno con cómo se comprueba, qué reutiliza, qué no se toca) más un repaso de lo que se suele olvidar en el proyecto. Lo apruebas antes de editar. Inspirado en `writing-plans` de superpowers, sin su código por paso, sus commits ni sus subagentes. Vive dentro de `prepare` para no sumar skills.
 - **Opcional:** lo que suele faltar en los tickets de ese proyecto y lo que se suele olvidar en sus planes.
 - **Entra:** cuando se lo pides ("entrevístame", "no sé a qué se refiere este ticket") o si el ticket no deja claro el qué, para quién o por qué. Nunca en tareas mecánicas.
-- **Ejemplo completo:** `preparar` en [examples](../examples/README.es.md), para copiarlo o sacar ideas.
+- **Ejemplo completo:** `prepare` en [examples](../examples/README.es.md), para copiarlo o sacar ideas.
 
 ### 🟢 `diagnose` · FILL-IN
 - **Qué:** sin causa raíz no hay arreglo. Reproducir → seguir el dato por las capas → una hipótesis cada vez → un solo arreglo. **Con 3 arreglos fallidos, para**: el problema es de diseño.
 - **Qué rellenar:** la tabla de capas de la aplicación y cómo mirar cada una, y las trampas propias del proyecto.
 - **Entra:** sola, ante un bug o un error, antes de proponer ningún arreglo.
-- **Ejemplo completo:** `diagnosticar` en [examples](../examples/README.es.md), para copiarlo o sacar ideas.
+- **Ejemplo completo:** `diagnose` en [examples](../examples/README.es.md), para copiarlo o sacar ideas.
 
 ### 🟢 `verify` · FILL-IN
 - **Qué:** nada de "hecho" sin una prueba ejecutada en ese mismo mensaje, y una salida honrada: «Comprobado» / «Sin comprobar».
 - **Tapa:** visto en la práctica: un modelo potente dijo "validado sin errores de editor" sin haber ejecutado nada.
 - **Qué rellenar:** las filas de la tabla con los comandos reales (tests, lint, build…).
 - **Entra:** sola, al ir a dar algo por terminado o antes de un commit.
-- **Ejemplo completo:** `comprobar` en [examples](../examples/README.es.md), para copiarlo o sacar ideas.
+- **Ejemplo completo:** `verify` en [examples](../examples/README.es.md), para copiarlo o sacar ideas.
 
 ### 🟠 `check` + hook · ADJUST
 - **Qué:** `personal\scripts\check.py`, solo con la librería estándar.
@@ -151,6 +152,13 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 - **Qué ajustar:** la columna "how it shows in the code" de `checklists\security.md`. Opcional: las trampas del proyecto que hay que mirar siempre y otras checklists propias en `personal\checklists\`.
 - **Entra:** al cerrar la sesión, antes del commit o de la PR, o para revisar una rama.
 
+### ⚪ `retro` · OPTIONAL · READY (fuera del core)
+- **Qué:** el repaso (retro) de una sesión: **cómo ha funcionado el harness**, no el código. Por cada pieza que tocó la sesión, un veredicto con su prueba del log: **ayudó**, **cumplida** (una pieza preventiva que entró a tiempo y se cumple: no deja más rastro que ese), **no hizo nada**, **estorbó** o **faltó**. Después, candidatos de mejora por gravedad: un error mecánico va al sensor, uno de criterio al revisor o a `conventions`, y las órdenes del router que no cambian nada se quitan.
+- **Cómo:** la skill solo pasa el encargo a un **subagente nuevo**, que no ha hecho la sesión (quien la hizo es el peor juez). El subagente lee el log con `personal\scripts\read_session.py`, que pasa a línea de tiempo las sesiones de Claude, Copilot y OpenCode (y las de DeepSeek Harness) y resume el uso de cada pieza. El informe se guarda con fecha en `personal\retros\`.
+- **Por qué el histórico:** un "no hizo nada" puede ser casualidad; **tres seguidos** ya son señal, y entonces el repaso propone un experimento ("una semana sin X"). Así el harness puede encogerse cuando el modelo ya hace solo lo que antes había que pedirle.
+- **Propone, no cambia:** decides tú qué se aplica, como con el revisor.
+- **Entra:** al cerrar, `closing.md` te pregunta si lo quieres; o cuando lo pides ("haz la retro", "¿cómo ha ido el harness?"). Adaptada de `retro` de [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
+
 ## 5. Cómo entra cada pieza
 
 | Pieza | Claude Code | Copilot (VS Code) |
@@ -162,6 +170,7 @@ Si en la fase 3 algo no está hecho, se vuelve a la 2. Si en la 2 aparece un bug
 | `prepare` | cuando se lo pides, el ticket es ambiguo o la tarea es grande (plan) | ídem, o `/prepare` |
 | `check` | **automático** tras cada edición | se lo ordena el router tras cada cambio, o a mano |
 | `reviewer` | al cerrar la sesión o a mano (subagente) | ídem (selector de agentes) |
+| `retro` | se ofrece al cerrar, o cuando lo pides (lanza un subagente) | ídem, o `/retro` |
 
 **Para saber si una skill ha entrado:**
 - **Claude:** sale la skill ejecutada (`/<project>:…`) en la respuesta.

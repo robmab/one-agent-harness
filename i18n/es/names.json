@@ -1,25 +1,3 @@
 {
-  "rename": {
-    "personal/skills/conventions": "personal/skills/convenios",
-    "personal/skills/prepare": "personal/skills/preparar",
-    "personal/skills/diagnose": "personal/skills/diagnosticar",
-    "personal/skills/verify": "personal/skills/comprobar",
-    "personal/skills/voice": "personal/skills/voz",
-    "personal/skills/voice/details.md": "personal/skills/voice/detalle.md",
-    "personal/agents/reviewer.agent.md": "personal/agents/revisor.agent.md",
-    "copilot/agents/reviewer.agent.md": "copilot/agents/revisor.agent.md",
-    "opencode/agents/reviewer.md": "opencode/agents/revisor.md",
-    "personal/checklists/security.md": "personal/checklists/seguridad.md",
-    "examples/skills/prepare": "examples/skills/preparar",
-    "examples/skills/diagnose": "examples/skills/diagnosticar",
-    "examples/skills/verify": "examples/skills/comprobar",
-    "examples/skills/prepare/interview.md": "examples/skills/prepare/entrevista.md",
-    "profiles/web/personal/skills/conventions": "profiles/web/personal/skills/convenios",
-    "profiles/web/personal/skills/prepare": "profiles/web/personal/skills/preparar",
-    "profiles/web/personal/skills/diagnose": "profiles/web/personal/skills/diagnosticar",
-    "profiles/web/personal/skills/verify": "profiles/web/personal/skills/comprobar",
-    "profiles/web/personal/skills/prepare/interview.md": "profiles/web/personal/skills/prepare/entrevista.md",
-    "profiles/web/personal/checklists/security.md": "profiles/web/personal/checklists/seguridad.md",
-    "personal/closing.md": "personal/cierre.md"
-  }
+  "rename": {}
 }

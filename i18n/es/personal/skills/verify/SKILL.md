@@ -1,5 +1,5 @@
 ---
-name: comprobar
+name: verify
 description: "Antes de decir que algo está hecho, arreglado o que funciona, ejecutar la comprobación y enseñar el resultado; si no se puede comprobar, decirlo. Use when: vas a dar por terminada una tarea, decir que un bug está arreglado o que algo pasa, o antes de un commit o PR."
 ---
 
@@ -7,7 +7,7 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 
 > **CONCEPTO:** nada de "hecho" sin una comprobación ejecutada en ese mismo mensaje y su salida leída; lo que no se puede comprobar se dice. Evita que el agente dé por bueno un éxito que no ha visto.
 
-> **PLANTILLA · FILL-IN** cada apartado. Ejemplo completo: [examples/skills/comprobar](../../../examples/skills/comprobar/SKILL.md). Cuando esté relleno, borra este bloque.
+> **PLANTILLA · FILL-IN** cada apartado. Ejemplo completo: [examples/skills/verify](../../../examples/skills/verify/SKILL.md). Cuando esté relleno, borra este bloque.
 
 ## Antes de afirmar nada
 <!-- FILL-IN: los pasos. P. ej.: elegir la prueba que lo demuestra, ejecutarla ahora, leer la salida entera, decirlo con la prueba. -->
@@ -24,7 +24,7 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 <!-- FILL-IN: sin credenciales (si para probar hace falta una contraseña, pide que intervenga el usuario). URL local y quién levanta el server, de dónde se lee la conexión a la BD, datos útiles. -->
 
 ## En el navegador
-<!-- FILL-IN (si el agente usa uno). P. ej.: la pestaña es la del usuario; intercepta peticiones en otra pestaña; tras 3 intentos fallidos, para. -->
+<!-- FILL-IN (si el agente usa uno). P. ej.: la pestaña es la del usuario; su pantalla también (nada de capturas del escritorio ni de listar o cambiar sus ventanas sin que lo pida); intercepta peticiones en otra pestaña; tras 3 intentos fallidos, para. -->
 
 ## Si no se puede comprobar
 <!-- FILL-IN: cómo decirlo. P. ej. "Comprobado: … / Sin comprobar: …, porque …". -->

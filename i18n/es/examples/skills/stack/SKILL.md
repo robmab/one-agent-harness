@@ -29,7 +29,7 @@ Comprobado el <!-- FILL-IN: fecha -->. Si el fichero de dependencias o la cabece
 1. **Primero, el repo.** Si ese mismo uso ya existe en el proyecto (búscalo), está probado en estas versiones: síguelo.
 2. **Si ya está en las trampas de arriba**, con eso basta: no hace falta ir a la web.
 3. **Si no está ni en el repo ni en las trampas**, mira la doc oficial **de esa versión** (la página concreta, no la portada). Si la doc online es de una versión más nueva, busca la nota "added in" o "deprecated in".
-4. **Los convenios mandan sobre la doc:** si chocan con `convenios`, se hace lo de los convenios. Si chocan de verdad, dilo.
+4. **Los convenios mandan sobre la doc:** si chocan con `conventions`, se hace lo de los convenios. Si chocan de verdad, dilo.
 5. **Cita en el chat, no en el código:** di de dónde lo has sacado (fichero del repo o URL de la doc). En el código, nada de URLs en comentarios.
 6. **Si no lo has podido comprobar, dilo:** "SIN VERIFICAR: esto es de memoria, puede ser de otra versión".
 

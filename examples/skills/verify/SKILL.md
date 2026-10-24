@@ -26,6 +26,7 @@ description: "Before saying something is done, fixed or working, run the check a
 | The screen works | load the page with the server running and look at the browser console | the template compiling |
 | It looks right (borders, shadows, overlaps) | a zoomed screenshot, at rest and in the failing state | measurements only |
 | Bug fixed | repeat the steps of the original symptom and it no longer shows | "I changed the code" |
+| It gives the same as something that already exists (another function, an endpoint, a query) | compare with **that** one by calling it, or with its query copied as is; and with a case that doesn't give 0 | a query rewritten by hand "in the style of": it tests your reading of the code, not the code |
 | A subagent did it | look at the `git diff` yourself | trusting its report |
 | It does what was asked | reread the request point by point | it compiling |
 | <!-- FILL-IN: lint, build, migrations, translations… --> | | |
@@ -38,6 +39,7 @@ description: "Before saying something is done, fixed or working, run the check a
 - **App:** <!-- FILL-IN: local URL; who starts the server -->
 - **Database:** <!-- FILL-IN: where its connection is read from -->
 - **Useful data and tricks:** <!-- FILL-IN -->
+- **Throwaway scripts** (a query, a check): in the temp folder, reading the connection from the config file; **never print it** (it carries the password). Delete them all when the task is done. To tweak one, use Edit (it fails if it doesn't find the text), not a `str.replace` from another script (silent if nothing changes).
 
 ## In the browser
 

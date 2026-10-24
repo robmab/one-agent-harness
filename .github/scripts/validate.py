@@ -207,7 +207,8 @@ def check_opencode():
 # what setup.py --lang overlays: every piece the model reads (plus the scripts whose messages it reads)
 I18N_REQUIRED = ('AGENTS.template.md', 'claude/CLAUDE.md', 'claude/.claude-plugin/marketplace.json',
                  'copilot/project.instructions.md', 'opencode/opencode.jsonc', 'opencode/plugins/sensor.ts',
-                 'opencode/scripts/review-pending.ps1', 'personal/scripts/check.py', 'personal/closing.md')
+                 'opencode/scripts/review-pending.ps1', 'personal/scripts/check.py', 'personal/scripts/read_session.py', 'personal/scripts/guard.py',
+                 'personal/closing.md', 'dsh/system-prompt.md')
 I18N_REQUIRED_DIRS = ('personal/skills', 'personal/agents', 'personal/checklists', 'profiles')
 
 

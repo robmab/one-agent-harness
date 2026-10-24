@@ -1,5 +1,5 @@
 ---
-name: comprobar
+name: verify
 description: "Antes de decir que algo está hecho, arreglado o que funciona, ejecutar la comprobación y enseñar el resultado; si no se puede comprobar, decirlo. Use when: vas a dar por terminada una tarea, decir que un bug está arreglado o que algo pasa, o antes de un commit o PR."
 ---
 
@@ -29,6 +29,7 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 | El endpoint responde | su respuesta en Network: el estado y el cuerpo esperados | "la pantalla lo enseña" |
 | Los permisos aguantan | un usuario sin el permiso no entra: lo rechaza el endpoint, no solo se oculta el botón | "el botón no sale" |
 | Bug arreglado | un test que fallaba antes del arreglo y ahora pasa; sin tests, repetir los pasos del síntoma original | "he cambiado el código" |
+| Da lo mismo que algo que ya existe (función, endpoint, consulta) | comparado con **eso**, llamándolo o copiado tal cual, en un caso que no dé 0 | una consulta reescrita a mano: prueba tu lectura |
 | Un subagente lo ha hecho | mirar el `git diff` tú mismo | fiarte de su informe |
 | Cumple lo pedido | releer la petición punto por punto | que compile |
 | <!-- TUNE: lint, build, migraciones, traducciones… --> | | |
@@ -39,18 +40,18 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 
 Sin credenciales aquí: si para probar hace falta una contraseña, pide que intervenga el usuario.
 - **App:** <!-- TUNE: URL local; quién levanta el server -->
-- **Base de datos:** <!-- TUNE: de dónde se lee su conexión -->
+- **Base de datos:** <!-- TUNE: de dónde se lee su conexión -->: no la imprimas nunca.
 - **Datos y trucos útiles:** <!-- TUNE: usuarios de cada rol, registros que cubran los casos límite -->
 
 ## En el navegador
 
 - **La pestaña es la del usuario**: no le cambies el tamaño ni la dejes en otra vista.
 - **Interceptar peticiones:** en otra pestaña, y quitado al acabar (`page.unrouteAll()`). Si algo se cuelga, sospecha antes de tu instrumentación.
-- **Tres intentos fallidos sobre lo mismo: para** y busca la causa de fondo (`diagnosticar`) o pregunta.
+- **Tres intentos fallidos sobre lo mismo: para** y busca la causa de fondo (`diagnose`) o pregunta.
 
 ## Si no se puede comprobar
 
-Pasa a menudo: no hay tests, el server no está levantado o faltan datos. No pasa nada, pero **dilo claro** y separa lo comprobado de lo que no:
+Sin tests, sin server, sin datos: **dilo claro**, separando lo comprobado de lo que no:
 
 ```
 Comprobado: sintaxis de servicios/pedidos.py (check.py OK).
@@ -63,7 +64,6 @@ Sin comprobar: la pantalla de edición, falta levantar el server. Para verlo: <p
 - Un "¡Listo!" o "¡Perfecto!" antes de haber ejecutado nada.
 - Ir a hacer commit o PR sin comprobar.
 - Pensar "por esta vez no hace falta".
-- Dar por bueno el informe de un subagente sin mirar el diff.
 
 Si te pillas en una, para y vuelve al paso 1.
 

@@ -1,5 +1,5 @@
 ---
-name: diagnosticar
+name: diagnose
 description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, seguir el dato por las capas de la aplicación y una hipótesis cada vez. Use when: un bug, un error o traza, algo que no funciona, sale vacío o se comporta raro, o un arreglo anterior no ha funcionado; antes de proponer ningún arreglo."
 ---
 
@@ -7,7 +7,7 @@ description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, s
 
 > **CONCEPTO:** sin causa raíz no hay arreglo. Parchear el síntoma es un fallo aunque desaparezca; sin esto, el agente apila suposiciones y al tercer intento ha roto otra cosa.
 
-> **PLANTILLA · FILL-IN** cada apartado. Ejemplo completo: [examples/skills/diagnosticar](../../../examples/skills/diagnosticar/SKILL.md). Cuando esté relleno, borra este bloque.
+> **PLANTILLA · FILL-IN** cada apartado. Ejemplo completo: [examples/skills/diagnose](../../../examples/skills/diagnose/SKILL.md). Cuando esté relleno, borra este bloque.
 
 ## 1. Investigar
 

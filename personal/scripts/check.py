@@ -41,6 +41,9 @@ TEMPLATE_MARKS = ('{{', '{%')
 
 # per-line rules: (level, extensions, regex, message). ERROR blocks; WARNING only informs
 RULES = [
+    # always on: a password written into a URL (in Claude, guard.py already stops it; this catches the other tools)
+    ('ERROR', ('.py', '.js', '.ts', '.html', '.ps1', '.sh'), r'\b[a-z][a-z0-9+.-]*://[^\s:/@\"\'`]+:(?!\*+@|<[^>]*>@|\{[^}]*\}@|\$\w+@)[^\s@\"\'`/]+@',
+     'password in plain text (user:password@ in a URL): read the connection from the config file instead'),
     # examples, uncomment and adapt them to the project's real versions:
     # ('ERROR', ('.js', '.html'), r'\bv-slot\b', 'v-slot is Vue 2.6; in this project it is <template slot="x" scope="props">'),
     # ('ERROR', ('.js', '.html'), r'\bdata-bs-[\w-]+', 'data-bs-* is Bootstrap 5; here it is data-toggle, data-target...'),

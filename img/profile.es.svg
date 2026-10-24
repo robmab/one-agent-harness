@@ -41,12 +41,12 @@
 
   <!-- template -->
   <g>
-    <rect x="38" y="92" width="152" height="28" rx="14" class="k"/><text x="114" y="110" text-anchor="middle" class="ch kt">convenios</text>
+    <rect x="38" y="92" width="152" height="28" rx="14" class="k"/><text x="114" y="110" text-anchor="middle" class="ch kt">conventions</text>
     <rect x="202" y="92" width="152" height="28" rx="14" class="k"/><text x="278" y="110" text-anchor="middle" class="ch kt">ui · stack</text>
-    <rect x="38" y="128" width="152" height="28" rx="14" class="p"/><text x="114" y="146" text-anchor="middle" class="ch pt">preparar · diagnosticar</text>
-    <rect x="202" y="128" width="152" height="28" rx="14" class="p"/><text x="278" y="146" text-anchor="middle" class="ch pt">comprobar</text>
+    <rect x="38" y="128" width="152" height="28" rx="14" class="p"/><text x="114" y="146" text-anchor="middle" class="ch pt">prepare · diagnose</text>
+    <rect x="202" y="128" width="152" height="28" rx="14" class="p"/><text x="278" y="146" text-anchor="middle" class="ch pt">verify</text>
     <rect x="38" y="164" width="152" height="28" rx="14" class="c"/><text x="114" y="182" text-anchor="middle" class="ch ctt">sensor (check.py)</text>
-    <rect x="202" y="164" width="152" height="28" rx="14" class="c"/><text x="278" y="182" text-anchor="middle" class="ch ctt">revisor</text>
+    <rect x="202" y="164" width="152" height="28" rx="14" class="c"/><text x="278" y="182" text-anchor="middle" class="ch ctt">reviewer</text>
   </g>
   <g class="tx">
     <text x="38" y="222">Router, motor del sensor, revisor e</text>

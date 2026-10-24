@@ -13,7 +13,7 @@ How to add a tool the harness doesn't cover yet, and what the CI checks on every
 5. **Global instructions:** via hook or user config, never with an instructions file in a folder above the repo.
 6. **Verify** in a new session that it sees everything and that the other tools don't start showing duplicates.
 
-OpenCode is the worked example ([A.5](SETUP.md#a5-wire-up-opencode-for-each-user-optional)): step 2 uncovered the walk up to your home (skill allowlist), and step 4 that it doesn't accept Claude's agent frontmatter (generated copy).
+OpenCode is the worked example ([A.5](SETUP.md#a5-wire-up-opencode-for-each-user-optional)): step 2 uncovered the walk up to your home (skill allowlist), and step 4 that it doesn't accept Claude's agent frontmatter (generated copy). DeepSeek Harness is the second ([A.6](SETUP.md#a6-wire-up-deepseek-harness-for-each-user-optional)): step 2 showed that it reads the global router as mere guidance and has no agent files (the router falls back to a subagent); step 5, that the agent preset shadows its global persona, which only the system prompt in the log revealed. Check there that a setting really reaches the model.
 
 ## 2. Checks (CI)
 

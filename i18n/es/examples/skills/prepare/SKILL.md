@@ -1,6 +1,6 @@
 ---
-name: preparar
-description: "Antes de programar: sacar lo que de verdad hay que hacer (preguntas de una en una, cada una con tu suposición) y, si la tarea es grande, bajarlo a un plan corto que aprueba el usuario. Use when: te lo piden ('entrevístame', 'pregúntame', '¿lo tenemos claro?', 'planifícalo', 'hazme un plan'); un ticket no deja claro para quién es, por qué o cuándo está bien hecho; o la tarea toca 3 o más ficheros, crea una pantalla o un componente, o cruza capas. NO para tareas claras y pequeñas (renombrar, mover, un retoque) ni para bugs (eso es diagnosticar)."
+name: prepare
+description: "Antes de programar: sacar lo que de verdad hay que hacer (preguntas de una en una, cada una con tu suposición) y, si la tarea es grande, bajarlo a un plan corto que aprueba el usuario. Use when: te lo piden ('entrevístame', 'pregúntame', '¿lo tenemos claro?', 'planifícalo', 'hazme un plan'); un ticket no deja claro para quién es, por qué o cuándo está bien hecho; o la tarea toca 3 o más ficheros, crea una pantalla o un componente, o cruza capas. NO para tareas claras y pequeñas (renombrar, mover, un retoque) ni para bugs (eso es diagnose)."
 ---
 
 # Entrevístame (y planifica)
@@ -12,7 +12,7 @@ Dos pasos antes de escribir código; usa el que toque:
 | No está claro qué se quiere | **Entrevista** |
 | Está claro, pero es grande | **Plan** |
 | Las dos cosas | Entrevista y, con el sí, plan |
-| Es un bug | Ninguno: `diagnosticar` |
+| Es un bug | Ninguno: `diagnose` |
 
 ## Entrevista
 
@@ -24,7 +24,7 @@ Lo que se pide y lo que se necesita no suelen coincidir. Lo esencial:
 4. **Resumen** (qué, para quién, por qué, bien hecho si, límite, fuera) cuando puedas predecir mis 3 siguientes respuestas.
 5. **Sí explícito y parar.**
 
-Cómo hacerlo, qué suele faltar y las señales de alarma: [entrevista.md](./entrevista.md). Léelo **cada vez que vayas a entrevistar**.
+Cómo hacerlo, qué suele faltar y las señales de alarma: [interview.md](./interview.md). Léelo **cada vez que vayas a entrevistar**.
 
 ## Plan
 
@@ -52,7 +52,7 @@ Cuando está claro qué hacer pero es grande. **Antes de la primera edición**, 
 4. **Repásalo contra la petición**, punto por punto: ni de más ni de menos.
 5. **Enséñalo y espera un sí claro**, como en la entrevista. Ni código ni ediciones en ese turno.
 
-Si al hacerlo un paso cambia, dilo antes de seguir. Al cerrar, el OBJETIVO y los ficheros del plan son el alcance y la intención que le pasas al `revisor`.
+Si al hacerlo un paso cambia, dilo antes de seguir. Al cerrar, el OBJETIVO y los ficheros del plan son el alcance y la intención que le pasas al `reviewer`.
 
 ## Señales de alarma del plan
 

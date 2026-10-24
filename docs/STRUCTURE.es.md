@@ -2,7 +2,7 @@
 
 🌐 [English](STRUCTURE.md) · **Español**
 
-Qué es cada carpeta y cada fichero, y por dónde llega cada pieza a Claude Code, Copilot y OpenCode.
+Qué es cada carpeta y cada fichero, y por dónde llega cada pieza a Claude Code, Copilot, OpenCode y DeepSeek Harness.
 
 **Nombres que se usan en toda la plantilla:**
 
@@ -17,7 +17,7 @@ Qué es cada carpeta y cada fichero, y por dónde llega cada pieza a Claude Code
 ```
 one-agent-harness\
 ├─ README                                instalación rápida y la idea; en inglés (.md) y en español (.es.md), como cada doc
-├─ docs\                                 STRUCTURE · SETUP · DAY-TO-DAY · EXTENDING · SKILLS-GUIDE · RESEARCH · OPTIONAL-SKILLS
+├─ docs\                                 STRUCTURE · SETUP · DAY-TO-DAY · EXTENDING · SKILLS-GUIDE · RESEARCH · OPTIONAL-SKILLS · FACTORY
 ├─ LICENSE · THIRD-PARTY-NOTICES.md · .gitattributes
 ├─ .github\                              CI de este repo (no es de la plantilla; se quita al copiar)
 ├─ VERSION                               versión de la plantilla de la que sale este harness
@@ -26,12 +26,12 @@ one-agent-harness\
 ├─ AGENTS.template.md                    → a la raíz del repo como AGENTS.md
 ├─ setup.py                              READY     lo monta en este PC: nombres, idioma, perfil y enlaces (SETUP §2)
 ├─ i18n\es\                              las piezas en español, para setup.py --lang es (se va al montar)
-├─ img\                                  esquemas SVG y el banner (route.png)
+├─ img\                                  esquemas SVG, el banner (route.png) y la vista de fábrica (factory.png)
 ├─ claude\                               ← lo que solo usa Claude
 │  ├─ CLAUDE.md                          el router: orden de trabajo, sensor y agente (lo mete el hook SessionStart)
 │  ├─ .claude-plugin\marketplace.json    marketplace "harness-project" con el plugin "project"
 │  └─ plugins\project                    ⇒ JUNCTION a ..\..\personal (la crea setup.py)
-├─ copilot\project.instructions.md       el router para Copilot y OpenCode: HARDLINK desde ~/.copilot y ~/.config/opencode (setup.py)
+├─ copilot\project.instructions.md       el router para Copilot, OpenCode y DSH: HARDLINK desde ~/.copilot, ~/.config/opencode y ~/.dsh
 ├─ copilot\agents\reviewer.agent.md      GENERADO  por sync.py con los alias de herramientas de VS Code (no editar aquí)
 ├─ opencode\                             ← lo que solo usa OpenCode (opcional)
 │  ├─ opencode.jsonc                     FILL-IN   modelo y proveedor; permisos, lista blanca de skills, revisor
@@ -39,7 +39,9 @@ one-agent-harness\
 │  ├─ plugins\sensor.ts                  READY     pasa check.py tras cada edición (como el hook de Claude)
 │  ├─ sync.py                            READY     regenera las copias de agentes de OpenCode y Copilot (--check: solo comprueba)
 │  └─ scripts\review-pending.ps1         READY     el revisor desde la CLI; deja el informe en opencode\reports\
-└─ personal\                             ← lo que leen Claude, Copilot y OpenCode
+├─ factory\intake.py                   OPTIONAL  tickets nuevos → sesiones desatendidas en su rama; informes en factory\reports\ (FACTORY)
+├─ dsh\system-prompt.md                 READY     DeepSeek Harness: la autoridad del router, para el persona de su preset (a mano, SETUP A.6)
+└─ personal\                             ← lo que leen Claude, Copilot, OpenCode y DSH
    ├─ skills\
    │  ├─ conventions\                    FILL-IN   convenios del proyecto
    │  ├─ ui\                             FILL-IN   design system
@@ -47,12 +49,16 @@ one-agent-harness\
    │  ├─ verify\                         FILL-IN   pruebas antes de decir "hecho"
    │  ├─ diagnose\                       FILL-IN   causa raíz antes de arreglar
    │  ├─ prepare\                        FILL-IN   aclarar antes de hacer, y planificar si es grande
-   │  └─ voice\                          OPTIONAL  tu voz (comentarios y chat); fuera del core
+   │  ├─ voice\                          OPTIONAL  tu voz (comentarios y chat); fuera del core
+   │  └─ retro\                          OPTIONAL  READY: el repaso de una sesión, pieza a pieza y con pruebas; fuera del core
    ├─ agents\
    │  └─ reviewer.agent.md               READY     el único agente: revisión a fondo, convenios incluidos, no edita
    ├─ checklists\security.md             ADJUST    la lee solo el revisor (eje 3); fuera de cualquier catálogo
    ├─ scripts\check.py                   ADJUST    sensor: MARKER, PROJECT_PYTHON y RULES; solo líneas cambiadas
-   ├─ hooks\hooks.json                   READY     PostToolUse: pasa check.py tras cada edición
+   ├─ scripts\read_session.py            READY     pasa una sesión de Claude, Copilot, OpenCode o DSH a línea de tiempo (para retro; --session, --since, --list)
+   ├─ scripts\guard.py                   READY     guarda: bloquea una URL con usuario:contraseña@ en órdenes y escrituras, y el revisor o la pregunta del repaso antes del cierre (--test)
+   ├─ retros\                            los informes de retro, con fecha: el histórico que deja ver tendencias
+   ├─ hooks\hooks.json                   READY     PreToolUse: guard.py antes de cada orden, escritura, subagente o pregunta · PostToolUse: check.py tras cada edición
    └─ closing.md                         FILL-IN   se lee al cerrar: revisor, hallazgos, limpieza, formato del commit
 ```
 
@@ -79,5 +85,9 @@ El **core** son 6 skills + 1 sensor + 1 agente, sobre `AGENTS.md` (ver [SKILLS-G
 | OpenCode 2 | el `reviewer` | junction `~/.config/opencode/agents` → `opencode\agents` (copia generada) |
 | OpenCode 2 | `check.py` tras cada edición | junction `~/.config/opencode/plugins` → `opencode\plugins\sensor.ts` |
 | OpenCode 2 | modelo, permisos | hardlink `~/.config/opencode/opencode.jsonc` → `opencode\opencode.jsonc` |
+| DeepSeek Harness | `AGENTS.md` del repo y el router | el del repo, solo; el router, hardlink `~/.dsh/AGENTS.md` → `copilot\<project>.instructions.md`, que DSH pasa como "guía cuando aplique" |
+| DeepSeek Harness | la autoridad del router | `suffix` del `persona` del preset `standard` en `~/.dsh/profiles/desktop/cordis.patch.yml`, con `dsh\system-prompt.md` (a mano) |
+| DeepSeek Harness | skills de `personal\` | junction `~/.dsh/skills` (lee un solo nivel: `<skill>\SKILL.md`) |
+| DeepSeek Harness | el `reviewer`, `check.py` | sin ficheros de agente ni hook: el router manda lanzar un subagente con `reviewer.agent.md` y pasar el sensor |
 
 **Por qué así:** VS Code Copilot también lee `~/.claude/skills`, `~/.claude/agents` y `.claude/` del workspace. Lo que pongas ahí lo ve dos veces si además está en `.github/` o en `~/.copilot`. Los **plugins** de Claude, en cambio, Copilot no los descubre, y Claude no lee `~/.copilot`. OpenCode, por su parte, sube desde el repo hasta el home buscando `.claude/skills`: de ahí la lista blanca de skills en su config. Resultado: cada herramienta ve cada cosa una sola vez.

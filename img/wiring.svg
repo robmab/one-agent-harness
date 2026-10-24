@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 528" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 528" font-family="Segoe UI, Helvetica, Arial, sans-serif">
   <style>
     .it{font-family:Consolas, 'Courier New', monospace;font-size:13px;font-weight:700;fill:#0f172a}
     .sub{font-size:11.5px;fill:#64748b}
@@ -8,7 +8,7 @@
     .no{font-size:14px;fill:#94a3b8}
     .lg{font-size:12px;fill:#334155}
   </style>
-  <rect width="1100" height="528" rx="16" fill="#f8fafc"/>
+  <rect width="1320" height="528" rx="16" fill="#f8fafc"/>
   <text x="26" y="53" class="th" fill="#0f172a">Piece</text>
   <rect x="418" y="24" width="214" height="38" rx="10" fill="#fffbeb" stroke="#b45309" stroke-width="2"/>
   <text x="525.0" y="49" class="th" fill="#78350f" text-anchor="middle">Claude Code</text>
@@ -16,7 +16,7 @@
   <text x="747.0" y="49" class="th" fill="#134e4a" text-anchor="middle">Copilot · VS Code</text>
   <rect x="862" y="24" width="214" height="38" rx="10" fill="#eef2ff" stroke="#4338ca" stroke-width="2"/>
   <text x="969.0" y="49" class="th" fill="#312e81" text-anchor="middle">OpenCode 2</text>
-  <rect x="14" y="76" width="1072" height="54" rx="8" fill="#ffffff"/>
+  <rect x="14" y="76" width="1292" height="54" rx="8" fill="#ffffff"/>
   <text x="26" y="98" class="it">AGENTS.md</text>
   <text x="26" y="116" class="sub">repo index (AGENTS.template.md)</text>
   <rect x="348" y="84" width="58" height="18" rx="9" fill="#e2e8f0"/><text x="377.0" y="97" class="pill" fill="#334155" text-anchor="middle">REPO</text>
@@ -31,7 +31,7 @@
   <text x="650" y="169" class="td" fill="#134e4a">~/.copilot/copilot-instructions.md</text>
   <text x="872" y="153" class="td" fill="#312e81">hardlink to Copilot's</text>
   <text x="872" y="169" class="td" fill="#312e81">~/.config/opencode/AGENTS.md</text>
-  <rect x="14" y="184" width="1072" height="54" rx="8" fill="#ffffff"/>
+  <rect x="14" y="184" width="1292" height="54" rx="8" fill="#ffffff"/>
   <text x="26" y="206" class="it">team skills</text>
   <text x="26" y="224" class="sub">.github\skills, if any</text>
   <rect x="348" y="192" width="58" height="18" rx="9" fill="#e2e8f0"/><text x="377.0" y="205" class="pill" fill="#334155" text-anchor="middle">REPO</text>
@@ -48,7 +48,7 @@
   <text x="650" y="277" class="td" fill="#134e4a">~/.copilot/skills</text>
   <text x="872" y="261" class="td" fill="#312e81">junction ~/.config/opencode</text>
   <text x="872" y="277" class="td" fill="#312e81">+ skill allowlist</text>
-  <rect x="14" y="292" width="1072" height="54" rx="8" fill="#ffffff"/>
+  <rect x="14" y="292" width="1292" height="54" rx="8" fill="#ffffff"/>
   <text x="26" y="314" class="it">reviewer agent</text>
   <text x="26" y="332" class="sub">personal\agents\reviewer.agent.md</text>
   <rect x="332" y="300" width="74" height="18" rx="9" fill="#f3e8ff"/><text x="369.0" y="313" class="pill" fill="#6b21a8" text-anchor="middle">HARNESS</text>
@@ -65,7 +65,7 @@
   <text x="650" y="385" class="td" fill="#134e4a">the router after every change</text>
   <text x="872" y="369" class="td" fill="#312e81">plugin opencode\plugins</text>
   <text x="872" y="385" class="td" fill="#312e81">\sensor.ts</text>
-  <rect x="14" y="400" width="1072" height="54" rx="8" fill="#ffffff"/>
+  <rect x="14" y="400" width="1292" height="54" rx="8" fill="#ffffff"/>
   <text x="26" y="422" class="it">model and permissions</text>
   <text x="26" y="440" class="sub">opencode\opencode.jsonc</text>
   <rect x="332" y="408" width="74" height="18" rx="9" fill="#f3e8ff"/><text x="369.0" y="421" class="pill" fill="#6b21a8" text-anchor="middle">HARNESS</text>
@@ -73,6 +73,20 @@
   <text x="747.0" y="431" class="no" text-anchor="middle">—</text>
   <text x="872" y="423" class="td" fill="#312e81">hardlink: provider,</text>
   <text x="872" y="439" class="td" fill="#312e81">permissions, skills, reviewer</text>
+  <rect x="1084" y="24" width="214" height="38" rx="10" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="1191.0" y="49" class="th" fill="#1e3a8a" text-anchor="middle">DeepSeek Harness</text>
+  <text x="1094" y="107" class="td" fill="#1e3a8a">reads it on its own</text>
+  <text x="1094" y="153" class="td" fill="#1e3a8a">hardlink ~/.dsh/AGENTS.md</text>
+  <text x="1094" y="169" class="td" fill="#1e3a8a">+ dsh\system-prompt.md</text>
+  <text x="1094" y="207" class="td" fill="#1e3a8a">one junction per skill</text>
+  <text x="1094" y="223" class="td" fill="#1e3a8a">in ~/.dsh/skills</text>
+  <text x="1094" y="261" class="td" fill="#1e3a8a">junction</text>
+  <text x="1094" y="277" class="td" fill="#1e3a8a">~/.dsh/skills</text>
+  <text x="1094" y="315" class="td" fill="#1e3a8a">subagent with its</text>
+  <text x="1094" y="331" class="td" fill="#1e3a8a">instructions (router)</text>
+  <text x="1094" y="369" class="td" fill="#1e3a8a">no hook: ordered by</text>
+  <text x="1094" y="385" class="td" fill="#1e3a8a">the router after every change</text>
+  <text x="1191.0" y="431" class="no" text-anchor="middle">—</text>
   <rect x="24" y="476" width="58" height="18" rx="9" fill="#e2e8f0"/><text x="53.0" y="489" class="pill" fill="#334155" text-anchor="middle">REPO</text><text x="90" y="489" class="lg">in the project repo</text>
   <rect x="380" y="476" width="74" height="18" rx="9" fill="#f3e8ff"/><text x="417.0" y="489" class="pill" fill="#6b21a8" text-anchor="middle">HARNESS</text><text x="462" y="489" class="lg">&lt;HARNESS&gt;: local folder, outside the repo</text>
   <text x="24" y="514" class="sub">* Claude only loads AGENTS.md if there's no CLAUDE.md in the repo or any folder above it. Each piece reaches each tool exactly once.</text>

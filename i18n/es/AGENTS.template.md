@@ -15,7 +15,7 @@ Esto es solo el índice. El detalle vive en las skills y en `docs/`.
 
 | Skill | Cuándo |
 |---|---|
-| `convenios` | antes de escribir o revisar CUALQUIER código |
+| `conventions` | antes de escribir o revisar CUALQUIER código |
 | `ui` | solo maquetación, estilos o componentes de UI |
 | <!-- FILL-IN: otras del repo, si las hay --> | |
 
@@ -23,7 +23,7 @@ Esto es solo el índice. El detalle vive en las skills y en `docs/`.
 
 | Agente | Cuándo |
 |---|---|
-| `revisor` | el único: revisión a fondo (convenios, corrección, seguridad, rendimiento…); no edita; sin ficheros, revisa el `git diff` |
+| `reviewer` | el único: revisión a fondo (convenios, corrección, seguridad, rendimiento…); no edita; sin ficheros, revisa el `git diff` |
 
 ## Comandos
 

@@ -41,6 +41,9 @@ TEMPLATE_MARKS = ('{{', '{%')
 
 # reglas por línea: (nivel, extensiones, regex, mensaje). ERROR bloquea; WARNING solo informa
 RULES = [
+    # siempre activa: una contraseña escrita en una URL (en Claude ya la para guard.py; esta pilla al resto)
+    ('ERROR', ('.py', '.js', '.ts', '.html', '.ps1', '.sh'), r'\b[a-z][a-z0-9+.-]*://[^\s:/@\"\'`]+:(?!\*+@|<[^>]*>@|\{[^}]*\}@|\$\w+@)[^\s@\"\'`/]+@',
+     'contraseña en claro (usuario:contraseña@ en una URL): lee la conexión del fichero de configuración'),
     # ejemplos, descomenta y adapta a las versiones reales del proyecto:
     # ('ERROR', ('.js', '.html'), r'\bv-slot\b', 'v-slot es de Vue 2.6; en este proyecto es <template slot="x" scope="props">'),
     # ('ERROR', ('.js', '.html'), r'\bdata-bs-[\w-]+', 'data-bs-* es de Bootstrap 5; aquí es data-toggle, data-target...'),

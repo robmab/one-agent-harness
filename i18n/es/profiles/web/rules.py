@@ -1,6 +1,9 @@
 """Reglas del sensor del perfil web: setup.py --profile web mete esta lista RULES en personal/scripts/check.py."""
 
 RULES = [
+    # siempre activa: una contraseña escrita en una URL (en Claude ya la para guard.py; esta pilla al resto)
+    ('ERROR', ('.py', '.js', '.ts', '.html', '.ps1', '.sh'), r'\b[a-z][a-z0-9+.-]*://[^\s:/@\"\'`]+:(?!\*+@|<[^>]*>@|\{[^}]*\}@|\$\w+@)[^\s@\"\'`/]+@',
+     'contraseña en claro (usuario:contraseña@ en una URL): lee la conexión del fichero de configuración'),
     # reglas generales de web, válidas para casi cualquier stack
     ('WARNING', ('.js', '.html'), r'\bconsole\.log\(|\bdebugger\b', 'resto de depuración'),
     ('WARNING', ('.js', '.html'), r'\beval\(', 'eval(): evítalo (seguridad, y esconde errores)'),

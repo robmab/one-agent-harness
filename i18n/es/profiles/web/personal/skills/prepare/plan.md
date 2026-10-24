@@ -1,6 +1,6 @@
 # Plan: cómo hacerlo
 
-Detalle de la rama "Plan" de `preparar`. Léelo cada vez que la tarea sea grande: 3 o más ficheros, una pantalla o un componente nuevo, o algo que cruza capas. **Antes de la primera edición**, y con el modo plan de la herramienta si lo tiene.
+Detalle de la rama "Plan" de `prepare`. Léelo cada vez que la tarea sea grande: 3 o más ficheros, una pantalla o un componente nuevo, o algo que cruza capas. **Antes de la primera edición**, y con el modo plan de la herramienta si lo tiene.
 
 ## 1. Busca lo que ya existe
 
@@ -40,7 +40,7 @@ Como en la entrevista. Ni código ni ediciones en ese turno.
 
 - Si un paso cambia, dilo antes de seguir.
 - **Al acabar, repasa lo hecho contra los PASOS:** cada cosa en el sitio que dice el plan; si algo ha quedado en otro, dilo antes de cerrar.
-- Al cerrar, el OBJETIVO y los ficheros del plan son el alcance y la intención que le pasas al `revisor`.
+- Al cerrar, el OBJETIVO y los ficheros del plan son el alcance y la intención que le pasas al `reviewer`.
 
 ## Señales de alarma
 

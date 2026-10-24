@@ -5,7 +5,7 @@ on the same drive as the user profiles (the router and OpenCode's config are har
 everything is a symlink, so anywhere.
 
 Usage (python3 instead of py -3 on Linux and macOS):
-    py -3 setup.py --project "My Project" [--tools claude,copilot,opencode] [--lang en|es]
+    py -3 setup.py --project "My Project" [--tools claude,copilot,opencode,dsh] [--lang en|es]
                    [--users rober,ana] [--vscode-permissions] [--force] [--dry-run]
     py -3 setup.py --check                    # checks every link and setting; repairs what is safe to repair
     py -3 setup.py --uninstall [--tools ...] [--users ...]   # removes links and settings; keeps the harness
@@ -27,13 +27,13 @@ import sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, '.setup.json')
-TOOLS = ('claude', 'copilot', 'opencode')
+TOOLS = ('claude', 'copilot', 'opencode', 'dsh')
 LANGS = ('en', 'es')
 SYSTEMS = ('windows', 'linux', 'macos')
 # how each system runs Python: the template is written with the Windows launcher
 LAUNCHERS = {'windows': 'py -3', 'linux': 'python3', 'macos': 'python3'}
 # folders and files with placeholders; the docs (README…) keep theirs, they explain them
-TEMPLATE_PARTS = ('claude', 'copilot', 'opencode', 'personal', 'AGENTS.template.md')
+TEMPLATE_PARTS = ('claude', 'copilot', 'opencode', 'dsh', 'personal', 'AGENTS.template.md')
 TEXT_EXT = ('.md', '.py', '.ts', '.json', '.jsonc', '.ps1')
 # in JSON and TypeScript a \ starts an escape: paths go with /
 FORWARD_EXT = ('.json', '.jsonc', '.ts')
@@ -312,6 +312,14 @@ def tool_links(tool, home, state):
             (os.path.join(base, 'skills'), os.path.join(ROOT, 'personal', 'skills'), 'dir'),
             (os.path.join(base, 'agents'), os.path.join(ROOT, 'opencode', 'agents'), 'dir'),
             (os.path.join(base, 'plugins'), os.path.join(ROOT, 'opencode', 'plugins'), 'dir'),
+        ]
+    if tool == 'dsh':
+        # DeepSeek Harness: no agent files (the router says to use a subagent with the reviewer's instructions)
+        # and no hook (the router says to run the sensor). The router's authority goes in the preset, by hand
+        base = os.path.join(home, '.dsh')
+        return [
+            (os.path.join(base, 'AGENTS.md'), router(state), 'file'),   # the same router as Copilot
+            (os.path.join(base, 'skills'), os.path.join(ROOT, 'personal', 'skills'), 'dir'),
         ]
     return []
 
@@ -716,6 +724,9 @@ def link_tools(state, homes, tools, force, vscode):
                 ensure_claude(home, state)
             for link, target, kind in tool_links(tool, home, state):
                 (ensure_file_link if kind == 'file' else ensure_dir_link)(link, target, tool, force)
+            if tool == 'dsh':
+                # its preset shadows any global persona and a patch replaces a config whole: not automated
+                say('todo', 'dsh: the router\'s authority in the system prompt, by hand (docs/SETUP.md §A.6)')
         if vscode or home in state.get('vscode', {}):
             ensure_vscode(home, state)
         if not dry_run:
@@ -754,7 +765,7 @@ def install(args):
 
     homes = homes_for(args)
     tools = tools_for(args, TOOLS)
-    if windows() and any(t in tools for t in ('copilot', 'opencode')):
+    if windows() and any(t in tools for t in ('copilot', 'opencode', 'dsh')):
         drive = os.path.splitdrive(ROOT)[0].lower()
         other = [h for h in homes if os.path.splitdrive(h)[0].lower() != drive]
         if other:

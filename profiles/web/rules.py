@@ -1,6 +1,9 @@
 """Sensor rules of the web profile: setup.py --profile web puts this RULES list into personal/scripts/check.py."""
 
 RULES = [
+    # always on: a password written into a URL (in Claude, guard.py already stops it; this catches the other tools)
+    ('ERROR', ('.py', '.js', '.ts', '.html', '.ps1', '.sh'), r'\b[a-z][a-z0-9+.-]*://[^\s:/@\"\'`]+:(?!\*+@|<[^>]*>@|\{[^}]*\}@|\$\w+@)[^\s@\"\'`/]+@',
+     'password in plain text (user:password@ in a URL): read the connection from the config file instead'),
     # general web rules, valid for most stacks
     ('WARNING', ('.js', '.html'), r'\bconsole\.log\(|\bdebugger\b', 'debugging leftover'),
     ('WARNING', ('.js', '.html'), r'\beval\(', 'eval(): avoid it (security, and it hides errors)'),

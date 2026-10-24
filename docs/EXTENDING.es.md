@@ -13,7 +13,7 @@ Cómo añadir una herramienta que el harness aún no cubre, y qué comprueba el 
 5. **Instrucciones globales:** por hook o config de usuario, nunca con un fichero de instrucciones en una carpeta superior al repo.
 6. **Verifica** en sesión nueva que lo ve y que las demás no empiezan a duplicar.
 
-OpenCode es el ejemplo ya hecho ([A.5](SETUP.es.md#a5-conectar-opencode-en-cada-usuario-opcional)): el paso 2 destapó la búsqueda hasta el home (lista blanca), y el paso 4, que no acepta el frontmatter de agentes de Claude (copia generada).
+OpenCode es el ejemplo ya hecho ([A.5](SETUP.es.md#a5-conectar-opencode-en-cada-usuario-opcional)): el paso 2 destapó la búsqueda hasta el home (lista blanca), y el paso 4, que no acepta el frontmatter de agentes de Claude (copia generada). DeepSeek Harness es el segundo ([A.6](SETUP.es.md#a6-conectar-deepseek-harness-en-cada-usuario-opcional)): el paso 2 enseñó que lee el router global como simple guía y que no tiene ficheros de agente (el router recurre a un subagente); el paso 5, que el preset del agente tapa su persona global, cosa que solo destapó el prompt de sistema del log. Comprueba ahí que un ajuste llega de verdad al modelo.
 
 ## 2. Comprobaciones (CI)
 

@@ -1,6 +1,6 @@
 ---
-name: preparar
-description: "Antes de programar: sacar lo que de verdad hay que hacer (preguntas de una en una, cada una con tu suposición) y, si la tarea es grande, bajarlo a un plan corto que aprueba el usuario. Use when: te lo piden ('entrevístame', 'pregúntame', '¿lo tenemos claro?', 'planifícalo', 'hazme un plan'); un ticket no deja claro para quién es, por qué o cuándo está bien hecho; o la tarea toca 3 o más ficheros, crea una pantalla o un componente, o cruza capas. NO para tareas claras y pequeñas (renombrar, mover, un retoque) ni para bugs (eso es diagnosticar)."
+name: prepare
+description: "Antes de programar: sacar lo que de verdad hay que hacer (preguntas de una en una, cada una con tu suposición) y, si la tarea es grande, bajarlo a un plan corto que aprueba el usuario. Use when: te lo piden ('entrevístame', 'pregúntame', '¿lo tenemos claro?', 'planifícalo', 'hazme un plan'); un ticket no deja claro para quién es, por qué o cuándo está bien hecho; o la tarea toca 3 o más ficheros, crea una pantalla o un componente, o cruza capas. NO para tareas claras y pequeñas (renombrar, mover, un retoque) ni para bugs (eso es diagnose)."
 ---
 
 # Preparar
@@ -13,10 +13,10 @@ Elige la rama y **lee solo su detalle**:
 
 | Situación | Rama | Detalle |
 |---|---|---|
-| No está claro qué se quiere | **Entrevista** | [entrevista.md](./entrevista.md) |
+| No está claro qué se quiere | **Entrevista** | [interview.md](./interview.md) |
 | Está claro, pero es grande (3+ ficheros, pantalla o componente nuevo, varias capas) | **Plan** | [plan.md](./plan.md) |
 | Las dos cosas | Entrevista y, con el sí, plan | los dos, en ese orden |
-| Es un bug | Ninguna: `diagnosticar` | — |
+| Es un bug | Ninguna: `diagnose` | — |
 | Un retoque claro (uno o dos ficheros) | Ninguna: se hace directo | — |
 
 **Abre siempre el detalle de la rama antes de empezar:** ahí está cómo se hace.

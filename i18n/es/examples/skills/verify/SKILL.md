@@ -1,5 +1,5 @@
 ---
-name: comprobar
+name: verify
 description: "Antes de decir que algo está hecho, arreglado o que funciona, ejecutar la comprobación y enseñar el resultado; si no se puede comprobar, decirlo. Use when: vas a dar por terminada una tarea, decir que un bug está arreglado o que algo pasa, o antes de un commit o PR."
 ---
 
@@ -26,6 +26,7 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 | La pantalla funciona | cargar la página con el server levantado y mirar la consola del navegador | que la plantilla compile |
 | Se ve bien (bordes, sombras, solapes) | captura con zoom, en reposo y en el estado que fallaba | solo medidas |
 | Bug arreglado | repetir los pasos del síntoma original y que ya no salga | "he cambiado el código" |
+| Da lo mismo que algo que ya existe (otra función, un endpoint, una consulta) | comparar con **esa** función llamándola, o con su consulta copiada tal cual; y con un caso que no dé 0 | una consulta reescrita a mano "al estilo de": prueba tu lectura del código, no el código |
 | Un subagente lo ha hecho | mirar el `git diff` tú mismo | fiarte de su informe |
 | Cumple lo pedido | releer la petición punto por punto | que compile |
 | <!-- FILL-IN: lint, build, migraciones, traducciones… --> | | |
@@ -38,12 +39,13 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 - **App:** <!-- FILL-IN: URL local; quién levanta el server -->
 - **Base de datos:** <!-- FILL-IN: de dónde se lee su conexión -->
 - **Datos y trucos útiles:** <!-- FILL-IN -->
+- **Scripts de usar y tirar** (una consulta, una comprobación): en la carpeta temporal, leyendo la conexión del fichero de configuración; **nunca la imprimas** (lleva la contraseña). Bórralos todos al acabar la tarea. Para retocar uno, edítalo con Edit (falla si no encuentra el texto), no con un `str.replace` desde otro script, que no avisa si no cambia nada.
 
 ## En el navegador
 
 - **La pestaña es la del usuario**: no le cambies el tamaño ni la dejes en otra vista.
 - **Interceptar peticiones:** en otra pestaña, y quitado al acabar (`page.unrouteAll()`). Si algo se cuelga, sospecha antes de tu instrumentación.
-- **Tres intentos fallidos sobre lo mismo: para** y busca la causa de fondo (`diagnosticar`) o pregunta.
+- **Tres intentos fallidos sobre lo mismo: para** y busca la causa de fondo (`diagnose`) o pregunta.
 
 ## Si no se puede comprobar
 

@@ -24,7 +24,7 @@ description: "Before saying something is done, fixed or working, run the check a
 <!-- FILL-IN: no credentials (if a test needs a password, ask the user to step in). Local URL and who starts the server, where the database connection is read from, useful data. -->
 
 ## In the browser
-<!-- FILL-IN (if the agent uses one). E.g.: the tab is the user's; intercept requests in another tab; after 3 failed attempts, stop. -->
+<!-- FILL-IN (if the agent uses one). E.g.: the tab is the user's; the user's screen too (no desktop screenshots, no listing or switching their windows unless asked); intercept requests in another tab; after 3 failed attempts, stop. -->
 
 ## If it can't be checked
 <!-- FILL-IN: how to say it. E.g. "Checked: … / Not checked: …, because …". -->

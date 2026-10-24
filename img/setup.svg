@@ -59,7 +59,7 @@
     <rect x="450" y="118" width="108" height="30" rx="15" class="p"/>
     <text x="504" y="137" text-anchor="middle" class="ch pt">--profile web</text>
     <rect x="332" y="156" width="226" height="30" rx="15" class="g"/>
-    <text x="445" y="175" text-anchor="middle" class="ch gt">links: Claude · Copilot · OpenCode</text>
+    <text x="445" y="175" text-anchor="middle" class="ch gt">links for the 4 tools</text>
     <text x="332" y="210" class="cs">each user on the PC; language and</text>
     <text x="332" y="226" class="cs">profile are chosen once</text>
   </g>

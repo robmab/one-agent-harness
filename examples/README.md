@@ -22,4 +22,4 @@ The template's skills (`personal\skills\`) come as **templates**: each one opens
 3. **Keep the `**CONCEPT:**` line** at the top, or write it if you start from your own: it's what tells the model why the rules are there.
 4. **Trim what you don't use.** They're examples, not the rule: a shorter skill that fits your project works better than a complete one that doesn't.
 
-With `setup.py --lang es` the Spanish versions are installed here, under their Spanish names (`preparar`, `diagnosticar`…).
+With `setup.py --lang es` the Spanish versions are installed here, under the same names.

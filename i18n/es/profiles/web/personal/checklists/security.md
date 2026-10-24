@@ -2,7 +2,7 @@
 
 > **PERFIL · web.** Puntos generales de web, válidos para casi cualquier stack. Ajusta a tu stack lo marcado con `TUNE` y luego quita la marca.
 >
-> La lee el agente `revisor` en el **eje 3**, punto por punto. No es una skill: no entra en ningún catálogo y el agente principal no la carga al escribir. Si en los logs se ve que el agente escribe código inseguro de forma repetida, se sube a skill (`personal\skills\seguridad\SKILL.md`, con `name` y `description`) y el revisor la sigue leyendo igual.
+> La lee el agente `reviewer` en el **eje 3**, punto por punto. No es una skill: no entra en ningún catálogo y el agente principal no la carga al escribir. Si en los logs se ve que el agente escribe código inseguro de forma repetida, se sube a skill (`personal\skills\seguridad\SKILL.md`, con `name` y `description`) y el revisor la sigue leyendo igual.
 >
 > Lo que se pueda pillar con una regex va también a las `RULES` de `check.py`.
 

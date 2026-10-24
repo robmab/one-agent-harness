@@ -109,6 +109,9 @@ def test(lang, system, base):
     write(os.path.join(home, '.claude', 'settings.json'), json.dumps({'theme': 'dark', 'hooks': {}}, indent=2))
     write(vs, '{\n  "editor.fontSize": 14 // mine\n}\n')
     write(os.path.join(home, '.copilot', 'skills', 'other-skill', 'SKILL.md'), 'x')
+    dsh_patch = os.path.join(home, '.dsh', 'profiles', 'desktop', 'cordis.patch.yml')
+    dsh_text = '# Your patch layer for this dsh profile\n- id: ui-theme\n  config:\n    preference: system\n'
+    write(dsh_patch, dsh_text)
     # home2: empty profile, except a VS Code settings file with CRLF and no final newline
     vs2_text = '{\r\n  "editor.tabSize": 2\r\n}'
     write(vs2, vs2_text)
@@ -137,7 +140,7 @@ def test(lang, system, base):
         for f in files:
             p = os.path.join(folder, f)
             rel = os.path.relpath(p, h).replace('\\', '/')
-            if rel.split('/')[0] in ('claude', 'copilot', 'opencode', 'personal') and f.endswith(
+            if rel.split('/')[0] in ('claude', 'copilot', 'opencode', 'dsh', 'personal') and f.endswith(
                     ('.md', '.py', '.ts', '.json', '.jsonc', '.ps1')):
                 t = read(p)
                 expect('<PROJECT>' not in t and '<HARNESS>' not in t, f'{tag}: placeholder left in {rel}')
@@ -186,13 +189,15 @@ def test(lang, system, base):
     expect(links_to(os.path.join(h, 'claude', 'plugins', 'demo-app'), os.path.join(h, 'personal')),
            f'{tag}: plugin link')
     for hm in (home, home2):
-        for p in (('.copilot', 'copilot-instructions.md'), ('.config', 'opencode', 'AGENTS.md')):
+        for p in (('.copilot', 'copilot-instructions.md'), ('.config', 'opencode', 'AGENTS.md'), ('.dsh', 'AGENTS.md')):
             link = os.path.join(hm, *p)
             expect(same(link, router), f'{tag}: router link {os.path.join(*p)} in {hm}')
             expect(os.path.islink(link) == (system != 'windows'),
                    f'{tag}: {os.path.join(*p)} should be a {"hardlink" if system == "windows" else "symlink"}')
         expect(links_to(os.path.join(hm, '.config', 'opencode', 'skills'), os.path.join(h, 'personal', 'skills')),
                f'{tag}: opencode skills link in {hm}')
+        expect(links_to(os.path.join(hm, '.dsh', 'skills'), os.path.join(h, 'personal', 'skills')),
+               f'{tag}: dsh skills link in {hm}')
         s = json.loads(read(os.path.join(hm, '.claude', 'settings.json')))
         expect(s['enabledPlugins'].get('demo-app@harness-demo-app') is True, f'{tag}: plugin enabled in {hm}')
         expect(s['extraKnownMarketplaces']['harness-demo-app']['source']['path'] == os.path.join(h, 'claude'),
@@ -214,6 +219,8 @@ def test(lang, system, base):
     expect(re.search(rule, f'{launcher} {check_py} a.js') and not re.search(rule, f'{launcher} {check_py}x'),
            f'{tag}: VS Code sensor rule')
     expect(data['editor.fontSize'] == 14, f'{tag}: VS Code settings lost a key')
+    # DeepSeek Harness: its profile is the user's (the system prompt goes by hand, SETUP §A.6)
+    expect(read(dsh_patch) == dsh_text, f'{tag}: setup touched the dsh cordis.patch.yml')
 
     # idempotent
     code, out = run(h, system, '--home', home, '--home', home2)
@@ -247,7 +254,8 @@ def test(lang, system, base):
     print(out)
     expect(code == 0, f'{tag}: uninstall exited {code}')
     for hm in (home, home2):
-        for p in (('.copilot', 'agents'), ('.config', 'opencode', 'skills'), ('.config', 'opencode', 'AGENTS.md')):
+        for p in (('.copilot', 'agents'), ('.config', 'opencode', 'skills'), ('.config', 'opencode', 'AGENTS.md'),
+                  ('.dsh', 'AGENTS.md'), ('.dsh', 'skills')):
             expect(not os.path.lexists(os.path.join(hm, *p)), f'{tag}: {os.path.join(*p)} left in {hm}')
         s = json.loads(read(os.path.join(hm, '.claude', 'settings.json')))
         expect('harness-demo-app' not in s.get('extraKnownMarketplaces', {}), f'{tag}: marketplace left in {hm}')
@@ -259,6 +267,7 @@ def test(lang, system, base):
            f'{tag}: VS Code settings not restored')
     with open(vs2, 'rb') as f:
         expect(f.read() == vs2_text.encode(), f'{tag}: VS Code settings (CRLF) not restored byte for byte')
+    expect(read(dsh_patch) == dsh_text, f'{tag}: uninstall touched the dsh cordis.patch.yml')
     # one backup per file, the one from before the first change, however many times it ran
     for folder, original in ((os.path.join(home, '.claude'), None), (os.path.dirname(vs2), vs2_text)):
         backups = [f for f in os.listdir(folder) if f.startswith('settings.json.')]
@@ -291,6 +300,8 @@ def test_profile(lang, system, base, profile='web'):
         text = read(os.path.join(skills, s, 'SKILL.md'))
         if 'TEMPLATE · FILL-IN' in text or 'PLANTILLA · FILL-IN' in text:
             continue   # voice stays a template: it's the user's voice
+        if 'OPTIONAL · READY' in text or 'OPTIONAL · LISTA' in text:
+            continue   # retro is ready as is and outside the core
         filled += 1
         expect('<PROJECT>' not in text, f'{tag}: placeholder left in the {s} skill')
     expect(filled == 6, f'{tag}: the profile should fill in the 6 core skills, filled {filled}')

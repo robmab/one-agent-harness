@@ -4,7 +4,7 @@
 
 From copying the template to checking that every tool sees it, plus how to live with other projects and how to do it all by hand.
 
-Requirements: Claude Code (it uses Git Bash for hooks on Windows), VS Code with Copilot, OpenCode 2 if you use it, and Python 3: the `py` launcher on Windows, `python3` on Linux and macOS. Nothing needs admin rights. The commands below are the Windows ones; on Linux and macOS, `python3 <HARNESS>/setup.py` with the same options.
+Requirements: Claude Code (it uses Git Bash for hooks on Windows), VS Code with Copilot, OpenCode 2 and DeepSeek Harness if you use them, and Python 3: the `py` launcher on Windows, `python3` on Linux and macOS. Nothing needs admin rights. The commands below are the Windows ones; on Linux and macOS, `python3 <HARNESS>/setup.py` with the same options.
 
 > **Linux and macOS:** `setup.py` links with symlinks and writes `python3` and `/` paths where the template has `py -3` and `\`. CI runs it end to end on both systems (with fake profiles), but it hasn't been tried yet on a real machine with the tools: if something fails, [open an issue](https://github.com/robmab/one-agent-harness/issues).
 
@@ -36,14 +36,14 @@ python3 <HARNESS>/setup.py --project "My Project"   # Linux and macOS
 It does what used to be five manual steps (the [appendix](#appendix-manual-setup) has them, to see what it does or repeat one by hand):
 
 - **Names:** `<PROJECT>` and `<HARNESS>` in every file (without BOM, and with `/` in JSON and TypeScript, where a `\` would be an escape); the marketplace and the plugin (`harness-my-project`, `my-project`: the skill prefix in Claude); the router, renamed to `my-project.instructions.md`. On Linux and macOS, also `python3` for `py -3` and `/` in the paths.
-- **Language** (`--lang es`): the pieces the model reads (skills, agent, router, `CLAUDE.md`, checklist, `AGENTS.template.md` and the sensor's messages) in Spanish, with Spanish names (`convenios`, `revisor`…). Default `en`. **It's chosen once**, before filling it in: what you write afterwards is yours and can't be translated for you.
+- **Language** (`--lang es`): the pieces the model reads (skills, agent, router, `CLAUDE.md`, checklist, `AGENTS.template.md` and the sensor's messages) in Spanish; the names (skills, agent, files) stay in English, so the docs and the commands are the same in both languages. Default `en`. **It's chosen once**, before filling it in: what you write afterwards is yours and can't be translated for you.
 - **Profile** (`--profile web`): copies the profile's filled-in skills, security checklist and sensor `RULES` over the template, before naming. Without it, the clean template. **It's chosen once**, like the language. What a profile can't know (your stack's versions, folders, commands) stays marked `TUNE`.
-- **Links,** for each tool and user (junctions and hardlinks on Windows, symlinks on Linux and macOS): the plugin link, Claude's `settings.json` (marketplace, plugin and `SessionStart` hook), Copilot's `~/.copilot` and OpenCode's `~/.config/opencode`. If a folder already holds other things (another project's skills), it links skill by skill and leaves the rest alone; if a file is in the way (another router), it stops and tells you ([coexisting](#6-coexisting-with-other-projects)).
+- **Links,** for each tool and user (junctions and hardlinks on Windows, symlinks on Linux and macOS): the plugin link, Claude's `settings.json` (marketplace, plugin and `SessionStart` hook), Copilot's `~/.copilot`, OpenCode's `~/.config/opencode` and DeepSeek Harness's `~/.dsh` (its system prompt goes by hand, [A.6](#a6-wire-up-deepseek-harness-for-each-user-optional)). If a folder already holds other things (another project's skills), it links skill by skill and leaves the rest alone; if a file is in the way (another router), it stops and tells you ([coexisting](#6-coexisting-with-other-projects)).
 - **The rest:** the agent's generated copies (`sync.py`), the sensor's `--selftest`, and the list of what's left to fill in (`FILL-IN`) or to tune (`TUNE`).
 
 | Option | What for |
 |---|---|
-| `--tools claude,copilot` | only some tools (default: `claude,copilot,opencode`) |
+| `--tools claude,copilot` | only some tools (default: `claude,copilot,opencode,dsh`) |
 | `--users rober,ana` | Windows: other users on the PC (default: you); their profiles must be on the harness's drive. On Linux and macOS, run it as each user instead (`sudo -u ana python3 <HARNESS>/setup.py`; that user needs write access to the harness folder) |
 | `--lang es` | the pieces in Spanish (first run only) |
 | `--vscode-permissions` | VS Code reads the harness and runs the sensor without asking ([keeping it in shape](#5-keeping-it-in-shape)) |
@@ -75,7 +75,6 @@ Recommended order (most used first):
 6. **`ui`:** if there's a UI.
 7. **`AGENTS.template.md`:** to the repo root as `AGENTS.md`, if the repo is yours or the team agrees.
 
-(With `--lang es`, the same pieces under their Spanish names: `convenios`, `preparar`, `comprobar`…)
 
 ## 4. Verify
 
@@ -84,11 +83,12 @@ Recommended order (most used first):
 3. **VS Code:** reload the window. The skills (`/prepare`…) and the `reviewer` agent should show up in the picker, **only once**.
 4. **The router in VS Code:** command palette → "Chat: Configure Instructions" → `copilot-instructions` should be listed **only once**. In a new chat, "which is the only review agent and in what order do you work?" → `reviewer` and the phases.
 5. **OpenCode**, from the repo: `opencode run "without touching files: which is the only review agent, what do you run after every change and which skills do you have"` → `reviewer`, the sensor command and **only** the harness skills. `opencode plugin list` → `sensor-<PROJECT>`. For the sensor, the same test as with Claude: the `write` result should carry the `ERROR`.
+6. **DeepSeek Harness**, after restarting the app, in a new session from the repo: "without touching files: which is the only review agent, what do you run after every change, which skills do you have and what must you do before the first code edit?" → the `reviewer` (or a subagent with its instructions), the sensor command, the harness skills and loading `conventions`.
 
 ## 5. Keeping it in shape
 
 - **`py -3 <HARNESS>\setup.py --check`** checks every link and setting and repairs what is safe to repair: a missing link, a hardlink broken by an editor that saved by replacing the file (if the text is still the same) or an out-of-date agent copy. If the copy outside has other text, it doesn't choose for you: it tells you which one is newer.
-- **Another user or tool later:** `setup.py --users ana` or `setup.py --tools opencode`.
+- **Another user or tool later:** `setup.py --users ana` or `setup.py --tools dsh`.
 - **VS Code permission prompts** (`--vscode-permissions`): the harness lives outside the workspace, so Copilot asks for confirmation every time it reads something from it (in real use, around ten per session) and whenever the sensor runs chained to another command. The option adds two settings to each user's VS Code `settings.json`: `github.copilot.chat.additionalReadAccessPaths` with the harness folder, and a `chat.tools.terminal.autoApprove` rule for the sensor script alone. Reload the window afterwards. It only trusts **reading** the harness, not changing it: a model rewriting its own rules is something you should see. Don't use `chat.tools.global.autoApprove` (approve everything): it would also drop the prompts that protect you (database, deletes, push).
 - **`setup.py --uninstall`** (`--tools` and `--users` narrow it down): removes the links and settings, only those pointing to this harness. The harness itself stays as it is.
 
@@ -104,7 +104,7 @@ The tools don't separate projects. Watch out for this:
   Untested alternative: enable the plugin only in that repo, in its `.claude/settings.local.json` (local, not committed), instead of the user's `settings.json`.
 - **The sensor:** each plugin's hook fires on **every** edit. With `MARKER = None` it would also run in other projects' repos. **Always set a `MARKER`** so it only acts on its own.
 - **Copilot has no prefixes, and `~/.copilot/skills` is a single folder:**
-  - **The method pieces** (`prepare`, `diagnose`, `verify`, `voice`) are the same in every project: link **a single copy**.
+  - **The method pieces** (`prepare`, `diagnose`, `verify`, `voice`, `retro`) are the same in every project: link **a single copy**.
   - **The project pieces** (`conventions`, `ui`, `stack`) would clash by name. Better in the repo's `.github/` if possible; otherwise rename them with a prefix (`<project>-conventions`).
   - **The `reviewer`** is a method piece too, but it reads its checklists by path: with several projects, make one copy per project (`<project>-reviewer`) pointing to its own.
   - To mix projects, `~/.copilot/skills` becomes a regular folder with **one junction per skill**:
@@ -113,6 +113,7 @@ The tools don't separate projects. Watch out for this:
     New-Item -ItemType Junction -Path "$HOME\.copilot\skills\<skill>" -Target "<HARNESS>\personal\skills\<skill>"
     ```
 - **OpenCode:** `~/.config/opencode` holds a single `AGENTS.md`, a single config and one skills folder, like `~/.copilot`: merge the routers into one file, merge the configs (the allowlist with every project's skills) and use one junction per skill. Plugins do coexist: each has its own `id` (`sensor-<PROJECT>`) and `MARKER`.
+- **DeepSeek Harness:** `~/.dsh` holds a single `AGENTS.md` and one skills folder, like `~/.copilot`: merge the routers and use one junction per skill. The preset's `suffix` is a single text too: put every project's text there, each part starting with "In the X repo".
 - **If the team already has skills and agents in the repo** (`.github/`): Copilot already sees them; **don't copy them into `personal\`**. For Claude, create a separate plugin in `claude\plugins\<project>-repo\` (with its `.claude-plugin\plugin.json`) holding **pointers**: a `SKILL.md` with the same `description` and the body "Read `<path in the repo>` from the repo root and follow it; if it doesn't exist, say so". Never in `~/.claude/skills` or the repo's `.claude/`, because VS Code would show duplicates.
 
 ## Appendix: manual setup
@@ -239,3 +240,24 @@ New-Item -ItemType Junction -Path "$c\plugins"        -Target "$a\opencode\plugi
 - **The skill allowlist** (`permissions`, action `skill`) lets through only the harness skills: OpenCode walks up from the repo to your home looking for `.claude/skills` and `.agents/skills`, and picks up other tools' skills. **Every new skill goes on the list** (CI checks it).
 - **Free web search:** the `ddg-search` MCP (DuckDuckGo, through `uvx`; install `uv` for each user with `winget install astral-sh.uv`). Searching doesn't ask; **reading pages does**, because a page can hide instructions for the model. Add your stack's official docs to the `webfetch` `allow` rules.
 - **With a single-slot local model** (llama.cpp with `parallel = 1`): the `title` agent is disabled, because its request evicted the main turn's cache on every new session (14-22 s measured).
+
+### A.6 Wire up DeepSeek Harness (for each user, optional)
+
+For the DeepSeek Harness app (DSH). It reads the global `~/.dsh/AGENTS.md` and the skills in `~/.dsh/skills\<skill>\SKILL.md` (one level), on top of the repo's `AGENTS.md`.
+
+```powershell
+$a = '<HARNESS>'
+$d = "C:\Users\$u\.dsh"
+New-Item -ItemType HardLink -Path "$d\AGENTS.md" -Target "$a\copilot\<project>.instructions.md"   # the same router as Copilot
+New-Item -ItemType Junction -Path "$d\skills"    -Target "$a\personal\skills"   # if it already holds others: one junction per skill
+```
+
+- **The router's authority (by hand):** DSH passes `~/.dsh/AGENTS.md` inside a reminder that calls it "guidance when applicable". The text of `dsh\system-prompt.md` raises it from the system prompt, but it has to go in the **agent preset**: each preset (`standard` is the default) mounts its own `persona`, which shadows the global `personaSuffix` of the `system-prompt` row, and a patch replaces a config whole (no deep merge). So, in `~/.dsh/profiles/desktop/cordis.patch.yml`:
+  1. Print the app's own preset: copy the profile folder to a scratch `DSH_HOME` (the `desktop` profile is managed by the app) and run `dsh --profile <copy> --dump-default-config`.
+  2. Paste its `- id: preset-standard` entry whole into `cordis.patch.yml` and add, under its `persona` row's `prefix`, a `suffix: >-` with the text of `dsh\system-prompt.md` (without its comment).
+  3. Check it with `--dump-config` on the copy (no `dsh:` errors, the `suffix` under `preset-standard`), restart the app and, in a new session, check that the system prompt carries it: `read_session.py dsh --summary` says so.
+
+  When the app updates, compare the preset with `--dump-default-config` again: the copy doesn't follow it.
+- **The `reviewer`:** DSH has no agent files (it defines them with presets), so the router's closing row says to launch a subagent with the instructions in `personal\agents\reviewer.agent.md`.
+- **The sensor:** no hook, as in Copilot (there is a plugin that runs Claude's `hooks.json`, but it is experimental): the router says to run `check.py` after every change.
+- **Its logs** (`~/.dsh/sessions`, zstd) are read by `read_session.py dsh` for the retro; that needs Python 3.14.

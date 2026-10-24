@@ -24,7 +24,7 @@ Knowledge and process are **guides** (skills, `SKILL.md`). Control is **sensors*
 - **READY:** works as is.
 - **ADJUST:** the method works; its project tables have to be filled in.
 - **FILL-IN:** template with its concept (what it is for and what it prevents); the content belongs to the project.
-- **OPTIONAL:** outside the core (`voice`).
+- **OPTIONAL:** outside the core (`voice`, `retro`).
 
 ## 2. What the core is
 
@@ -47,6 +47,7 @@ It can also be seen by where the content comes from:
 
 **Optional · outside the core:**
 - **Personal:** `voice`, your voice in comments and chat. Everyone would have their own.
+- **To improve the harness:** `retro`, the retrospective of a session (how each piece worked, with evidence from the log). It only comes in when you ask for it or accept it when closing.
 - **What belongs to one module or screen:** skills that only load on demand, with a very precise `description` so they don't fire on every task.
 - **What's on hold:** commits, ticket plans, translations, migrations, receiving reviews. They only come in if something really fails and keeps failing (§6).
 
@@ -151,6 +152,13 @@ If something isn't done in phase 3, back to 2. If a bug shows up in 2, it goes t
 - **What to adjust:** the "how it shows in the code" column of `checklists\security.md`. Optional: the project's traps that must always be checked and other checklists of your own in `personal\checklists\`.
 - **Kicks in:** when the session closes, before the commit or the PR, or to review a branch.
 
+### ⚪ `retro` · OPTIONAL · READY (outside the core)
+- **What:** the retrospective of a session: **how the harness worked**, not the code. For each piece the session touched, a verdict with its evidence from the log: **helped**, **complied** (a preventive piece that came in on time and is followed: it leaves no other trace), **did nothing**, **got in the way** or **missing**. Then improvement candidates by severity: a mechanical mistake goes to the sensor, a judgement one to the reviewer or `conventions`, and router orders that change nothing come out.
+- **How:** the skill only hands the task to a **fresh subagent** that didn't do the session (whoever did it is its worst judge). The subagent reads the log with `personal\scripts\read_session.py`, which turns Claude, Copilot and OpenCode sessions (and DeepSeek Harness ones) into a timeline and sums up how each piece was used. The report is saved, dated, in `personal\retros\`.
+- **Why the history:** one "did nothing" can be chance; **three in a row** is a signal, and the retro then proposes an experiment ("a week without X"). That way the harness can shrink when the model starts doing on its own what it once had to be told.
+- **It proposes, it doesn't change:** you decide what gets applied, as with the reviewer.
+- **Kicks in:** when closing, `closing.md` asks whether you want it; or when you ask ("do a retro", "how did the harness do?"). Adapted from `retro` in [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
+
 ## 5. How each piece comes in
 
 | Piece | Claude Code | Copilot (VS Code) |
@@ -162,6 +170,7 @@ If something isn't done in phase 3, back to 2. If a bug shows up in 2, it goes t
 | `prepare` | when you ask for it, the ticket is ambiguous or the task is big (plan) | same, or `/prepare` |
 | `check` | **automatic** after every edit | the router orders it after every change, or by hand |
 | `reviewer` | when the session closes or by hand (subagent) | same (agent picker) |
+| `retro` | offered when closing, or when you ask (it launches a subagent) | same, or `/retro` |
 
 **To know whether a skill came in:**
 - **Claude:** the answer shows the skill being run (`/<project>:…`).

@@ -1,6 +1,6 @@
 # Entrevista: cómo hacerla
 
-Detalle de la parte "Entrevista" de `preparar`. Léelo cada vez que vayas a entrevistar.
+Detalle de la parte "Entrevista" de `prepare`. Léelo cada vez que vayas a entrevistar.
 
 Lo que se pide y lo que se necesita no suelen coincidir: "un listado" puede ser "saber qué clientes no han pagado". El momento barato de descubrirlo es **antes** de escribir código.
 

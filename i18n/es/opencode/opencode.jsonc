@@ -38,9 +38,11 @@
   "agents": {
     // Con un servidor local de un solo slot, la petición del título echa la caché del turno principal: fuera
     "title": { "disabled": true },
-    // El revisor (agents/revisor.md, generado por sync.py): sin editar y con tope de pasos.
-    // "all": como subagente desde otra sesión y también directo (opencode run --agent revisor, scripts)
-    "revisor": {
+    // El revisor (agents/reviewer.md, generado por sync.py): sin editar y con tope de pasos.
+    // "all": como subagente desde otra sesión y también directo (opencode run --agent reviewer, scripts)
+    "reviewer": {
+      // Opcional: otro modelo para el revisor (ver la nota al principio de agents/reviewer.md)
+      // "model": "proveedor/modelo",
       "mode": "all",
       "steps": 40,
       "permissions": [{ "action": "edit", "resource": "*", "effect": "deny" }]
@@ -88,12 +90,13 @@
     // Solo las skills del harness: OpenCode sube desde el proyecto hasta el home buscando .claude/skills y .agents/skills,
     // y si el repo cuelga de tu home se trae las de otras herramientas. Cada skill nueva, aquí (la CI lo comprueba)
     { "action": "skill", "resource": "*", "effect": "deny" },
-    { "action": "skill", "resource": "convenios", "effect": "allow" },
+    { "action": "skill", "resource": "conventions", "effect": "allow" },
     { "action": "skill", "resource": "ui", "effect": "allow" },
     { "action": "skill", "resource": "stack", "effect": "allow" },
-    { "action": "skill", "resource": "preparar", "effect": "allow" },
-    { "action": "skill", "resource": "diagnosticar", "effect": "allow" },
-    { "action": "skill", "resource": "comprobar", "effect": "allow" },
-    { "action": "skill", "resource": "voz", "effect": "allow" }
+    { "action": "skill", "resource": "prepare", "effect": "allow" },
+    { "action": "skill", "resource": "diagnose", "effect": "allow" },
+    { "action": "skill", "resource": "verify", "effect": "allow" },
+    { "action": "skill", "resource": "voice", "effect": "allow" },
+    { "action": "skill", "resource": "retro", "effect": "allow" }
   ]
 }

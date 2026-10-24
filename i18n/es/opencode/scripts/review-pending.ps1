@@ -30,7 +30,7 @@ $date = Get-Date -Format 'yyyy-MM-dd_HHmm'
 $report = Join-Path $reports "revision_$date.md"
 
 $clock = [Diagnostics.Stopwatch]::StartNew()
-$output = opencode run --agent revisor --title "revision $date" $request 2>$null
+$output = opencode run --agent reviewer --title "revision $date" $request 2>$null
 $clock.Stop()
 
 @("# Revision $date", '', "Alcance: $scope - $($code.Count) ficheros - $([int]$clock.Elapsed.TotalMinutes) min $($clock.Elapsed.Seconds) s", '') + $output |

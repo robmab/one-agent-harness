@@ -1,5 +1,5 @@
 ---
-name: convenios
+name: conventions
 description: "Convenios de código de <PROJECT>: nombrado, dónde va la lógica, base de datos, frontend y anti-patrones. Use when: antes de escribir o revisar CUALQUIER código de <PROJECT>."
 ---
 

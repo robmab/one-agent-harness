@@ -8,12 +8,12 @@ Las skills de la plantilla (`personal\skills\`) vienen como **plantillas**: cada
 
 | Ejemplo | Qué cubre | De dónde sale |
 |---|---|---|
-| `preparar` | aclarar antes de hacer (una pregunta cada vez, con tu suposición) y, si es grande, un plan corto que aprueba el usuario; el detalle de la entrevista en `entrevista.md` | addyosmani `interview-me` + la idea de superpowers `writing-plans` |
-| `diagnosticar` | causa raíz antes de arreglar: reproducir, seguir el dato por las capas, una hipótesis cada vez | superpowers `systematic-debugging` |
-| `comprobar` | nada de "hecho" sin una prueba ejecutada y leída; cómo probar en local y en el navegador | superpowers `verification-before-completion` |
+| `prepare` | aclarar antes de hacer (una pregunta cada vez, con tu suposición) y, si es grande, un plan corto que aprueba el usuario; el detalle de la entrevista en `interview.md` | addyosmani `interview-me` + la idea de superpowers `writing-plans` |
+| `diagnose` | causa raíz antes de arreglar: reproducir, seguir el dato por las capas, una hipótesis cada vez | superpowers `systematic-debugging` |
+| `verify` | nada de "hecho" sin una prueba ejecutada y leída; cómo probar en local y en el navegador | superpowers `verification-before-completion` |
 | `stack` | código para las versiones reales del stack: primero el repo, luego la doc de esa versión | addyosmani `source-driven-development` |
 
-`convenios`, `ui` y `voz` no tienen ejemplo: su contenido es del proyecto (o tuyo) desde la primera línea.
+`conventions`, `ui` y `voice` no tienen ejemplo: su contenido es del proyecto (o tuyo) desde la primera línea.
 
 ## Cómo usar uno
 
@@ -22,4 +22,4 @@ Las skills de la plantilla (`personal\skills\`) vienen como **plantillas**: cada
 3. **Deja la línea `**CONCEPTO:**`** arriba, o escríbela si partes de la tuya: es lo que le dice al modelo por qué están las reglas.
 4. **Quita lo que no uses.** Son ejemplos, no la norma: una skill más corta que encaje en tu proyecto funciona mejor que una completa que no.
 
-En el repo de la plantilla, las versiones en español están en `i18n\es\examples\`; con `setup.py --lang es` se instalan aquí, con sus nombres en español (`preparar`, `diagnosticar`…).
+En el repo de la plantilla, las versiones en español están en `i18n\es\examples\`; con `setup.py --lang es` se instalan aquí, con los mismos nombres.
