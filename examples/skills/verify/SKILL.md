@@ -16,6 +16,17 @@ description: "Before saying something is done, fixed or working, run the check a
 3. **Read the whole output:** exit code, errors and warnings.
 4. **Does it confirm what you were going to say?** If yes, say it with the evidence. If not, say the real state.
 
+## How much evidence, by zone
+
+The zone changes how much you check, not the rule: no "done" without a check run now.
+
+| Zone | Evidence |
+|---|---|
+| Almost nothing | A look and the sensor |
+| Annoying | A real check of what was asked |
+| Expensive | The plan's EVIDENCE, run and shown |
+| Irreversible | The same, and what has no way back is run by the user |
+
 ## What proves each thing in <PROJECT>
 
 | Claim | Evidence | Doesn't count |

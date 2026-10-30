@@ -46,7 +46,7 @@ Key ideas from the sources:
 | gsd-build/get-shit-done | 64k | plans in waves with a clean context | stalled since May 2026 |
 | BMAD-METHOD | 54k | simulates a whole agile team | very heavy (people talk of months to master it) |
 
-**Conclusion:** no whole framework. The pieces that pay off are few, short and adapted to the project, plus an automatic sensor. SDD (spec-kit, OpenSpec) only if the whole team adopts it, because it writes into the repo.
+**Conclusion:** no whole framework. The pieces that pay off are few, short and adapted to the project, plus an automatic sensor. SDD (spec-kit, OpenSpec) only if the whole team adopts it, because it writes into the repo. What did fit is the middle ground of [ODD](https://github.com/Gentleman-Programming/gentle-shell/blob/main/docs/readme-reference.md): the same steps always, with a weight that depends on how much it hurts if it goes wrong.
 
 ## 3. The template's pieces
 

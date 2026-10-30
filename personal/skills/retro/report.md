@@ -26,6 +26,8 @@ For each piece **the session touched** (loaded, run, or one that **should** have
 
 Each verdict carries **its evidence**: the time and what happened in the log. Without evidence, write "no evidence" and leave it out. **Preventive pieces rarely leave a trace:** not seeing their effect doesn't mean they had none. If one came in on time and the result follows it, it's "Complied", not "Did nothing". **Be honest about the process pieces** (`prepare`, `diagnose`, `verify`, the router's orders): if the model was already doing that on its own, say so. Don't ask whether it "would have gone better without the harness": the log can't show that. Say what it does show.
 
+**The zone:** whether it was given when reading the task, and whether what happened later bears it out. If it wasn't given, say so; if it was too low and did harm, it's an improvement candidate.
+
 **If the reviewer ran, its 6 axes** (conventions, correctness, security, performance, architecture, readability), each one with a mark: **✓** the report covered it (a finding on that axis, or it says it looked and there's nothing); **—** it doesn't show up, not even to say it's clean; **✗** it slipped through: afterwards the sensor or the user caught a failure on that axis in what it reviewed. A **✗** carries its evidence, like any verdict. It tells whether an axis falls short and deserves its own subagent.
 
 ## 3. Improvement candidates

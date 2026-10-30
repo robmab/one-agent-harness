@@ -8,6 +8,7 @@ Harness de <PROJECT> (solo en su repo): **6 skills de núcleo + 1 sensor + 1 age
 **Siempre, también en retoques:**
 - **Si el mensaje es un ticket** (su número o su enlace): léelo con las herramientas que tengas (el navegador, un MCP) antes de contestar; no preguntes cuál es ni pidas que te lo peguen. Solo si no llegas a él, pide el enlace.
 - **Si te pregunto algo, contesta en cuanto tengas el dato.** Lo demás me lo ofreces, no lo investigas.
+- **Al leer una tarea que cambia algo, di en una línea cuánto duele si sale mal** y por qué: casi nada, molesto, caro o irreversible. Esa zona marca cuánto proceso lleva, y `prepare`, `diagnose` y `verify` dicen qué hace cada una. Lo que toca la base de datos, permisos, dinero o código compartido nunca es «casi nada». Si dudas entre dos zonas, la de arriba. Si te corrijo la zona, manda la mía; si el riesgo sube a mitad, dilo y sube de zona.
 - **DESPUÉS de cada cambio de código:** lanza `py -3 <HARNESS>\personal\scripts\check.py`. Si da ERROR, corrígelo antes de seguir.
 - **ANTES de decir "hecho":** la prueba que lo demuestra, ejecutada ahora (si el cambio se ve, captura con zoom de la zona después de cambiarla: el DOM no la sustituye; una página, en el navegador integrado de la herramienta, nunca `webfetch`; qué prueba vale para cada cosa, y cómo probar en local, en `verify`). Enseña la salida de ese comando y di qué has comprobado y qué no. Lo que has tocado sale de `git status --short`, no de memoria (también cuando digas que no has tocado nada). Un repo anidado no sale ahí: pasa también `git -C <carpeta> status --short`.
 - **Antes de probar en local** (levantar o parar el server, llamar a localhost, tocar la BD): mira cómo en `verify`. No levantes ni pares el server del usuario, tampoco en otro puerto, sin preguntar. Para probar algo que borra, crea tu propio dato; si borras algo que no es tuyo, dilo.
@@ -23,7 +24,7 @@ Harness de <PROJECT> (solo en su repo): **6 skills de núcleo + 1 sensor + 1 age
 |---|---|---|
 | Al empezar | el tono del chat (opcional: borra esta fila si no usas la skill) | la skill `voice` |
 | No está claro qué se quiere (también si el primer mensaje es contexto pegado sin pedir nada), o el cambio sale de la pantalla (CSS compartido, plantillas base, módulos compartidos) | entrevistar antes de tocar nada; si sale de la pantalla, pregunta antes si es solo para esta o global | `prepare` |
-| Es grande (3+ ficheros, pantalla o componente nuevo, varias capas) | un plan corto y mi sí, antes de la primera edición | `prepare` |
+| Es caro o irreversible, o se perdería trabajo si la sesión se corta | un plan corto (objetivo, límites y prueba) y mi sí, antes de la primera edición | `prepare` |
 | Es un bug, o algo falla | la causa, antes de proponer ningún arreglo | `diagnose` |
 | Al ir a editar | cargar solo lo que toca, una vez por sesión; sin cargarlo, no edites (un retoque de texto, color o margen, sin cargas). Una skill puntero no es la skill: abre el fichero al que apunta y lee entera la sección que toca | código: `conventions` · UI: `ui` · una API del stack: antes, `grep` del patrón en el repo (si está, cópialo); si no está, `stack` antes de escribirla, también en un script de prueba |
 | La tarea crece (un segundo tipo de fichero, o un componente nuevo) | cargar lo que falte, antes de la siguiente edición | la fila de arriba |

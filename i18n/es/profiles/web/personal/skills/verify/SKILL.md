@@ -16,6 +16,8 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 3. **Lee la salida completa:** código de salida, errores y avisos.
 4. **¿Confirma lo que ibas a decir?** Si sí, dilo con la prueba. Si no, di el estado real.
 
+**Según la zona:** una mirada, una comprobación real, la PRUEBA del plan, o eso y lo sin vuelta atrás lo ejecuta el usuario.
+
 ## Qué prueba cada cosa en <PROJECT>
 
 | Afirmación | Prueba | No vale |

@@ -1,6 +1,6 @@
 # Plan: how to do it
 
-Detail of the "Plan" branch of `prepare`. Read it every time the task is big: 3 or more files, a new screen or component, or something that crosses layers. **Before the first edit**, and with the tool's plan mode if it has one.
+Detail of the "Plan" branch of `prepare`. Read it when the zone is expensive or irreversible. **Before the first edit**, and with the tool's plan mode if it has one.
 
 ## 1. Look for what already exists
 
@@ -19,7 +19,9 @@ STEPS (in layer order, drop the ones that don't apply):
 6. styles                → …
 REUSES: <shared components or code that already exists>
 NOT TOUCHED: <what stays out>
+EVIDENCE: <what shows it's done; if it can't be checked, it isn't defined>
 RISKS: <which other screen it may break>
+WAY BACK: <only if irreversible: how it's undone and what the user runs>
 ```
 
 Each step has to be checkable (the sensor, the screen, a query), with no "we'll see".
@@ -38,6 +40,7 @@ As in the interview. No code or edits in that turn.
 
 ## While building and when done
 
+- **One step at a time:** check it the way the plan says before starting the next. If it fails, fix it there, not at the end.
 - If a step changes, say so before going on.
 - **When done, check what was built against the STEPS:** each thing where the plan put it; if something ended up elsewhere, say so before closing.
 - When closing, the GOAL and the plan's files are the scope and intent you hand to the `reviewer`.
@@ -47,4 +50,4 @@ As in the interview. No code or edits in that turn.
 - Code in the plan, or steps like "adjust whatever is needed" or with no way to check them.
 - A new component without looking at what's shared.
 - Editing before the yes.
-- Planning a tweak: one or two clear files go straight in.
+- Planning what doesn't hurt: "almost nothing" goes straight in.

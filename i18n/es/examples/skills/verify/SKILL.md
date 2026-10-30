@@ -16,6 +16,17 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 3. **Lee la salida completa:** código de salida, errores y avisos.
 4. **¿Confirma lo que ibas a decir?** Si sí, dilo con la prueba. Si no, di el estado real.
 
+## Cuánta prueba, según la zona
+
+La zona cambia cuánto se comprueba, no la regla: nada de "hecho" sin una prueba ejecutada ahora.
+
+| Zona | Prueba |
+|---|---|
+| Casi nada | Una mirada y el sensor |
+| Molesto | Una comprobación real de lo pedido |
+| Caro | La PRUEBA del plan, ejecutada y enseñada |
+| Irreversible | Lo mismo, y lo que no tiene vuelta atrás lo ejecuta el usuario |
+
 ## Qué prueba cada cosa en <PROJECT>
 
 | Afirmación | Prueba | No vale |

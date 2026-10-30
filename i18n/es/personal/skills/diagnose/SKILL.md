@@ -9,6 +9,15 @@ description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, s
 
 > **PLANTILLA · FILL-IN** cada apartado. Ejemplo completo: [examples/skills/diagnose](../../../examples/skills/diagnose/SKILL.md). Cuando esté relleno, borra este bloque.
 
+**Primero, la zona** que diste al leer el bug (si no la has dicho, dila ahora). Sin causa no hay arreglo en ninguna; lo que cambia es cuánto hay que demostrar:
+
+| Si sale mal, duele… | Qué exiges |
+|---|---|
+| Casi nada | La causa, vista y dicha en una frase |
+| Molesto | Reproducirlo y enseñar la causa |
+| Caro | Lo anterior, qué dato del caso explica y una prueba escrita antes de arreglar |
+| Irreversible | Lo mismo, cómo se vuelve atrás, y el arreglo espera el sí del usuario |
+
 ## 1. Investigar
 
 | Capa | Cómo mirarla |

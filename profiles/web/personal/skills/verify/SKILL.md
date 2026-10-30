@@ -16,6 +16,8 @@ description: "Before saying something is done, fixed or working, run the check a
 3. **Read the whole output:** exit code, errors and warnings.
 4. **Does it confirm what you were going to say?** If yes, say it with the evidence. If not, say the real state.
 
+**By zone:** a look, a real check, the plan's EVIDENCE, or that and the user runs what has no way back.
+
 ## What proves each thing in <PROJECT>
 
 | Claim | Evidence | Doesn't count |

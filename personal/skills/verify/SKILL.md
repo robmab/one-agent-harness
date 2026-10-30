@@ -12,6 +12,17 @@ description: "Before saying something is done, fixed or working, run the check a
 ## Before claiming anything
 <!-- FILL-IN: the steps. E.g.: pick the check that proves it, run it now, read the whole output, say it with the evidence. -->
 
+## How much evidence, by zone
+
+The zone changes how much you check, not the rule: no "done" without a check run now.
+
+| Zone | Evidence |
+|---|---|
+| Almost nothing | A look and the sensor |
+| Annoying | A real check of what was asked |
+| Expensive | The plan's EVIDENCE, run and shown |
+| Irreversible | The same, and what has no way back is run by the user |
+
 ## What proves each thing
 
 | Claim | Evidence | Doesn't count |

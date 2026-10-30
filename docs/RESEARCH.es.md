@@ -46,7 +46,7 @@ Ideas clave de las fuentes:
 | gsd-build/get-shit-done | 64k | planes por oleadas con contexto limpio | parado desde mayo de 2026 |
 | BMAD-METHOD | 54k | simula un equipo ágil entero | muy pesado (se habla de meses para dominarlo) |
 
-**Conclusión:** ningún framework entero. Las piezas que rinden son pocas, cortas y adaptadas al proyecto, más un sensor automático. Los SDD (spec-kit, OpenSpec) solo si el equipo entero los adopta, porque escriben en el repo.
+**Conclusión:** ningún framework entero. Las piezas que rinden son pocas, cortas y adaptadas al proyecto, más un sensor automático. Los SDD (spec-kit, OpenSpec) solo si el equipo entero los adopta, porque escriben en el repo. Lo que sí encajó es el punto medio de [ODD](https://github.com/Gentleman-Programming/gentle-shell/blob/main/docs/readme-reference.md): los mismos pasos siempre, con un peso que depende de cuánto duele si sale mal.
 
 ## 3. Las piezas de la plantilla
 

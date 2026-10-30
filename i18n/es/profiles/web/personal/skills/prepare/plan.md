@@ -1,6 +1,6 @@
 # Plan: cómo hacerlo
 
-Detalle de la rama "Plan" de `prepare`. Léelo cada vez que la tarea sea grande: 3 o más ficheros, una pantalla o un componente nuevo, o algo que cruza capas. **Antes de la primera edición**, y con el modo plan de la herramienta si lo tiene.
+Detalle de la rama "Plan" de `prepare`. Léelo cuando la zona sea cara o irreversible. **Antes de la primera edición**, y con el modo plan de la herramienta si lo tiene.
 
 ## 1. Busca lo que ya existe
 
@@ -19,7 +19,9 @@ PASOS (en orden de capas, quita las que no apliquen):
 6. estilos               → …
 REUTILIZA: <componentes compartidos o código que ya existe>
 NO SE TOCA: <lo que queda fuera>
+PRUEBA: <qué demuestra que está hecho; si no se puede comprobar, no está definido>
 RIESGOS: <qué otra pantalla puede romper>
+VUELTA ATRÁS: <solo si es irreversible: cómo se deshace y qué ejecuta el usuario>
 ```
 
 Cada paso se tiene que poder comprobar (el sensor, la pantalla, una consulta), sin "ya se verá".
@@ -38,6 +40,7 @@ Como en la entrevista. Ni código ni ediciones en ese turno.
 
 ## Mientras lo haces y al acabar
 
+- **Un paso cada vez:** compruébalo como dice el plan antes de empezar el siguiente. Si falla, se arregla ahí, no al final.
 - Si un paso cambia, dilo antes de seguir.
 - **Al acabar, repasa lo hecho contra los PASOS:** cada cosa en el sitio que dice el plan; si algo ha quedado en otro, dilo antes de cerrar.
 - Al cerrar, el OBJETIVO y los ficheros del plan son el alcance y la intención que le pasas al `reviewer`.
@@ -47,4 +50,4 @@ Como en la entrevista. Ni código ni ediciones en ese turno.
 - Código en el plan, pasos tipo "ajustar lo que haga falta" o sin forma de comprobarlos.
 - Un componente nuevo sin haber mirado lo compartido.
 - Editar antes del sí.
-- Planificar un retoque: con uno o dos ficheros claros, se hace directo.
+- Planificar lo que no duele: lo de «casi nada» se hace directo.

@@ -3,6 +3,7 @@
 **Always, tweaks too:**
 - **If the message is a ticket** (its number or its link): read it with the tools you have (the browser, an MCP) before answering; don't ask for it or for it to be pasted. Only if you can't reach it, ask for the link.
 - **If the user asks something, answer as soon as you have the fact.** Offer the rest; don't go investigating it.
+- **When reading a task that changes something, say in one line how much it hurts if it goes wrong**, and why: almost nothing, annoying, expensive or irreversible. That zone sets how much process it gets, and `project:prepare`, `project:diagnose` and `project:verify` say what each one does. Whatever touches the database, permissions, money or shared code is never "almost nothing". If you're torn between two zones, take the higher one. If the user corrects the zone, theirs wins; if the risk rises halfway, say so and move up.
 - **After every edit** the sensor (`check`) runs through the hook and leaves a line (`OK`, warnings or ERROR). If it gives an ERROR, fix it before going on. Don't rerun it by hand: to show it, its last output is enough.
 - **Before saying "done"**, the evidence that proves it, run now (if the change shows, a zoomed screenshot of the area after changing it: the DOM doesn't replace it; what counts for each thing, and how to test locally, in `project:verify`), and what you checked and what you didn't. What you touched comes from `git status --short`, not from memory (also when you say you touched nothing). A nested repo doesn't show up there: run `git -C <folder> status --short` too.
 - **Before testing locally** (starting or stopping the server, calling localhost, touching the database): read how in `project:verify`. Don't start or stop the user's server, not even on another port, without asking. To test something that deletes, create your own data; if you delete something that isn't yours, say so.
@@ -17,7 +18,7 @@
 |---|---|---|
 | At the start | the chat's tone (optional: delete this row if you don't use the skill) | `project:voice` |
 | It isn't clear what's wanted (also when the first message is pasted context with no request), or the change goes beyond the screen (shared CSS, base templates, shared modules) | interview before touching anything; if it goes beyond the screen, ask first whether it's just for this one or global | `project:prepare` |
-| It's big (3+ files, a new screen or component, several layers) | a short plan and the user's yes, before the first edit | `project:prepare` |
+| It's expensive or irreversible, or work would be lost if the session were cut | a short plan (goal, limits, evidence) and the user's yes, before the first edit | `project:prepare` |
 | It's a bug, or something fails | the cause, before proposing any fix | `project:diagnose` |
 | About to edit | load only what applies (a tweak of a text, colour or margin, no loads); if a skill is a pointer, open the file it points to and read the section that applies whole | code: `project:conventions` · UI: `project:ui` · an API of the stack: first `grep` the pattern in the repo (if it's there, copy it); if not, `project:stack` before writing it, also in a test script |
 | The task grows (a second file type, or a new component) | load what's missing, before the next edit | the row above |

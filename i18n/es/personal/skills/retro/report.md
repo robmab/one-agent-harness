@@ -26,6 +26,8 @@ Por cada pieza que **tocó la sesión** (cargada, lanzada o que **debió** entra
 
 Cada veredicto lleva **su prueba**: la hora y lo que pasó en el log. Sin prueba, escribe "sin pruebas" y no lo cuentes. **Las preventivas casi nunca dejan rastro:** que no se vea su efecto no quiere decir que no lo tuviera. Si entró a tiempo y el resultado la cumple, es "Cumplida", no "No hizo nada". **Sé honesto con las piezas de proceso** (`prepare`, `diagnose`, `verify`, las órdenes del router): si el modelo ya hacía eso por su cuenta, dilo. No preguntes si "habría ido mejor sin el harness": eso no se ve en el log. Di lo que sí se ve.
 
+**La zona:** si se dijo al leer la tarea y si lo que pasó después la confirma. Si no se dijo, dilo; si era demasiado baja y hizo daño, es un candidato de mejora.
+
 **Si se lanzó el revisor, sus 6 ejes** (convenios, corrección, seguridad, rendimiento, arquitectura, legibilidad), cada uno con una marca: **✓** el informe lo trató (un hallazgo de ese eje, o dice que lo miró y no hay nada); **—** no aparece, ni para decir que está limpio; **✗** se le escapó: después, el sensor o el usuario cazó un fallo de ese eje en lo que revisó. Un **✗** lleva su prueba, como cualquier veredicto. Sirve para saber si algún eje se queda corto y merece su propio subagente.
 
 ## 3. Candidatos de mejora

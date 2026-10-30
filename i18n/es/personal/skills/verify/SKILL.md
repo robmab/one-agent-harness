@@ -12,6 +12,17 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 ## Antes de afirmar nada
 <!-- FILL-IN: los pasos. P. ej.: elegir la prueba que lo demuestra, ejecutarla ahora, leer la salida entera, decirlo con la prueba. -->
 
+## Cuánta prueba, según la zona
+
+La zona cambia cuánto se comprueba, no la regla: nada de "hecho" sin una prueba ejecutada ahora.
+
+| Zona | Prueba |
+|---|---|
+| Casi nada | Una mirada y el sensor |
+| Molesto | Una comprobación real de lo pedido |
+| Caro | La PRUEBA del plan, ejecutada y enseñada |
+| Irreversible | Lo mismo, y lo que no tiene vuelta atrás lo ejecuta el usuario |
+
 ## Qué prueba cada cosa
 
 | Afirmación | Prueba | No vale |

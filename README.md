@@ -10,6 +10,8 @@
 
 A template for setting up the AI harness of **any project**: skills, agents, an automatic sensor and instructions, shared by every user on the PC (Windows, Linux or macOS) and by Claude Code, GitHub Copilot (VS Code), OpenCode 2 and DeepSeek Harness, **without touching the workspace** if you don't want to.
 
+**The process grows with the problem.** When reading each task, the agent says how much it hurts if it goes wrong, and that zone decides how much plan, evidence and review it gets: no ceremony for small things, no shortcuts for what hurts. It's our take on [Organic Driven Development](https://github.com/Gentleman-Programming/gentle-shell/blob/main/docs/readme-reference.md) (ODD), and it covers what vibe coding and SDD leave open: [proportional process](#proportional-process-odd).
+
 ## At a glance
 
 <p align="center"><img src="img/factory.png" alt="The harness as a line of stations: a ticket comes in, prepare (or diagnose, for a bug) writes the spec, the builder codes with the sensor after every edit and verify at the end, the guard holds the reviewer back until the close, the reviewer checks six axes, the close acts as approver and the user commits. Retro feeds the brain (AGENTS.md and the knowledge skills: conventions, ui, stack), which spec and builder read; the router runs under the whole line. Dashed, the options: factory intake with its two stop points, one reviewer per axis and an automatic approver in rounds" width="100%"></p>
@@ -69,6 +71,26 @@ Optional, outside the core: `voice` (your own voice for code comments and chat) 
 
 Switches, in `CHOOSE` blocks and off by default: an **automatic approver** (it sends the reviewer's findings back to the builder, up to 3 rounds), **one reviewer per axis**, and **another model for the reviewer**, so it doesn't share the builder's blind spots.
 
+### Proportional process (ODD)
+
+When reading the task, the agent places it in a zone, in one line. The router says how to classify it and each skill says what it does in each zone, so only the process that's needed gets loaded. It applies to the three process skills (`prepare`, `diagnose`, `verify`): knowledge and control stay the same in every zone. Whatever touches the database, permissions, money or shared code is never "almost nothing", a doubt between two zones goes to the higher one, and if the zone doesn't convince you, you correct it.
+
+| If it goes wrong, it hurts… | Plan | Evidence |
+|---|---|---|
+| Almost nothing | none | a look and the sensor |
+| Annoying | one line | a real check |
+| Expensive | goal, limits and evidence, with your yes | the plan's, run and shown |
+| Irreversible | the same, plus how to go back | the same, and what has no way back you run yourself |
+
+| | Vibe coding | SDD | This harness |
+|---|---|---|---|
+| **A text change** | fast | a whole specification | straight in |
+| **A change in payments** | no safety net | well covered | plan, evidence and your yes |
+| **If the AI gets it wrong** | you rewrite the prompt | you fix the specification | you fix the agreement |
+| **Upfront cost** | zero, and invisible debt | high, always | a few minutes, only if it hurts |
+
+It doesn't replace SDD: it decides when you need something like it and how much it should weigh.
+
 ### One door per phase, not a catalogue
 
 Most skill collections are catalogues: one skill per topic, every description in context on every turn, and the agent choosing among many similar ones at once. Here each phase has **a single skill**, its page is **an index** that picks the branch, and the detail lives in **side files read only when that branch is needed**. The agent decides one thing at a time, and a branch can be as deep as a whole skill, at the fixed cost of six descriptions.
@@ -116,4 +138,4 @@ Every folder and file, and how each tool finds each piece: **[STRUCTURE](docs/ST
 
 ## Licence and credits
 
-[MIT](LICENSE). Several skills and the `reviewer` started from [obra/superpowers](https://github.com/obra/superpowers), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) and [mattpocock/skills](https://github.com/mattpocock/skills), all MIT; each adapted piece credits its source in its footer, and their notices are in [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md).
+[MIT](LICENSE). Several skills and the `reviewer` started from [obra/superpowers](https://github.com/obra/superpowers), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) and [mattpocock/skills](https://github.com/mattpocock/skills), all MIT; each adapted piece credits its source in its footer, and their notices are in [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md). The proportional process adapts the idea of [Organic Driven Development](https://github.com/Gentleman-Programming/gentle-shell/blob/main/docs/readme-reference.md), by Gentleman Programming; the question of how much it hurts comes from Daniel Españadero's explanation.

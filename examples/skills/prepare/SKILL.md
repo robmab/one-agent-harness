@@ -1,18 +1,29 @@
 ---
 name: prepare
-description: "Before coding: find out what really has to be done (one question at a time, each with your own guess) and, if the task is big, turn it into a short plan the user approves. Use when: you're asked to ('interview me', 'ask me', 'is this clear?', 'plan it', 'make me a plan'); a ticket doesn't make clear who it's for, why or when it's done; or the task touches 3 or more files, creates a screen or a component, or crosses layers. NOT for clear, small tasks (rename, move, a tweak) or for bugs (that's diagnose)."
+description: "Before coding: find out what really has to be done (one question at a time, each with your own guess) and, if it hurts when it goes wrong, turn it into a short plan the user approves. Use when: you're asked to ('interview me', 'ask me', 'is this clear?', 'plan it', 'make me a plan'); a ticket doesn't make clear who it's for, why or when it's done; or the task is expensive or irreversible if it goes wrong, or work would be lost if the session were cut. NOT for tasks that barely hurt (rename, move, a tweak) or for bugs (that's diagnose)."
 ---
 
 # Interview me (and plan)
+
+**First, the zone** you gave when reading the task (if you didn't, give it now). It decides how much of this skill applies:
+
+| If it goes wrong, it hurts… | What you do |
+|---|---|
+| Almost nothing | Nothing from here: straight in |
+| Annoying | One line of plan; interview only if in doubt |
+| Expensive | The whole **Plan**: goal, limits and evidence, and the user's yes |
+| Irreversible | The same, plus what can go wrong, how to go back and what the user runs |
+
+**The test:** if the session were cut now, could someone else finish it from the request and the diff? If not, it's at least expensive. File counts don't decide the zone.
 
 Two steps before writing code; use whichever fits:
 
 | Situation | What you do |
 |---|---|
 | It isn't clear what's wanted | **Interview** |
-| It's clear, but big | **Plan** |
+| It's expensive or irreversible | **Plan** |
 | Both | Interview and, with the yes, plan |
-| It's a bug | Neither: `diagnose` |
+| It's a bug | `diagnose`; if the fix is expensive or irreversible, then **Plan** |
 
 ## Interview
 
@@ -28,7 +39,7 @@ How to do it, what's usually missing and the red flags: [interview.md](./intervi
 
 ## Plan
 
-When it's clear what to do but it's big. **Before the first edit**, and with the tool's plan mode if it has one.
+When the zone is expensive or irreversible. **Before the first edit**, and with the tool's plan mode if it has one.
 
 1. **Look for what already exists:** the project's shared components and a similar screen. Reuse before creating.
 2. **Write the plan, 10 to 20 lines and no code:**
@@ -44,10 +55,12 @@ When it's clear what to do but it's big. **Before the first edit**, and with the
    6. styles                → …
    REUSES: <shared components or code that already exists>
    NOT TOUCHED: <what stays out>
+   EVIDENCE: <what shows it's done; if it can't be checked, it isn't defined>
    RISKS: <which other screen it may break>
+   WAY BACK: <only if irreversible: how it's undone and what the user runs>
    ```
 
-   Each step has to be checkable (the sensor, the screen, a query), with no "we'll see".
+   Each step has to be checkable (the sensor, the screen, a query), with no "we'll see", and you check it before starting the next.
 3. **Check it against the project:** <!-- FILL-IN: what usually gets forgotten here, e.g. cache-busting of CSS/JS, translations, the endpoint's permission, a migration --> does it reuse shared pieces?
 4. **Check it against the request**, point by point: nothing more, nothing less.
 5. **Show it and wait for a clear yes**, as in the interview. No code or edits in that turn.
@@ -59,7 +72,7 @@ If a step changes while building, say so before going on. When closing, the GOAL
 - Code in the plan, or steps like "adjust whatever is needed" or with no way to check them.
 - A new component without looking at what's shared.
 - Editing before the yes.
-- Planning a tweak: one or two clear files go straight in.
+- Planning what doesn't hurt: "almost nothing" goes straight in.
 
 ---
 Interview adapted from `interview-me` of [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT). Plan inspired by `writing-plans` of [obra/superpowers](https://github.com/obra/superpowers) @ `bb92a77` (MIT).

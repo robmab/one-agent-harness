@@ -9,6 +9,15 @@ description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, s
 
 > **PERFIL · web.** Reglas generales de web, válidas para casi cualquier stack. Ajusta a tu stack lo marcado con `TUNE` y luego quita la marca.
 
+**Primero, la zona** que diste al leer el bug (si no la has dicho, dila ahora). Sin causa no hay arreglo en ninguna; lo que cambia es cuánto hay que demostrar:
+
+| Si sale mal, duele… | Qué exiges |
+|---|---|
+| Casi nada | La causa, vista y dicha en una frase |
+| Molesto | Reproducirlo y enseñar la causa |
+| Caro | Lo anterior, qué dato del caso explica y una prueba escrita antes de arreglar |
+| Irreversible | Lo mismo, cómo se vuelve atrás, y el arreglo espera el sí del usuario |
+
 ## 1. Investigar (antes de proponer nada)
 
 - **Lee el error entero:** la traza del servidor, la consola del navegador y la pestaña Network. La línea y el fichero suelen dar la respuesta.

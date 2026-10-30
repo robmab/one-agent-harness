@@ -9,6 +9,15 @@ description: "Debug by finding the root cause before touching anything: reproduc
 
 > **TEMPLATE · FILL-IN** each section. Full example: [examples/skills/diagnose](../../../examples/skills/diagnose/SKILL.md). Once filled in, delete this block.
 
+**First, the zone** you gave when reading the bug (if you didn't, give it now). No cause means no fix in any of them; what changes is how much you have to show:
+
+| If it goes wrong, it hurts… | What you require |
+|---|---|
+| Almost nothing | The cause, seen and said in one sentence |
+| Annoying | Reproducing it and showing the cause |
+| Expensive | The above, which fact of the case it explains, and written evidence before fixing |
+| Irreversible | The same, how to go back, and the fix waits for the user's yes |
+
 ## 1. Investigate
 
 | Layer | How to look at it |

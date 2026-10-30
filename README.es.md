@@ -10,6 +10,8 @@
 
 Plantilla para montar el harness de IA de **cualquier proyecto**: skills, agentes, un sensor automático e instrucciones, compartidos entre todos los usuarios del PC (Windows, Linux o macOS) y entre Claude Code, GitHub Copilot (VS Code), OpenCode 2 y DeepSeek Harness, **sin tocar el workspace** si no quieres.
 
+**El proceso crece con el problema.** Al leer cada tarea, el agente dice cuánto duele si sale mal, y esa zona decide cuánto plan, prueba y revisión lleva: ni ceremonia para lo pequeño, ni atajos para lo que duele. Es nuestra adaptación de [Organic Driven Development](https://github.com/Gentleman-Programming/gentle-shell/blob/main/docs/readme-reference.md) (ODD), y resuelve lo que dejan sin resolver el vibe coding y el SDD: [proceso proporcional](#proceso-proporcional-odd).
+
 ## De un vistazo
 
 <p align="center"><img src="img/factory.png" alt="El harness como una cadena de estaciones: entra un ticket, prepare (o diagnose, si es un bug) escribe la spec, el builder programa con el sensor tras cada edición y verify al final, el guard retiene al revisor hasta el cierre, el revisor mira seis ejes, el cierre hace de approver y el usuario hace commit. La retro alimenta el brain (AGENTS.md y las skills de conocimiento: conventions, ui, stack), que leen spec y builder; el router corre bajo toda la cadena. En discontinuo, las opciones: la entrada de la fábrica con sus dos paradas, un revisor por eje y un approver automático por rondas" width="100%"></p>
@@ -69,6 +71,26 @@ Opcional, fuera del core: `voice` (tu propia voz en los comentarios y en el chat
 
 Interruptores, en bloques `CHOOSE` y apagados por defecto: un **approver automático** (devuelve al builder lo que encuentra el revisor, hasta 3 rondas), **un revisor por eje** y **otro modelo para el revisor**, para que no comparta los puntos ciegos del builder.
 
+### Proceso proporcional (ODD)
+
+Al leer la tarea, el agente la coloca en una zona en una línea. El router dice cómo clasificarla, y cada skill dice qué hace en cada zona, así que se carga solo el proceso que hace falta. Se aplica a las tres skills de proceso (`prepare`, `diagnose`, `verify`): el conocimiento y el control son iguales en todas las zonas. Lo que toca la base de datos, permisos, dinero o código compartido nunca es «casi nada», una duda entre dos zonas va a la de arriba, y si la zona no te convence, la corriges tú.
+
+| Si sale mal, duele… | Plan | Prueba |
+|---|---|---|
+| Casi nada | ninguno | una mirada y el sensor |
+| Molesto | una línea | una comprobación real |
+| Caro | objetivo, límites y prueba, con tu sí | la del plan, ejecutada y enseñada |
+| Irreversible | lo mismo, y cómo se vuelve atrás | lo mismo, y lo que no tiene vuelta atrás lo ejecutas tú |
+
+| | Vibe coding | SDD | Este harness |
+|---|---|---|---|
+| **Un cambio de texto** | rápido | especificación entera | directo |
+| **Un cambio en los pagos** | sin red | bien cubierto | plan, prueba y tu sí |
+| **Si la IA se equivoca** | reescribes el prompt | corriges la especificación | corriges el acuerdo |
+| **Coste inicial** | cero, y deuda invisible | alto, siempre | unos minutos, solo si duele |
+
+No sustituye al SDD: decide cuándo necesitas algo así y cuánto debe pesar.
+
 ### Una puerta por fase, no un catálogo
 
 La mayoría de colecciones de skills son catálogos: una skill por tema, todas sus descripciones en contexto en cada turno, y el agente eligiendo entre muchas parecidas a la vez. Aquí cada fase tiene **una sola skill**, su página es **un índice** que elige la rama, y el detalle vive en **ficheros aparte que solo se leen cuando hace falta esa rama**. El agente decide una cosa cada vez, y una rama puede ser tan profunda como una skill entera, con el coste fijo de seis descripciones.
@@ -116,4 +138,4 @@ Cada carpeta y cada fichero, y por dónde encuentra cada herramienta cada pieza:
 
 ## Licencia y créditos
 
-[MIT](LICENSE). Varias skills y el `reviewer` partieron de [obra/superpowers](https://github.com/obra/superpowers), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) y [mattpocock/skills](https://github.com/mattpocock/skills), los tres MIT; cada pieza adaptada cita su origen en su pie, y sus avisos están en [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md).
+[MIT](LICENSE). Varias skills y el `reviewer` partieron de [obra/superpowers](https://github.com/obra/superpowers), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) y [mattpocock/skills](https://github.com/mattpocock/skills), los tres MIT; cada pieza adaptada cita su origen en su pie, y sus avisos están en [THIRD-PARTY-NOTICES](THIRD-PARTY-NOTICES.md). El proceso proporcional adapta la idea de [Organic Driven Development](https://github.com/Gentleman-Programming/gentle-shell/blob/main/docs/readme-reference.md), de Gentleman Programming; la pregunta de cuánto duele, de la explicación de Daniel Españadero.
