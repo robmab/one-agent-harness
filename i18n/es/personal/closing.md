@@ -39,6 +39,8 @@ Borra **todos** los scripts temporales que creaste, lo que clonaste o copiaste e
 
 **Y otra si queda algo por hacer al desplegar** (traducciones, una migración, una variable de entorno). Dila aunque ya la hayas dicho antes.
 
+**Y otra si te ha costado entender una regla de negocio:** propón la entrada para `domain.md`, y escríbela solo con el sí del usuario.
+
 <!-- TUNE: las zonas delicadas de este proyecto (carpetas del núcleo, CSS compartido o plantillas base, facturación…). -->
 
 ## 4. El mensaje de commit

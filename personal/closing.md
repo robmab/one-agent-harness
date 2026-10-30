@@ -39,6 +39,8 @@ Delete **every** temporary script you created, whatever you cloned or copied int
 
 **And another if something is left to do when deploying** (translations, a migration, an environment variable). Say it even if you already did earlier.
 
+**And another if a business rule was hard to understand:** propose the entry for `domain.md`, and write it only with the user's yes.
+
 <!-- TUNE: this project's sensitive areas (core folders, shared CSS or base templates, billing…). -->
 
 ## 4. The commit message

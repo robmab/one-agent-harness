@@ -60,6 +60,7 @@ one-agent-harness\
    ├─ scripts\guard.py                   READY     guard: blocks a URL with user:password@ in commands and writes, a command that prints the password, the reviewer or retro question before the close, and writes under FORBIDDEN_PATHS (--test)
    ├─ retros\                            the retro reports, dated: the history that shows trends
    ├─ hooks\hooks.json                   READY     PreToolUse: guard.py before every command, write, subagent or question · PostToolUse: check.py after every edit
+   ├─ domain.md                          FILL-IN   business rules the model can't guess: read before investigating
    └─ closing.md                         FILL-IN   read when closing: reviewer, findings, clean-up, commit format
 ```
 

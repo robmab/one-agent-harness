@@ -60,6 +60,7 @@ one-agent-harness\
    ├─ scripts\guard.py                   READY     guarda: bloquea una URL con usuario:contraseña@ en órdenes y escrituras, una orden que imprime la contraseña, el revisor o la pregunta del repaso antes del cierre, y escribir en FORBIDDEN_PATHS (--test)
    ├─ retros\                            los informes de retro, con fecha: el histórico que deja ver tendencias
    ├─ hooks\hooks.json                   READY     PreToolUse: guard.py antes de cada orden, escritura, subagente o pregunta · PostToolUse: check.py tras cada edición
+   ├─ domain.md                          FILL-IN   reglas de negocio que el modelo no puede adivinar: se lee antes de investigar
    └─ closing.md                         FILL-IN   se lee al cerrar: revisor, hallazgos, limpieza, formato del commit
 ```
 
