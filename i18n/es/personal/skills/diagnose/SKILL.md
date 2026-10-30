@@ -1,6 +1,6 @@
 ---
 name: diagnose
-description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, seguir el dato por las capas de la aplicación y una hipótesis cada vez. Use when: un bug, un error o traza, algo que no funciona, sale vacío o se comporta raro, o un arreglo anterior no ha funcionado; antes de proponer ningún arreglo."
+description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, seguir el dato por las capas de la aplicación y una hipótesis cada vez. Use when: un bug, un error o traza, algo que no funciona, sale vacío o se comporta raro, un error de instalación o del entorno (pip, venv, DLL, intérprete), una herramienta que falta o no conecta, o un arreglo anterior no ha funcionado; antes de proponer ningún arreglo."
 ---
 
 # Depuración sistemática
@@ -16,13 +16,13 @@ description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, s
 | <!-- FILL-IN: p. ej. Base de datos --> | <!-- p. ej. una consulta de solo lectura --> |
 | <!-- FILL-IN: p. ej. API --> | <!-- p. ej. la respuesta en la pestaña Red --> |
 
-<!-- FILL-IN: antes de las capas, p. ej.: leer el error entero, reproducirlo, mirar qué ha cambiado (git log). -->
+<!-- FILL-IN: antes de las capas, p. ej.: leer el error entero, reproducirlo, mirar qué ha cambiado (git log) y preguntar antes de cambiar un campo que nombra el ticket y no existe. -->
 
 ## 2. Comparar con algo que funciona
 <!-- FILL-IN: p. ej. buscar algo parecido en el repo que funcione y apuntar todas las diferencias. -->
 
 ## 3. Una hipótesis cada vez
-<!-- FILL-IN: p. ej. "creo que es X porque Y", probado con el cambio más pequeño. -->
+<!-- FILL-IN: p. ej. "creo que es X porque Y", probado con el cambio más pequeño; antes de llamarlo el bug, qué dato del caso explica. -->
 
 ## 4. Arreglar
 <!-- FILL-IN: p. ej. un solo cambio y en el origen; si el proyecto tiene tests, la reproducción se queda como test de regresión; tras 3 arreglos fallidos, parar y replantear. -->

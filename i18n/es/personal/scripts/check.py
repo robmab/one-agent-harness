@@ -33,7 +33,7 @@ PROJECT_PYTHON = [
     # os.path.join('.venv', 'bin', 'python'),   # Linux y macOS
 ]
 
-EXTENSIONS = ('.py', '.js', '.html', '.css')
+EXTENSIONS = ('.py', '.js', '.html', '.css', '.sh')
 IGNORE = ('.min.', '/node_modules/', '/dist/', '/build/', '/.venv/', '/vendor/')
 
 # un .js con estas marcas pasa por un motor de plantillas antes de servirse: node no lo puede parsear
@@ -44,6 +44,8 @@ RULES = [
     # siempre activa: una contraseña escrita en una URL (en Claude ya la para guard.py; esta pilla al resto)
     ('ERROR', ('.py', '.js', '.ts', '.html', '.ps1', '.sh'), r'\b[a-z][a-z0-9+.-]*://[^\s:/@\"\'`]+:(?!\*+@|<[^>]*>@|\{[^}]*\}@|\$\w+@)[^\s@\"\'`/]+@',
      'contraseña en claro (usuario:contraseña@ en una URL): lee la conexión del fichero de configuración'),
+    # siempre activa: espacios al final (git diff --check solo los pilla al final)
+    ('WARNING', ('.py', '.js', '.html', '.css', '.sh'), r'[ \t]+$', 'espacios al final de la línea'),
     # ejemplos, descomenta y adapta a las versiones reales del proyecto:
     # ('ERROR', ('.js', '.html'), r'\bv-slot\b', 'v-slot es de Vue 2.6; en este proyecto es <template slot="x" scope="props">'),
     # ('ERROR', ('.js', '.html'), r'\bdata-bs-[\w-]+', 'data-bs-* es de Bootstrap 5; aquí es data-toggle, data-target...'),
@@ -122,6 +124,10 @@ def check(path, root, whole=False):
             if level == 'WARNING' and line.strip() in removed:
                 continue
             findings.append((level, n, message))
+    if ext == '.sh':
+        with open(path, 'rb') as f:
+            if b'\r' in f.read():
+                findings.append(('ERROR', 0, 'CRLF en un .sh: bash revienta con el \\r; pásalo a LF'))
     findings += syntax(path, ext, text, root)
     return sorted(set(findings), key=lambda h: (h[1], h[0]))
 
@@ -224,6 +230,11 @@ def selftest():
                     failures.append(f'motor: en {name} faltan {sorted(expected - messages)}')
                 if with_error != any(n == 'ERROR' for n, _, _ in findings):
                     failures.append(f'motor: en {name} se esperaba {"algún" if with_error else "ningún"} ERROR, salió {findings}')
+            path = os.path.join(d, 'crlf.sh')
+            with open(path, 'wb') as f:
+                f.write(b'echo hi\r\n')
+            if not any(n == 'ERROR' for n, _, _ in check(path, d)):
+                failures.append('motor: un .sh con CRLF tendría que dar ERROR')
             if relevant(os.path.join(d, 'x.min.js')):
                 failures.append('motor: los .min.* tendrían que ignorarse')
     finally:
@@ -249,21 +260,21 @@ def main():
         print('No estoy en el repo del proyecto (o no hay git).')
         return 1
     candidates = [os.path.abspath(a) for a in args] if args else changed_files(root)
-    candidates = [f for f in candidates if f.endswith(EXTENSIONS) and os.path.isfile(f)]
-    files = [f for f in candidates if relevant(f)]
-    # di lo que se ha saltado: "nada que comprobar" no es lo mismo que "está bien"
-    skipped = [os.path.relpath(f, root) for f in candidates if not relevant(f)]
+    candidates = [f for f in candidates if os.path.isfile(f)]
+    files = [f for f in candidates if f.endswith(EXTENSIONS) and relevant(f)]
+    # di lo que se ha saltado, también otros tipos: "nada que comprobar" no es lo mismo que "está bien"
+    skipped = [os.path.relpath(f, root) for f in candidates if f not in files]
     if not files:
         print('Nada que comprobar (ningún fichero de código cambiado).')
         if skipped:
-            print('Sin mirar (minificados, generados…): ' + ', '.join(skipped) + '. No es un visto bueno.')
+            print('Sin mirar (otro tipo, minificados, generados…): ' + ', '.join(skipped) + '. No es un visto bueno.')
         return 0
 
     lines, errors, warnings = report([(f, check(f, root, '--all' in sys.argv)) for f in files], root)
     print('\n'.join(lines) if lines else 'Sin problemas.')
     print('\nMirados: ' + ', '.join(os.path.relpath(f, root) for f in files))
     if skipped:
-        print('Sin mirar (minificados, generados…): ' + ', '.join(skipped) + '. No es un visto bueno.')
+        print('Sin mirar (otro tipo, minificados, generados…): ' + ', '.join(skipped) + '. No es un visto bueno.')
     print(f'{len(files)} ficheros · {errors} errores · {warnings} avisos')
     return 1 if errors else 0
 

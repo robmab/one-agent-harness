@@ -28,6 +28,8 @@ SUPONGO: para todos, pero solo visible con permiso de responsable.
 
 **Espera la respuesta antes de la siguiente.** Nada de listas de preguntas: la tercera suele depender de la primera. A veces, suponer en contra viene bien, para que no te diga que sí por educación.
 
+**Si el usuario contesta en el chat y no en el diálogo, ese es el dato:** no vuelvas a abrir la misma pregunta. Una decisión, un diálogo. Y si la duda es de forma (¿"y" u "o"?, ¿cuenta o no?), pregúntala con un caso concreto: "uno con `retraso` y otro solo con `retraso_justificado`: ¿son 2 o 1?".
+
 ## Qué suele faltar
 
 Pregunta solo lo que no esté claro:

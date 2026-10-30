@@ -1,6 +1,6 @@
 ---
 name: verify
-description: "Before saying something is done, fixed or working, run the check and show the result; if it can't be checked, say so. Use when: you're about to finish a task, say a bug is fixed or that something passes, or before a commit or PR."
+description: "Before saying something is done, fixed or working, run the check and show the result; if it can't be checked, say so. Use when: you're about to finish a task, say a bug is fixed or that something passes, say something is already done, already exists or is already in production, or before a commit or PR."
 ---
 
 # Verify before done
@@ -19,6 +19,7 @@ description: "Before saying something is done, fixed or working, run the check a
 | Fits the stack and compiles | `py -3 <HARNESS>\personal\scripts\check.py` (no files: what changed in git): 0 errors | "I did it carefully" |
 | <!-- FILL-IN: e.g. Tests pass --> | <!-- the test command, 0 failures --> | <!-- "they should pass" --> |
 | Bug fixed | a test that failed before the fix and passes now (if the project has tests); if not, the original steps | "I changed the code" |
+| Something is "already there", even in production | `git branch -a --contains <sha>`: say which branch | the commit on your branch |
 
 ## Testing locally
 <!-- FILL-IN: no credentials (if a test needs a password, ask the user to step in). Local URL and who starts the server, where the database connection is read from, useful data. -->

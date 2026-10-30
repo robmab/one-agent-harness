@@ -17,7 +17,7 @@ Por defecto, cada sesión la llevas tú: la abres, hablas con el agente y aprueb
 | `before-code` (por defecto) | lee el ticket, busca la causa o los ficheros implicados (`diagnose`) y escribe las preguntas que haría `prepare` | un informe para empezar tu sesión a mitad de camino; ningún diff que revisar |
 | `after-review` | lo programa y cierra como dice `closing.md`: revisor, arreglos, tabla de hallazgos y mensaje de commit | la rama `ia/<id>` lista para que la revises, la pruebes y hagas commit |
 
-En los dos casos nunca hace commit ni push, y no pregunta: las preguntas van al informe. La del repaso también espera: el informe acaba con "Repaso: pendiente", y el agente te la hace cuando apruebas esa rama.
+Si la herramienta deja renombrar, una sesión `before-code` deja ⚪ en su título (analizada y a la espera de empezar), y una que se atasca deja 🔴 (los estados, en `closing.md` §6). En los dos casos nunca hace commit ni push, y no pregunta: las preguntas van al informe. La del repaso también espera: el informe acaba con "Repaso: pendiente", y el agente te la hace cuando apruebas esa rama.
 
 ## 3. Montarlo
 

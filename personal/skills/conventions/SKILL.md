@@ -11,6 +11,7 @@ description: "<PROJECT> code conventions: naming, where logic lives, database, f
 > - This is the skill that loads the most: before writing or reviewing any code. Only rules that **always** apply; anything specific to one module goes to another skill.
 > - Target: 700 words max, one-line rules, no long examples.
 > - If the project already keeps its conventions in a team repo, don't copy them here: leave only "Read `<path>` from the repo root and follow it; if it doesn't exist, say so".
+> - If it grows past what the tool reads in one go (or points to a long team doc), put an index of its sections with line ranges at the top, and have the router say to read the index and only the section that applies.
 > - Once filled in, delete this block.
 
 If you're not in the <PROJECT> repo, ignore this skill.

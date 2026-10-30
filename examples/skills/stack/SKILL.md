@@ -26,7 +26,7 @@ Checked on <!-- FILL-IN: date -->. If the dependency file or the library's heade
 
 ## How to do it
 
-1. **The repo first.** If that same usage already exists in the project (search for it), it's proven on these versions: follow it.
+1. **The repo first.** Before writing the API, even in a test script, `grep` for the pattern. If that same usage already exists in the project, it's proven on these versions: copy it.
 2. **If it's already in the traps above**, that's enough: no need to go to the web.
 3. **If it's neither in the repo nor in the traps**, look at the official docs **for that version** (the specific page, not the home page). If the online docs are for a newer version, look for the "added in" or "deprecated in" note.
 4. **The conventions win over the docs:** if they clash with `conventions`, do what the conventions say. If they really clash, say so.

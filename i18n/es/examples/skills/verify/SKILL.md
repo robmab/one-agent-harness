@@ -1,6 +1,6 @@
 ---
 name: verify
-description: "Antes de decir que algo está hecho, arreglado o que funciona, ejecutar la comprobación y enseñar el resultado; si no se puede comprobar, decirlo. Use when: vas a dar por terminada una tarea, decir que un bug está arreglado o que algo pasa, o antes de un commit o PR."
+description: "Antes de decir que algo está hecho, arreglado o que funciona, ejecutar la comprobación y enseñar el resultado; si no se puede comprobar, decirlo. Use when: vas a dar por terminada una tarea, decir que un bug está arreglado o que algo pasa, decir que algo ya está hecho, ya existe o ya está en producción, o antes de un commit o PR."
 ---
 
 # Verificar antes de acabar
@@ -25,10 +25,12 @@ description: "Antes de decir que algo está hecho, arreglado o que funciona, eje
 | Pasan los tests | <!-- FILL-IN: comando de tests --> con 0 fallos | "deberían pasar" |
 | La pantalla funciona | cargar la página con el server levantado y mirar la consola del navegador | que la plantilla compile |
 | Se ve bien (bordes, sombras, solapes) | captura con zoom, en reposo y en el estado que fallaba | solo medidas |
+| Un control que no se puede fotografiar (un `<select>` abierto, un valor por defecto) | el DOM (`options`, `selected`, `value`) y la consola limpia | "se ve bien" |
 | Bug arreglado | repetir los pasos del síntoma original y que ya no salga | "he cambiado el código" |
 | Da lo mismo que algo que ya existe (otra función, un endpoint, una consulta) | comparar con **esa** función llamándola, o con su consulta copiada tal cual; y con un caso que no dé 0 | una consulta reescrita a mano "al estilo de": prueba tu lectura del código, no el código |
 | Un subagente lo ha hecho | mirar el `git diff` tú mismo | fiarte de su informe |
 | Cumple lo pedido | releer la petición punto por punto | que compile |
+| Algo "ya está", también en producción | `git branch -a --contains <sha>`: di en qué rama | el commit en tu rama |
 | <!-- FILL-IN: lint, build, migraciones, traducciones… --> | | |
 
 **Ojo:** lo que toque la base de datos o un entorno compartido es una prueba válida, pero **siempre con permiso antes**.

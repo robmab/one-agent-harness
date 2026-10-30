@@ -33,7 +33,7 @@ TOOLS = {
     'opencode': ['opencode', 'run', '{prompt}'],
 }
 STOPS = {
-    'before-code': ('Para ANTES de escribir código. Busca la causa o los ficheros implicados (diagnose) y las preguntas '
+    'before-code': ('Para ANTES de escribir código. Si tu herramienta deja renombrar la sesión, pon "⚪ " delante del título. Busca la causa o los ficheros implicados (diagnose) y las preguntas '
                     'que haría prepare: el informe es la entrega.'),
     'after-review': ('Prográmalo y luego cierra como dice closing.md: revisor, arreglos, la tabla de hallazgos y el '
                      'mensaje de commit. Sáltate la pregunta del repaso: acaba el informe con "Repaso: pendiente, '
@@ -45,7 +45,8 @@ TASK = """# Ticket {id}: {title}
 
 ---
 Sesión desatendida de la fábrica (factory/intake.py): nadie está leyendo. No uses herramientas de preguntas: si
-preguntarías, escribe la pregunta en el informe y sigue con tu mejor suposición, marcada como tal (o para, si bloquea).
+preguntarías, escribe la pregunta en el informe y sigue con tu mejor suposición, marcada como tal (o para, si bloquea:
+entonces, si tu herramienta deja renombrar la sesión, pon "🔴 " delante del título).
 {stop}
 Al acabar, escribe el informe en {report}: qué has hecho, qué has comprobado y qué no, las preguntas abiertas,
 la herramienta y el id de la sesión. Nunca hagas commit ni push ni toques otras ramas: aprueba el usuario.

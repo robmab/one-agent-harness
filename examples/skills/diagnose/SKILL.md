@@ -1,6 +1,6 @@
 ---
 name: diagnose
-description: "Debug by finding the root cause before touching anything: reproduce, follow the data through the application layers and one hypothesis at a time. Use when: a bug, an error or stack trace, something that doesn't work, comes out empty or behaves oddly, or a previous fix didn't work; before proposing any fix."
+description: "Debug by finding the root cause before touching anything: reproduce, follow the data through the application layers and one hypothesis at a time. Use when: a bug, an error or stack trace, something that doesn't work, comes out empty or behaves oddly, an install or environment error (pip, venv, DLL, wrong interpreter), a tool that's missing or won't connect, or a previous fix didn't work; before proposing any fix."
 ---
 
 # Systematic debugging
@@ -12,6 +12,7 @@ description: "Debug by finding the root cause before touching anything: reproduc
 ## 1. Investigate (before proposing anything)
 
 - **Read the whole error:** the server trace, the browser console and the Network tab. The line and file usually give the answer.
+- **If the ticket names a field or table that doesn't exist under that name**, ask the user before picking the one that looks equivalent: if they meant another, the fix changes nothing.
 - **Reproduce it:** exact steps, with which user and which data. If it doesn't reproduce, gather more data; don't guess.
 - **Look at what changed:** `git log`, `git diff`, `git log -S "text"` to see when something came in.
 - **Follow the data through the layers** until you see where it goes wrong:
@@ -33,6 +34,7 @@ Find something similar in the repo that does work. Write down **every** differen
 - Write it down: "I think it's X because Y".
 - Test it with the **smallest** change, one variable only.
 - If that's not it, a new hypothesis; don't pile fixes on top of each other.
+- **Before saying "that's the bug", say which fact of the case it explains.** If it explains none, it's a separate fault: being in the code doesn't make it the cause.
 - If you don't understand it, say so: "I don't understand X".
 
 ## 4. Fix

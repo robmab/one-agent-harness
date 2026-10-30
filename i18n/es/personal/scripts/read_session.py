@@ -2,7 +2,7 @@
 
 Uso:
     py -3 read_session.py <claude|copilot|copilot-cli|opencode|dsh> [--session ID] [--since CUANDO] [--until CUANDO]
-                          [--list] [--summary] [--repo RUTA]
+                          [--list] [--summary] [--full] [--out FICHERO] [--repo RUTA]
     py -3 read_session.py --session ID [...]     # sin la herramienta: busca el id en todas
 
 --session  el id de la sesión (vale el principio). Sin él, la sesión principal más reciente del repo,
@@ -12,6 +12,8 @@ Uso:
 --since / --until  'HH:MM' (del último día de la sesión), 'AAAA-MM-DD' o 'AAAA-MM-DD HH:MM', en hora
            local: solo se lee ese tramo (un chat largo de Copilot puede durar semanas).
 --summary  solo los mensajes del usuario y cómo se usó cada pieza del harness.
+--full     sin recortar nada (el informe del revisor, un mensaje de cierre largo).
+--out      lo escribe en ese fichero en UTF-8 en vez de en pantalla (PowerShell 5.1 redirige en UTF-16).
 
 Solo lee: no toca ningún log. De la base de datos de OpenCode solo lee las tablas de sesiones (la misma
 base guarda tokens de cuentas: ni se miran). Los logs de DeepSeek Harness van en zstd: para leerlos
@@ -34,7 +36,7 @@ HARNESS = Path(__file__).resolve().parents[2]
 EXTRA_SKILLS = []        # skills que viven en otro sitio, p. ej. las del equipo en el repo
 ALIAS = {}               # otro nombre o trozo de ruta -> la skill que es
 EXTRA_FILES = []         # ficheros del harness que se leen por nombre, fuera de personal\*.md
-LEGACY = {}              # nombre actual -> nombre antiguo, para que los logs viejos sigan contando
+LEGACY = {}              # nombre actual -> nombre antiguo (o una tupla de ellos), para que los logs viejos sigan contando
 
 MSG = {
     'user': 'USUARIO', 'agent': 'AGENTE', 'day': 'DÍA',
@@ -45,6 +47,7 @@ MSG = {
     'file': '  fichero {f}: leído {n} vez/veces',
     'sensor': '  sensor: lanzado {run} vez/veces por el agente; {hook} resultado(s) del hook o del plugin; {err} con ERROR',
     'agent_n': '  agente {a}: lanzado {n} vez/veces', 'agent_0': '  agente {a}: no se lanzó',
+    'sub_calls': '  llamadas de subagentes: {n} (no cuentan en las piezas de arriba)',
     'waits': '  esperas activas (sleep): {n}, {s} s',
     'model': '  modelo: {m} · llamadas: {c} · errores de herramienta: {e}',
     'tools': '  herramientas más usadas: ',
@@ -52,6 +55,8 @@ MSG = {
     'creds': '  contraseña en una URL: {n} llamada(s) (aquí enmascarada; nunca la copies al informe)',
     'system': '  prompt de sistema: {n} registrado(s), {k} con el texto del harness (closing.md)',
     'system_0': ': el ajuste no le llega al modelo (DeepSeek: lo tapa el persona del preset)',
+    'rows_missing': '  al último prompt de sistema le faltan {n} fila(s) de {f}: {rows} (la herramienta lo carga al arrancar: reiníciala)',
+    'other_tool': '(no es una sesión de {tool}: es de {other})',
     'no_sessions': 'No hay sesiones de {tool} para {repo}.',
     'not_found': 'No encuentro la sesión {s}. Prueba con --list.',
     'bad_when': "No entiendo {w!r}: usa HH:MM, AAAA-MM-DD o 'AAAA-MM-DD HH:MM'.",
@@ -65,15 +70,18 @@ MSG = {
     'h_summary': 'solo los mensajes del usuario y el uso del harness',
     'h_repo': 'el repo de las sesiones (por defecto, la carpeta actual)',
     'h_tool': 'di la herramienta, o pasa --session para buscarla en todas',
+    'h_full': 'sin recortar nada',
+    'h_out': 'lo escribe en este fichero (UTF-8) en vez de en pantalla',
 }
 
 CUT_USER = 1500
 CUT_TEXT = 800
 CUT_LAST = 8000   # el último mensaje del agente antes de cada turno del usuario: en una sesión de preguntas, es la respuesta
 CUT_RESULT = 300
+FULL = False      # --full: sin recortar nada
 SHELL_TOOLS = {'bash', 'powershell', 'pwsh', 'terminal', 'shell', 'run_in_terminal'}
 AGENT_TOOLS = {'agent', 'task', 'subagent'}
-ERROR_RX = re.compile(r'Traceback \(most recent call last\)|\bexit(?: code)?\s*[:=]?\s*[1-9]\d*\b|^fatal: ', re.M)
+ERROR_RX = re.compile(r'Traceback \(most recent call last\)|\b[Ee]xit(?:ed with)?(?: code)?\s*[:=]?\s*[1-9]\d*\b|^fatal: ', re.M)
 # usuario:contraseña@ en una URL (no cuentan marcadores como <pw>, {pw} o $PW): se enseña enmascarada y se cuenta
 CRED_RX = re.compile(r'(\b[a-z][a-z0-9+.-]*://[^\s:/@"\'`]+:)(?!\*+@|<[^>]*>@|\{[^}]*\}@|\$\w+@)[^\s@"\'`/]+@')
 SENSOR_RUN_RX =r'(?:\bpy(?:thon3?)?(?:\.exe)?(?:\s+-3)?|python\.exe)\s[^|;\n]*\b(?:{names})\b'
@@ -81,12 +89,16 @@ SENSOR = 'check.py'
 
 
 def names_of(name):
-    return [name] + ([LEGACY[name]] if name in LEGACY else [])
+    old = LEGACY.get(name, ())
+    return [name] + ([old] if isinstance(old, str) else list(old))
 
 
-# la línea que deja el sensor por un hook o un plugin: "check: OK", "check (avisos…", "check encontró…"
-HOOK_RX = re.compile(r'\b(?:{})(?::\s*OK|\s\((?:warnings|avisos)|\s(?:found|encontró))'.format(
+# la línea que deja el sensor por un hook o un plugin: "check: OK", "check: <fichero> sin mirar…",
+# "check (avisos…", "check encontró…"
+HOOK_RX = re.compile(r'\b(?:{})(?::|\s\((?:warnings|avisos)|\s(?:found|encontró))'.format(
     '|'.join(re.escape(n.removesuffix('.py')) for n in names_of(SENSOR))))
+# el prompt de sistema de un subagente (la copia del revisor, o el preámbulo de subagente de la herramienta): no el principal
+SUB_PROMPT_RX = re.compile(r'As a sub-agent|(?:Generated by|Generado por) opencode/sync\.py')
 
 
 def homes():
@@ -113,7 +125,7 @@ def when(ts):
 
 def cut(text, n):
     text = CRED_RX.sub(r'\1***@', ' '.join(str(text).split()))
-    return text if len(text) <= n else text[:n] + ' […]'
+    return text if FULL or len(text) <= n else text[:n] + ' […]'
 
 
 def as_text(v):
@@ -146,8 +158,8 @@ class Timeline:
         if str(text).strip():
             self.add('text', ts, text=text)
 
-    def call(self, ts, name, args):
-        self.add('call', ts, name=name or 'tool', data=args, text=as_text(args))
+    def call(self, ts, name, args, sub=False):
+        self.add('call', ts, name=name or 'tool', data=args, text=as_text(args), sub=sub)
 
     def result(self, ts, text, error=False):
         t = str(text or '')
@@ -169,10 +181,10 @@ class Timeline:
 # ---------------------------------------------------------------- Claude Code
 
 def sessions_claude(repo):
-    slug = re.sub(r'[^A-Za-z0-9]', '-', repo)
+    slug = re.sub(r'[^A-Za-z0-9]', '-', repo) if repo else '*'   # repo None: todos los proyectos
     files = []
     for h in homes():
-        files += list((h / '.claude' / 'projects' / slug).glob('*.jsonl'))
+        files += list((h / '.claude' / 'projects').glob(f'{slug}/*.jsonl'))
     return sorted(files, key=lambda f: f.stat().st_mtime, reverse=True)
 
 
@@ -232,7 +244,7 @@ def vscode_storage(h):
 
 
 def sessions_copilot(repo):
-    uri = unquote(Path(repo).resolve().as_uri()).lower()
+    uri = unquote(Path(repo).resolve().as_uri()).lower() if repo else None
     files = []
     for h in homes():
         for w in vscode_storage(h).glob('*/workspace.json'):
@@ -240,7 +252,7 @@ def sessions_copilot(repo):
                 folder = unquote(json.loads(w.read_text(encoding='utf-8')).get('folder', '')).lower()
             except (OSError, ValueError):
                 continue
-            if folder == uri:
+            if uri is None or folder == uri:
                 files += list((w.parent / 'chatSessions').glob('*.jsonl'))
     return sorted(files, key=lambda f: f.stat().st_mtime, reverse=True)
 
@@ -315,7 +327,7 @@ def first_copilot(f):
 # ---------------------------------------------------------------- Copilot CLI (also VS Code's agent sessions)
 
 def sessions_copilot_cli(repo):
-    target = os.path.normcase(str(Path(repo).resolve()))
+    target = os.path.normcase(str(Path(repo).resolve())) if repo else None
     files = []
     for h in homes():
         for w in (h / '.copilot' / 'session-state').glob('*/workspace.yaml'):
@@ -324,7 +336,7 @@ def sessions_copilot_cli(repo):
             except OSError:
                 continue
             folders = {os.path.normcase(str(Path(meta.get(k, '').strip()).resolve())) for k in ('cwd', 'git_root') if meta.get(k)}
-            if target in folders and (w.parent / 'events.jsonl').exists():
+            if (target is None or target in folders) and (w.parent / 'events.jsonl').exists():
                 files.append(w.parent / 'events.jsonl')
     return sorted(files, key=lambda f: f.stat().st_mtime, reverse=True)
 
@@ -352,7 +364,7 @@ def read_copilot_cli(f, tl):
             tl.model = u.get('model') or tl.model
             tl.usage(ts, u.get('inputTokens'), u.get('outputTokens'), u.get('cacheReadTokens'))
         elif t == 'tool.execution_start':
-            tl.call(ts, d.get('toolName', 'tool'), d.get('arguments', ''))
+            tl.call(ts, d.get('toolName', 'tool'), d.get('arguments', ''), bool(d.get('parentToolCallId')))
         elif t == 'tool.execution_complete':
             r = d.get('result') or d.get('error') or {}
             # una llamada MCP fallida no trae content, solo error.message
@@ -372,7 +384,7 @@ def first_copilot_cli(f):
 # ---------------------------------------------------------------- OpenCode
 
 def sessions_opencode(repo):
-    folder = str(Path(repo).resolve()).replace('\\', '/')
+    folder = str(Path(repo).resolve()).replace('\\', '/') if repo else None
     rows = []
     for h in homes():
         db = h / '.local' / 'share' / 'opencode' / 'opencode.db'
@@ -380,7 +392,8 @@ def sessions_opencode(repo):
             continue
         con = sqlite3.connect(f'file:{db}?mode=ro', uri=True)
         rows += [(t, db, sid) for sid, t in con.execute(
-            'select id, time_updated from session_v2 where lower(directory) = lower(?) and parent_id is null', (folder,))]
+            'select id, time_updated from session_v2 where (? is null or lower(directory) = lower(?)) and parent_id is null',
+            (folder, folder))]
     return [(db, sid) for _, db, sid in sorted(rows, reverse=True)]
 
 
@@ -423,7 +436,7 @@ def first_opencode(s):
 # ---------------------------------------------------------------- DeepSeek Harness
 
 def sessions_dsh(repo):
-    folder = '--' + re.sub(r'[^A-Za-z0-9]+', '-', str(Path(repo).resolve())) + '--'
+    folder = '--' + re.sub(r'[^A-Za-z0-9]+', '-', str(Path(repo).resolve())) + '--' if repo else '*'
     files = []
     for h in homes():
         files += list((h / '.dsh' / 'sessions' / folder).glob('*/session.v4.jsonl.zstd'))
@@ -551,7 +564,9 @@ def launches(e, agent):
 
 def harness_use(tl, since=None, until=None):
     pz = pieces()
-    calls = [e for e in tl.events if e['kind'] == 'call']
+    # que un subagente lea own.md o pase el sensor no es que lo haga el agente
+    every_call = [e for e in tl.events if e['kind'] == 'call']
+    calls = [e for e in every_call if not e['sub']]
     results = [e for e in tl.events if e['kind'] == 'result']
     out = ['', MSG['title']]
     if since or until:
@@ -570,17 +585,20 @@ def harness_use(tl, since=None, until=None):
     runs = [e for e in calls if (e['name'].lower() in SHELL_TOOLS or 'shell' in e['name'].lower())
             and sensor.search(e['text'])]
     hooks = [e for e in results if HOOK_RX.search(e['text'])]
-    errs = sum(1 for e in results if 'ERROR ' in e['text'] and (HOOK_RX.search(e['text']) or 'check' in e['text']))
+    # solo la línea "encontró" del propio sensor: un aviso o un texto pegado que diga ERROR no cuentan
+    errs = sum(1 for e in results if (m := HOOK_RX.search(e['text'])) and m.group(0).endswith(('found', 'encontró')))
     out.append(MSG['sensor'].format(run=len(runs), hook=len(hooks), err=errs))
     for a in pz['agents']:
         n = sum(1 for e in calls if launches(e, a))
         out.append(MSG['agent_n' if n else 'agent_0'].format(a=a, n=n))
+    if len(every_call) > len(calls):
+        out.append(MSG['sub_calls'].format(n=len(every_call) - len(calls)))
     sleeps = [e for e in calls if re.search(r'\b(?:Start-Sleep|sleep)\s+(?:-Seconds\s+)?\d', e['text'])]
     if sleeps:
         secs = sum(int(m) for e in sleeps for m in re.findall(r'(?:Start-Sleep|sleep)\s+(?:-Seconds\s+)?(\d+)', e['text']))
         out.append(MSG['waits'].format(n=len(sleeps), s=secs))
-    tools = Counter(e['name'] for e in calls)
-    out.append(MSG['model'].format(m=tl.model or '?', c=len(calls), e=sum(1 for e in results if e['error'])))
+    tools = Counter(e['name'] for e in every_call)
+    out.append(MSG['model'].format(m=tl.model or '?', c=len(every_call), e=sum(1 for e in results if e['error'])))
     out.append(MSG['tools'] + ', '.join(f'{k} ×{v}' for k, v in tools.most_common(12)))
     use = [e for e in tl.events if e['kind'] == 'usage']
     if any(e['i'] or e['o'] for e in use):
@@ -589,16 +607,29 @@ def harness_use(tl, since=None, until=None):
     creds = sum(1 for e in calls if CRED_RX.search(e['text']))
     if creds:
         out.append(MSG['creds'].format(n=creds))
-    prompts = [e['text'] for e in tl.events if e['kind'] == 'system']
+    prompts = [e['text'] for e in tl.events if e['kind'] == 'system' and not SUB_PROMPT_RX.search(e['text'])]
     if prompts:
         k = sum(1 for p in prompts if 'closing.md' in p)
         out.append(MSG['system'].format(n=len(prompts), k=k) + ('' if k else MSG['system_0']))
+        out += rows_missing(prompts[-1])
     return out
+
+
+def rows_missing(prompt):
+    """Las filas del router que no lleva el prompt: una herramienta que carga las instrucciones al arrancar se queda con las viejas."""
+    for router in sorted((HARNESS / 'copilot').glob('*.instructions.md')):
+        rows = [r.split('|')[1].strip() for r in router.read_text(encoding='utf-8').splitlines()
+                if r.startswith('| ') and not r.startswith('|---')][1:]   # [1:]: la cabecera
+        flat = ' '.join(prompt.split())
+        missing = [r for r in rows if ' '.join(r.split()) not in flat]
+        if missing and 'closing.md' in prompt:
+            return [MSG['rows_missing'].format(n=len(missing), f=router.name, rows='; '.join(cut(r, 60) for r in missing))]
+    return []
 
 
 def render(tl, summary):
     out, day = [], None
-    last, seen = set(), False
+    last, seen, after_agent = set(), False, False
     for i in range(len(tl.events) - 1, -1, -1):
         if tl.events[i]['kind'] == 'user':
             seen = False
@@ -621,8 +652,10 @@ def render(tl, summary):
         elif k == 'call':
             length = 2000 if re.search(r'agent|task|subagent|skill', e['name'], re.I) else CUT_RESULT
             out.append(f'  {hm} → {e["name"]} {cut(e["text"], length)}')
+            after_agent = e['name'].lower() in AGENT_TOOLS or e['name'].startswith('subagent:')
         elif k == 'result' and e['text'].strip():
-            length = 1500 if HOOK_RX.search(e['text']) or e['error'] else CUT_RESULT
+            # lo que devuelve un subagente es su informe: recortado, había que sacarlo de la base de datos
+            length = CUT_LAST if after_agent else 1500 if HOOK_RX.search(e['text']) or e['error'] else CUT_RESULT
             out.append(f'      {"✗" if e["error"] else "←"} {cut(e["text"], length)}')
     return out
 
@@ -676,18 +709,38 @@ def main():
     ap.add_argument('--until', help=MSG['h_until'])
     ap.add_argument('--list', action='store_true', help=MSG['h_list'])
     ap.add_argument('--summary', action='store_true', help=MSG['h_summary'])
+    ap.add_argument('--full', action='store_true', help=MSG['h_full'])
+    ap.add_argument('--out', help=MSG['h_out'])
     ap.add_argument('--repo', default=os.getcwd(), help=MSG['h_repo'])
     a = ap.parse_args()
+    global FULL
+    FULL = a.full
     sys.stdout.reconfigure(encoding='utf-8')
+    if a.out:
+        sys.stdout = open(a.out, 'w', encoding='utf-8')
     if not a.tool:
         if not a.session or a.list:
             ap.error(MSG['h_tool'])
-        a.tool = next((k for k, (f, _, _) in READERS.items() if any(match(s, a.session) for s in f(a.repo))), None)
+        a.tool = next((k for repo in (a.repo, None) for k, (f, _, _) in READERS.items()
+                       if any(match(s, a.session) for s in f(repo))), None)
         if not a.tool:
             sys.exit(MSG['not_found'].format(s=a.session))
 
     find, read, first = READERS[a.tool]
     found = find(a.repo)
+    if a.session and not any(match(s, a.session) for s in found):
+        # basta con el id: un chat abierto sin carpeta (su cwd es el de la herramienta) no sale en la lista del repo
+        found = find(None)
+    if a.session and not any(match(s, a.session) for s in found):
+        # el encargo dijo otra herramienta (copilot para una sesión de copilot-cli): busca en las demás
+        other = next((k for k, (f, _, _) in READERS.items() if k != a.tool
+                      for repo in (a.repo, None) if any(match(s, a.session) for s in f(repo))), None)
+        if other:
+            print(MSG['other_tool'].format(tool=a.tool, other=other))
+            a.tool = other
+            find, read, first = READERS[other]
+            found = find(a.repo)
+            found = found if any(match(s, a.session) for s in found) else find(None)
     if not found:
         sys.exit(MSG['no_sessions'].format(tool=a.tool, repo=a.repo))
     if a.list:

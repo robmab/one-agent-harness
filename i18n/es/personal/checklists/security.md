@@ -22,4 +22,6 @@
 
 Cada hallazgo, en el informe del revisor, con su número de esta tabla: `(eje 3 · #2)`.
 
+**Una decisión legal o de negocio que ya pide la tarea** (un consentimiento marcado por defecto, guardar un dato) no es un hallazgo: como mucho, una 💭 de una línea, sin argumentarla, para que el usuario la vea y decida.
+
 Puntos adaptados de `security-and-hardening` de [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT).

@@ -1,6 +1,6 @@
 ---
 name: diagnose
-description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, seguir el dato por las capas de la aplicación y una hipótesis cada vez. Use when: un bug, un error o traza, algo que no funciona, sale vacío o se comporta raro, o un arreglo anterior no ha funcionado; antes de proponer ningún arreglo."
+description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, seguir el dato por las capas de la aplicación y una hipótesis cada vez. Use when: un bug, un error o traza, algo que no funciona, sale vacío o se comporta raro, un error de instalación o del entorno (pip, venv, DLL, intérprete), una herramienta que falta o no conecta, o un arreglo anterior no ha funcionado; antes de proponer ningún arreglo."
 ---
 
 # Depuración sistemática
@@ -12,6 +12,7 @@ description: "Depurar buscando la causa raíz antes de tocar nada: reproducir, s
 ## 1. Investigar (antes de proponer nada)
 
 - **Lee el error entero:** la traza del servidor, la consola del navegador y la pestaña Network. La línea y el fichero suelen dar la respuesta.
+- **Si el ticket nombra un campo o una tabla que no existe con ese nombre**, pregúntale al usuario antes de elegir el que parece equivalente: si se refería a otro, el arreglo no cambia nada.
 - **Reprodúcelo:** pasos exactos, con qué usuario y con qué datos. Si no se reproduce, recoge más datos; no adivines.
 - **Mira qué ha cambiado:** `git log`, `git diff`, `git log -S "texto"` para ver cuándo entró algo.
 - **Sigue el dato por las capas** hasta ver dónde se tuerce:
@@ -33,6 +34,7 @@ Busca en el repo algo parecido que sí vaya. Apunta **todas** las diferencias, a
 - Escríbela: "creo que es X porque Y".
 - Pruébala con el cambio **mínimo**, una sola variable.
 - Si no es eso, hipótesis nueva; no amontones arreglos encima.
+- **Antes de decir «es el bug», di qué dato del caso explica.** Si no explica ninguno, es un fallo aparte: que exista en el código no lo convierte en la causa.
 - Si no lo entiendes, dilo: "no entiendo X".
 
 ## 4. Arreglar

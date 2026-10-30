@@ -28,6 +28,8 @@ I GUESS: for everyone, but only visible with the manager permission.
 
 **Wait for the answer before the next one.** No lists of questions: the third one usually depends on the first. Sometimes guessing against the obvious helps, so you don't get a polite yes.
 
+**If the user answers in the chat and not in the dialog, that's the answer:** don't open the same question again. One decision, one dialog. And if the doubt is about form ("and" or "or"? does it count?), ask it with a concrete case: "one with `late` and another with only `late_excused`: is that 2 or 1?".
+
 ## What's usually missing
 
 Ask only what isn't clear:

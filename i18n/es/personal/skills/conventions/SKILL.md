@@ -11,6 +11,7 @@ description: "Convenios de código de <PROJECT>: nombrado, dónde va la lógica,
 > - Es la skill que más entra: antes de escribir o revisar cualquier código. Solo reglas que valgan **siempre**; lo de un módulo concreto, a otra skill.
 > - Objetivo: 700 palabras como mucho, reglas de una línea y sin ejemplos largos.
 > - Si el proyecto ya tiene sus convenios en un repo de equipo, no los copies aquí: deja solo "Lee `<ruta>` desde la raíz del repo y síguelo; si no existe, avisa".
+> - Si crece más de lo que la herramienta lee de una vez (o apunta a un doc de equipo largo), pon al principio un índice de sus secciones con rangos de líneas, y que el router diga que se lea el índice y solo la sección que toca.
 > - Cuando esté rellena, borra este bloque.
 
 Si no estás en el repo de <PROJECT>, ignora esta skill.

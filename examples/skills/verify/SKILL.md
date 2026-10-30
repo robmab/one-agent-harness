@@ -1,6 +1,6 @@
 ---
 name: verify
-description: "Before saying something is done, fixed or working, run the check and show the result; if it can't be checked, say so. Use when: you're about to finish a task, say a bug is fixed or that something passes, or before a commit or PR."
+description: "Before saying something is done, fixed or working, run the check and show the result; if it can't be checked, say so. Use when: you're about to finish a task, say a bug is fixed or that something passes, say something is already done, already exists or is already in production, or before a commit or PR."
 ---
 
 # Verify before done
@@ -25,10 +25,12 @@ description: "Before saying something is done, fixed or working, run the check a
 | Tests pass | <!-- FILL-IN: test command --> with 0 failures | "they should pass" |
 | The screen works | load the page with the server running and look at the browser console | the template compiling |
 | It looks right (borders, shadows, overlaps) | a zoomed screenshot, at rest and in the failing state | measurements only |
+| A control you can't photograph (an open `<select>`, a default value) | the DOM (`options`, `selected`, `value`) and a clean console | "it looks fine" |
 | Bug fixed | repeat the steps of the original symptom and it no longer shows | "I changed the code" |
 | It gives the same as something that already exists (another function, an endpoint, a query) | compare with **that** one by calling it, or with its query copied as is; and with a case that doesn't give 0 | a query rewritten by hand "in the style of": it tests your reading of the code, not the code |
 | A subagent did it | look at the `git diff` yourself | trusting its report |
 | It does what was asked | reread the request point by point | it compiling |
+| Something is "already there", even in production | `git branch -a --contains <sha>`: say which branch | the commit on your branch |
 | <!-- FILL-IN: lint, build, migrations, translations… --> | | |
 
 **Careful:** anything that touches the database or a shared environment is valid evidence, but **always ask for permission first**.

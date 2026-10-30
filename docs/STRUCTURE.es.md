@@ -37,6 +37,7 @@ one-agent-harness\
 │  ├─ opencode.jsonc                     FILL-IN   modelo y proveedor; permisos, lista blanca de skills, revisor
 │  ├─ agents\reviewer.md                 GENERADO  por sync.py desde personal\agents (no editar aquí)
 │  ├─ plugins\sensor.ts                  READY     pasa check.py tras cada edición (como el hook de Claude)
+│  ├─ plugins\guard.ts                   READY     pasa guard.py antes de cada orden, escritura, subagente o pregunta (como el hook de Claude)
 │  ├─ sync.py                            READY     regenera las copias de agentes de OpenCode y Copilot (--check: solo comprueba)
 │  └─ scripts\review-pending.ps1         READY     el revisor desde la CLI; deja el informe en opencode\reports\
 ├─ factory\intake.py                   OPTIONAL  tickets nuevos → sesiones desatendidas en su rama; informes en factory\reports\ (FACTORY)
@@ -56,7 +57,7 @@ one-agent-harness\
    ├─ checklists\security.md             ADJUST    la lee solo el revisor (eje 3); fuera de cualquier catálogo
    ├─ scripts\check.py                   ADJUST    sensor: MARKER, PROJECT_PYTHON y RULES; solo líneas cambiadas
    ├─ scripts\read_session.py            READY     pasa una sesión de Claude, Copilot, OpenCode o DSH a línea de tiempo (para retro; --session, --since, --list)
-   ├─ scripts\guard.py                   READY     guarda: bloquea una URL con usuario:contraseña@ en órdenes y escrituras, y el revisor o la pregunta del repaso antes del cierre (--test)
+   ├─ scripts\guard.py                   READY     guarda: bloquea una URL con usuario:contraseña@ en órdenes y escrituras, una orden que imprime la contraseña, el revisor o la pregunta del repaso antes del cierre, y escribir en FORBIDDEN_PATHS (--test)
    ├─ retros\                            los informes de retro, con fecha: el histórico que deja ver tendencias
    ├─ hooks\hooks.json                   READY     PreToolUse: guard.py antes de cada orden, escritura, subagente o pregunta · PostToolUse: check.py tras cada edición
    └─ closing.md                         FILL-IN   se lee al cerrar: revisor, hallazgos, limpieza, formato del commit
@@ -84,6 +85,7 @@ El **core** son 6 skills + 1 sensor + 1 agente, sobre `AGENTS.md` (ver [SKILLS-G
 | OpenCode 2 | skills de `personal\` y del repo | junction `~/.config/opencode/skills`; las del repo, campo `skills` de la config. Filtradas por la lista blanca |
 | OpenCode 2 | el `reviewer` | junction `~/.config/opencode/agents` → `opencode\agents` (copia generada) |
 | OpenCode 2 | `check.py` tras cada edición | junction `~/.config/opencode/plugins` → `opencode\plugins\sensor.ts` |
+| OpenCode 2 | `guard.py` antes de cada orden | la misma junction → `opencode\plugins\guard.ts` (también el cierre; FORBIDDEN_PATHS: reglas `deny` en la config) |
 | OpenCode 2 | modelo, permisos | hardlink `~/.config/opencode/opencode.jsonc` → `opencode\opencode.jsonc` |
 | DeepSeek Harness | `AGENTS.md` del repo y el router | el del repo, solo; el router, hardlink `~/.dsh/AGENTS.md` → `copilot\<project>.instructions.md`, que DSH pasa como "guía cuando aplique" |
 | DeepSeek Harness | la autoridad del router | `suffix` del `persona` del preset `standard` en `~/.dsh/profiles/desktop/cordis.patch.yml`, con `dsh\system-prompt.md` (a mano) |

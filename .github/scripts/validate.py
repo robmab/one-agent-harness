@@ -196,17 +196,17 @@ def check_opencode():
                 error(target, 'Copilot copy without "tools:": check TARGETS in opencode/sync.py')
     finally:
         sys.path.pop(0)
-    # Plugin: the sensor script exists
-    plugin = os.path.join(base, 'plugins', 'sensor.ts')
-    _, text = read(plugin)
-    for script in re.findall(r'<HARNESS>/(personal/[^"]+)"', text):
-        if not os.path.isfile(os.path.join(ROOT, script)):
-            error(plugin, f'the plugin runs "{script}", which does not exist')
+    # Plugins: the scripts they run exist
+    for plugin in (os.path.join(base, 'plugins', n) for n in ('sensor.ts', 'guard.ts')):
+        _, text = read(plugin)
+        for script in re.findall(r'<HARNESS>/(personal/[^"]+)"', text):
+            if not os.path.isfile(os.path.join(ROOT, script)):
+                error(plugin, f'the plugin runs "{script}", which does not exist')
 
 
 # what setup.py --lang overlays: every piece the model reads (plus the scripts whose messages it reads)
 I18N_REQUIRED = ('AGENTS.template.md', 'claude/CLAUDE.md', 'claude/.claude-plugin/marketplace.json',
-                 'copilot/project.instructions.md', 'opencode/opencode.jsonc', 'opencode/plugins/sensor.ts',
+                 'copilot/project.instructions.md', 'opencode/opencode.jsonc', 'opencode/plugins/sensor.ts', 'opencode/plugins/guard.ts',
                  'opencode/scripts/review-pending.ps1', 'personal/scripts/check.py', 'personal/scripts/read_session.py', 'personal/scripts/guard.py',
                  'personal/closing.md', 'dsh/system-prompt.md')
 I18N_REQUIRED_DIRS = ('personal/skills', 'personal/agents', 'personal/checklists', 'profiles')

@@ -17,7 +17,7 @@ By default you drive every session: you open it, talk to the agent and approve a
 | `before-code` (default) | reads the ticket, finds the cause or the files involved (`diagnose`) and writes the questions `prepare` would ask | a report to start your session halfway through; no diff to review |
 | `after-review` | builds it and closes as `closing.md` says: reviewer, fixes, findings table and commit message | branch `ai/<id>` ready for you to review, test and commit |
 
-Either way it never commits or pushes, and it doesn't ask: questions go in the report. The retro question waits too: the report ends with "Retro: pending", and the agent asks it when you approve that branch.
+If the tool can rename, a `before-code` session leaves ⚪ in its title (analysed and waiting to start), and one that gets stuck leaves 🔴 (the states, in `closing.md` §6). Either way it never commits or pushes, and it doesn't ask: questions go in the report. The retro question waits too: the report ends with "Retro: pending", and the agent asks it when you approve that branch.
 
 ## 3. Setting it up
 

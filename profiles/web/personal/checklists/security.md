@@ -23,4 +23,6 @@
 
 Each finding, in the reviewer's report, with its number from this table: `(axis 3 · #2)`.
 
+**A legal or business decision the task already makes** (a consent ticked by default, keeping a piece of data) isn't a finding: at most one 💭 line, without arguing it, so the user sees it and decides.
+
 Points adapted from `security-and-hardening` of [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) @ `1be8e34` (2026-10-10) (MIT).

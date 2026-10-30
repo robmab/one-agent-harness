@@ -33,7 +33,7 @@ PROJECT_PYTHON = [
     # os.path.join('.venv', 'bin', 'python'),   # Linux and macOS
 ]
 
-EXTENSIONS = ('.py', '.js', '.html', '.css')
+EXTENSIONS = ('.py', '.js', '.html', '.css', '.sh')
 IGNORE = ('.min.', '/node_modules/', '/dist/', '/build/', '/.venv/', '/vendor/')
 
 # a .js with these marks goes through a template engine before being served: node can't parse it
@@ -44,6 +44,8 @@ RULES = [
     # always on: a password written into a URL (in Claude, guard.py already stops it; this catches the other tools)
     ('ERROR', ('.py', '.js', '.ts', '.html', '.ps1', '.sh'), r'\b[a-z][a-z0-9+.-]*://[^\s:/@\"\'`]+:(?!\*+@|<[^>]*>@|\{[^}]*\}@|\$\w+@)[^\s@\"\'`/]+@',
      'password in plain text (user:password@ in a URL): read the connection from the config file instead'),
+    # always on: trailing spaces (git diff --check only catches them at the end)
+    ('WARNING', ('.py', '.js', '.html', '.css', '.sh'), r'[ \t]+$', 'trailing spaces'),
     # examples, uncomment and adapt them to the project's real versions:
     # ('ERROR', ('.js', '.html'), r'\bv-slot\b', 'v-slot is Vue 2.6; in this project it is <template slot="x" scope="props">'),
     # ('ERROR', ('.js', '.html'), r'\bdata-bs-[\w-]+', 'data-bs-* is Bootstrap 5; here it is data-toggle, data-target...'),
@@ -122,6 +124,10 @@ def check(path, root, whole=False):
             if level == 'WARNING' and line.strip() in removed:
                 continue
             findings.append((level, n, message))
+    if ext == '.sh':
+        with open(path, 'rb') as f:
+            if b'\r' in f.read():
+                findings.append(('ERROR', 0, 'CRLF in a .sh: bash chokes on the \\r; convert it to LF'))
     findings += syntax(path, ext, text, root)
     return sorted(set(findings), key=lambda h: (h[1], h[0]))
 
@@ -224,6 +230,11 @@ def selftest():
                     failures.append(f'engine: {name} is missing {sorted(expected - messages)}')
                 if with_error != any(n == 'ERROR' for n, _, _ in findings):
                     failures.append(f'engine: {name} expected {"some" if with_error else "no"} ERROR, got {findings}')
+            path = os.path.join(d, 'crlf.sh')
+            with open(path, 'wb') as f:
+                f.write(b'echo hi\r\n')
+            if not any(n == 'ERROR' for n, _, _ in check(path, d)):
+                failures.append('engine: a .sh with CRLF should give an ERROR')
             if relevant(os.path.join(d, 'x.min.js')):
                 failures.append('engine: .min.* files should be ignored')
     finally:
@@ -249,21 +260,21 @@ def main():
         print("I'm not in the project repo (or there's no git).")
         return 1
     candidates = [os.path.abspath(a) for a in args] if args else changed_files(root)
-    candidates = [f for f in candidates if f.endswith(EXTENSIONS) and os.path.isfile(f)]
-    files = [f for f in candidates if relevant(f)]
-    # say what was skipped: "nothing to check" isn't the same as "it's fine"
-    skipped = [os.path.relpath(f, root) for f in candidates if not relevant(f)]
+    candidates = [f for f in candidates if os.path.isfile(f)]
+    files = [f for f in candidates if f.endswith(EXTENSIONS) and relevant(f)]
+    # say what was skipped, other file types too: "nothing to check" isn't the same as "it's fine"
+    skipped = [os.path.relpath(f, root) for f in candidates if f not in files]
     if not files:
         print('Nothing to check (no code file changed).')
         if skipped:
-            print('Not checked (minified, generated…): ' + ', '.join(skipped) + '. This is not an OK.')
+            print('Not checked (other types, minified, generated…): ' + ', '.join(skipped) + '. This is not an OK.')
         return 0
 
     lines, errors, warnings = report([(f, check(f, root, '--all' in sys.argv)) for f in files], root)
     print('\n'.join(lines) if lines else 'No problems.')
     print('\nChecked: ' + ', '.join(os.path.relpath(f, root) for f in files))
     if skipped:
-        print('Not checked (minified, generated…): ' + ', '.join(skipped) + '. This is not an OK.')
+        print('Not checked (other types, minified, generated…): ' + ', '.join(skipped) + '. This is not an OK.')
     print(f'{len(files)} files · {errors} errors · {warnings} warnings')
     return 1 if errors else 0
 

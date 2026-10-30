@@ -9,11 +9,11 @@ description: "Repaso (retro) de una sesión: cómo ha funcionado el harness, pie
 
 > **OPTIONAL · LISTA.** Fuera del core: mejora el harness, no el código. Vale tal cual; las rutas las pone `setup.py`. Si no la quieres, borra la carpeta, su fila en los dos routers y el paso 5 de `closing.md`.
 
-El repaso lo hace **un subagente nuevo** (nunca un fork), que no ha hecho la sesión: quien la hizo es el peor juez de ella. Tú solo le pasas el encargo, guardas lo que devuelve y se lo cuentas al usuario.
+El repaso lo hace **un subagente nuevo** (nunca un fork), que no ha hecho la sesión: quien la hizo es el peor juez de ella. Tú solo le pasas el encargo, guardas lo que devuelve y se lo cuentas al usuario: no leas tú el log antes, que eso es trabajo suyo.
 
 ## 1. El encargo
 
-Lanza el subagente con **solo** esto (sin tu opinión de cómo fue):
+Lanza el subagente **en primer plano**, esperando su respuesta (uno lanzado en segundo plano se perdió en una sesión real), con **solo** esto (sin tu opinión de cómo fue):
 
 ```
 Lee y sigue <HARNESS>\personal\skills\retro\report.md.
@@ -24,15 +24,15 @@ Intención: <qué se quería hacer en la sesión, en una línea>
 ```
 
 - **El id, nunca "la más reciente":** sácalo de `py -3 <HARNESS>\personal\scripts\read_session.py <herramienta> --list` (la sesión principal, no la de un subagente). En algunas herramientas, el propio subagente del repaso pasaría a ser "la más reciente".
-- **Herramienta:** `copilot` es el chat de Copilot; el agente de Copilot (y su CLI) es `copilot-cli`.
+- **Herramienta:** `copilot` es el chat de Copilot; el agente de Copilot (y su CLI) es `copilot-cli`. Si dudas, la que saca el id en `--list`.
 - **Intención:** la de lo que se repasa, sacada de los mensajes del usuario de ese tramo; no la del primer mensaje de la sesión, que en un chat largo puede ser de otro día.
-- **Desde:** un chat de Copilot puede durar semanas. Pasa la hora en que empezó lo que se repasa (la de hoy, o la de la tarea), para que no lea días que no tocan.
+- **Desde:** un chat de Copilot puede durar semanas. Pasa la hora en que empezó lo que se repasa (la de hoy, o la de la tarea), para que no lea días que no tocan. Es la hora de inicio, nunca la del propio repaso; si es toda, "toda la sesión".
 
 Si tu herramienta no tiene subagentes, haz tú el repaso siguiendo `report.md`, y avisa al usuario de que lo has hecho con el contexto de la sesión encima.
 
 ## 2. Lo que devuelve
 
-- **Guárdalo tal cual, con tu herramienta de crear ficheros** (no con `Set-Content`/`Out-File` de PowerShell 5.1, que rompe los acentos) en `<HARNESS>\personal\retros\AAAA-MM-DD-<herramienta>.md` (si ya existe, añade `-2`). El histórico es lo que deja ver si una pieza falla **varias sesiones seguidas**, y no solo una.
+- **Guárdalo tal cual, con tu herramienta de crear ficheros** (no con `Set-Content`/`Out-File` de PowerShell 5.1, que rompe los acentos) en `<HARNESS>\personal\retros\AAAA-MM-DD-<herramienta>.md` (si ya existe, añade `-2`, `-3`…). **Compón el nombre antes de crearlo**, con un listado de los de ese día (`Get-ChildItem` o `ls`), y guárdalo en cuanto llegue, antes de contestar al usuario. El histórico es lo que deja ver si una pieza falla **varias sesiones seguidas**, y no solo una.
 - **Al usuario:** el veredicto y los candidatos de mejora, por gravedad, y la ruta del informe.
 - **Nada se cambia solo:** el repaso propone y el usuario decide. No toques el harness, ni siquiera lo evidente, sin su sí.
 

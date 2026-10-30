@@ -33,7 +33,7 @@ TOOLS = {
     'opencode': ['opencode', 'run', '{prompt}'],
 }
 STOPS = {
-    'before-code': ('Stop BEFORE writing code. Find the cause or the files involved (diagnose) and the questions '
+    'before-code': ('Stop BEFORE writing code. If your tool can rename the session, put "⚪ " before its title. Find the cause or the files involved (diagnose) and the questions '
                     'prepare would ask: the report is the deliverable.'),
     'after-review': ('Build it, then close as closing.md says: reviewer, fixes, the findings table and the commit '
                      'message. Skip the retro question: end the report with "Retro: pending, ask it when the user '
@@ -45,7 +45,8 @@ TASK = """# Ticket {id}: {title}
 
 ---
 Unattended session from the factory (factory/intake.py): no one is reading. Don't use question tools: when you'd
-ask, write the question in the report and go on with your best assumption, marked as such (or stop, if it blocks).
+ask, write the question in the report and go on with your best assumption, marked as such (or stop, if it blocks:
+then, if your tool can rename the session, put "🔴 " before its title).
 {stop}
 When you're done, write the report to {report}: what you did, what you checked and what not, the open questions,
 the tool and the session id. Never commit, push or touch other branches: the user approves.
