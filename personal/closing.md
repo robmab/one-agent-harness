@@ -41,6 +41,10 @@ Delete **every** temporary script you created, whatever you cloned or copied int
 
 **And another if a business rule was hard to understand:** propose the entry for `domain.md`, and write it only with the user's yes.
 
+**And the script for the user to test it, if the change can be tested by hand:** 3 to 5 steps, starting with the case that prompted the change, each with where, as which user and what should happen. Say which steps you've already checked. If there's nothing to test by hand, leave it out.
+
+**And the "Decided without asking" list:** go back over your messages and include only what changes what the end user sees or which data is touched, or what would be costly to undo (e.g. "with no date, I treat it as pending"). A name or where you put a method doesn't count. 5 at most: if there are more, say so, because you should have asked earlier. If there are none, leave it out.
+
 <!-- TUNE: this project's sensitive areas (core folders, shared CSS or base templates, billing…). -->
 
 ## 4. The commit message
@@ -57,7 +61,9 @@ Only now, with the reviewer done and its fixes made, **and as soon as they are**
 
 ## 6. The state, in the title
 
-A circle before the tab's title shows at a glance how each session stands, and what's the user's turn. Leave the title as it is and only add, change or remove the prefix; one at a time. No circle means the agent is working: when you pick up a ⚪ or a 🔴, remove it.
+**The title:** if the session comes from a ticket and there's a source to read it from (a tracker, an issue, a page), as soon as you read it overwrite the session's title (in your tool, never the browser tab's) with that same title, and its number if it has one: `1234 · Upload app`. With no ticket, leave it as it is.
+
+**The state:** a circle before the session's title shows at a glance how each session stands, and what's the user's turn: `⚪ 1234 · Upload app`. In the title, only add, change or remove the prefix; one at a time. No circle means the agent is working: when you pick up a ⚪ or a 🔴, remove it.
 
 | State | When |
 |---|---|

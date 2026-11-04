@@ -41,6 +41,10 @@ Borra **todos** los scripts temporales que creaste, lo que clonaste o copiaste e
 
 **Y otra si te ha costado entender una regla de negocio:** propón la entrada para `domain.md`, y escríbela solo con el sí del usuario.
 
+**Y el guion para que el usuario lo pruebe, si el cambio se puede probar a mano:** de 3 a 5 pasos, empezando por el caso que motivó el cambio, cada uno con dónde, con qué usuario y qué debe salir. Di qué pasos has comprobado ya. Si no hay nada que probar a mano, no lo pongas.
+
+**Y la lista «Decidí sin preguntarte»:** repasa tus mensajes y pon solo lo que cambia lo que ve el usuario final o qué datos se tocan, o lo que costaría deshacer (p. ej. «si no hay fecha, lo trato como pendiente»). Un nombre o dónde colocas un método no entra. Son 5 como mucho: si salen más, dilo, porque tenías que haber preguntado antes. Si no hay ninguna, no la pongas.
+
 <!-- TUNE: las zonas delicadas de este proyecto (carpetas del núcleo, CSS compartido o plantillas base, facturación…). -->
 
 ## 4. El mensaje de commit
@@ -57,7 +61,9 @@ Solo ahora, con el revisor pasado y sus arreglos hechos, **y en cuanto lo estén
 
 ## 6. El estado, en el título
 
-Un círculo delante del título de la pestaña enseña de un vistazo cómo va cada sesión, y qué le toca al usuario. Deja el título como está y solo añade, cambia o quita el prefijo; uno a la vez. Sin círculo, el agente está trabajando: al retomar una ⚪ o una 🔴, quítalo.
+**El título:** si la sesión sale de un ticket y hay una fuente de la que leerlo (un gestor de incidencias, una issue, una página), en cuanto lo leas sobrescribe el título de la sesión (el de tu herramienta, nunca el de la pestaña del navegador) con ese mismo título, y su número si lo tiene: `1234 · Subir app`. Sin ticket, déjalo como está.
+
+**El estado:** un círculo delante del título de la sesión enseña de un vistazo cómo va cada sesión, y qué le toca al usuario: `⚪ 1234 · Subir app`. Del título, solo añade, cambia o quita el prefijo; uno a la vez. Sin círculo, el agente está trabajando: al retomar una ⚪ o una 🔴, quítalo.
 
 | Estado | Cuándo |
 |---|---|
