@@ -1,6 +1,6 @@
 ---
 name: retro
-description: "Repaso (retro) de una sesión: cómo ha funcionado el harness, pieza a pieza y con pruebas sacadas del log, y qué cambiar para la próxima. Use when: el usuario lo pide ('repásalo', 'haz la retro', '¿cómo ha ido el harness?', 'informe del harness') o dice que sí al ofrecérselo al cerrar. NO durante el trabajo ni por iniciativa propia."
+description: "Repaso (retro) de una sesión: cómo ha funcionado el harness, pieza a pieza y con pruebas sacadas del log, y qué cambiar para la próxima. Use when: el usuario lo pide ('repásalo', 'haz la retro', '¿cómo ha ido el harness?', 'informe del harness', 'el resumen del día') o dice que sí al ofrecérselo al cerrar. NO durante el trabajo ni por iniciativa propia."
 ---
 
 # Repasar
@@ -35,6 +35,10 @@ Si tu herramienta no tiene subagentes, haz tú el repaso siguiendo `report.md`, 
 - **Guárdalo tal cual, con tu herramienta de crear ficheros** (no con `Set-Content`/`Out-File` de PowerShell 5.1, que rompe los acentos) en `<HARNESS>\personal\retros\AAAA-MM-DD-<herramienta>.md` (si ya existe, añade `-2`, `-3`…). **Compón el nombre antes de crearlo**, con un listado de los de ese día (`Get-ChildItem` o `ls`), y guárdalo en cuanto llegue, antes de contestar al usuario. El histórico es lo que deja ver si una pieza falla **varias sesiones seguidas**, y no solo una.
 - **Al usuario:** el veredicto y los candidatos de mejora, por gravedad, y la ruta del informe.
 - **Nada se cambia solo:** el repaso propone y el usuario decide. No toques el harness, ni siquiera lo evidente, sin su sí.
+
+## 3. El resumen del día
+
+Cuando el usuario pide el del día (o el de varios días, o un mes) en vez del de una sesión, lo haces tú, a partir de los repasos y de los logs: sigue `day.md`, junto a este fichero.
 
 ---
 Adaptada de `retro` de [mattpocock/skills](https://github.com/mattpocock/skills) @ `a7d038f` (2026-09-24) (MIT): el subagente, la evaluación de cada pieza con pruebas y el histórico son propios de este harness.

@@ -51,7 +51,7 @@ one-agent-harness\
    │  ├─ diagnose\                       FILL-IN   causa raíz antes de arreglar
    │  ├─ prepare\                        FILL-IN   aclarar antes de hacer, y planificar si es grande
    │  ├─ voice\                          OPTIONAL  tu voz (comentarios y chat); fuera del core
-   │  └─ retro\                          OPTIONAL  READY: el repaso de una sesión, pieza a pieza y con pruebas; fuera del core
+   │  └─ retro\                          OPTIONAL  READY: el repaso de una sesión, pieza a pieza y con pruebas, y el resumen del día (day.md); fuera del core
    ├─ agents\
    │  └─ reviewer.agent.md               READY     el único agente: revisión a fondo, convenios incluidos, no edita
    ├─ checklists\security.md             ADJUST    la lee solo el revisor (eje 3); fuera de cualquier catálogo

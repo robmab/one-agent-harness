@@ -26,6 +26,7 @@ Nada más: ni qué has comprobado, ni dónde tiene que mirar, ni una lista de co
 - **Approver manual (una pasada):** si un arreglo cambia la lógica (no solo un texto, un comentario o un nombre; una guarda nueva, una condición o un cálculo **sí** son lógica), no relances el revisor por tu cuenta: dilo en la tabla (qué quedó sin revisar, y si toca un fichero compartido) y pregúntale al usuario si quiere otra pasada sobre eso. Si el revisor recomendó una segunda pasada, díselo en la misma pregunta; si dijo que no hace falta, no la ofrezcas. Si se lanza, acotada a lo que cambiaron los arreglos, no a todo el diff.
   <!-- CHOOSE: el modo del approver. El manual (arriba) encaja con una persona que revisa el diff igualmente: con una pasada basta. Para un flujo desatendido, cambia el punto de arriba por este:
   - **Approver automático (por rondas):** tras tus arreglos, vuelve a lanzar el revisor con el mismo encargo, acotado a lo que cambiaron los arreglos. Repite hasta que no quede ningún 🔴 ni 🟠, **como mucho 3 rondas**; entonces para y dile al usuario qué sigue abierto. Lo que se sale de la tarea nunca entra en el bucle: va a la tabla. Cada ronda va en la tabla. -->
+- **Si arreglar un hallazgo obliga a tocar ficheros fuera del diff** (p. ej. otras copias de la misma función), no se aplica: va a la tabla como propuesta, con esos ficheros, y decide el usuario.
 - **Si un hallazgo choca con algo que el usuario decidió en la sesión** (un nombre, una ubicación, un enfoque), no se aplica: va a la tabla, junto a lo que decidió, y que elija.
 - **Si un hallazgo se va a otro ticket**, dalo ya redactado en la tabla: título y dos líneas de descripción.
 - **Cuéntale al usuario todos los hallazgos, en una tabla:** hallazgo · gravedad (bloqueante, importante, menor) · estado (arreglado; no, y por qué; ya decidido). Uno por fila, también los que no arreglas y también las **preguntas** (💭) del revisor, con lo que has visto o con "sin mirar". Antes de cerrar, coteja la tabla con el informe del revisor: que no se quede ninguno fuera.
@@ -70,6 +71,6 @@ Solo ahora, con el revisor pasado y sus arreglos hechos, **y en cuanto lo estén
 | ⚪ | analizada y a la espera de empezar: has dado el plan y esperas el sí del usuario, o una sesión de la fábrica paró en `before-code` |
 | 🔴 | atascada: no puedes seguir sin el usuario (3 arreglos fallidos, un bloqueante sin resolver, algo que solo el usuario puede darte). Di en el mensaje qué necesitas. Una duda normal no es 🔴: pregunta y ya |
 | 🟠 | pendiente: el usuario dice que lo deja, en cualquier momento, no solo al cerrar. Cuando se retome y se cierre, pasa a 🟢 |
-| 🟢 | cerrada y bien: revisor decidido, arreglos hechos y, si lo ha pedido, repaso terminado |
+| 🟢 | cerrada y bien: revisor decidido, arreglos hechos y, si lo ha pedido, repaso terminado. Nunca al lanzar la pregunta del repaso: si el usuario contesta con otra corrección, sigue sin círculo hasta que acabe |
 
 Si tu herramienta no deja renombrar, dilo una vez.

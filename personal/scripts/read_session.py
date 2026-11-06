@@ -59,6 +59,8 @@ MSG = {
     'other_tool': '(not a {tool} session: it is {other})',
     'no_sessions': 'No {tool} sessions for {repo}.',
     'not_found': 'Session {s} not found. Try --list.',
+    'late_since': 'NOTE: the session starts on {first} and --since leaves out {n} earlier user message(s);'
+                  ' if you want the whole session, drop --since (--list gives the last activity, not the start).',
     'bad_when': "Can't read {w!r}: use HH:MM, YYYY-MM-DD or 'YYYY-MM-DD HH:MM'.",
     'session': 'Session {s} ({tool})', 'sub': '(subagent)', 'to_sub': '(to a subagent) ',
     'approval': 'WAITING FOR THE USER\'S APPROVAL ({tool}): {why}',
@@ -383,6 +385,10 @@ def first_copilot_cli(f):
 
 # ---------------------------------------------------------------- OpenCode
 
+# with --session, child sessions count too (the reviewer): otherwise a retro can't look at its calls
+CHILDREN = False
+
+
 def sessions_opencode(repo):
     folder = str(Path(repo).resolve()).replace('\\', '/') if repo else None
     rows = []
@@ -392,8 +398,8 @@ def sessions_opencode(repo):
             continue
         con = sqlite3.connect(f'file:{db}?mode=ro', uri=True)
         rows += [(t, db, sid) for sid, t in con.execute(
-            'select id, time_updated from session_v2 where (? is null or lower(directory) = lower(?)) and parent_id is null',
-            (folder, folder))]
+            'select id, time_updated from session_v2 where (? is null or lower(directory) = lower(?))'
+            ' and (? or parent_id is null)', (folder, folder, CHILDREN))]
     return [(db, sid) for _, db, sid in sorted(rows, reverse=True)]
 
 
@@ -713,8 +719,9 @@ def main():
     ap.add_argument('--out', help=MSG['h_out'])
     ap.add_argument('--repo', default=os.getcwd(), help=MSG['h_repo'])
     a = ap.parse_args()
-    global FULL
+    global FULL, CHILDREN
     FULL = a.full
+    CHILDREN = bool(a.session)
     sys.stdout.reconfigure(encoding='utf-8')
     if a.out:
         sys.stdout = open(a.out, 'w', encoding='utf-8')
@@ -763,8 +770,13 @@ def main():
     times = [e['t'] for e in tl.events if e['t']]
     last_day = max(times).date() if times else datetime.now().date()
     since, until = parse_when(a.since, last_day), parse_when(a.until, last_day, end=True)
+    # --since usually comes from --list, which gives the last activity, not the start
+    users = [e['t'] for e in tl.events if e['t'] and e['kind'] == 'user']
+    late = since and users and min(users) < since and not (until and min(users) > until)
     tl.window(since, until)
     print(MSG['session'].format(s=name(found[0]), tool=a.tool))
+    if late:
+        print(MSG['late_since'].format(first=f'{min(users):%Y-%m-%d %H:%M}', n=sum(1 for t in users if t < since)))
     print('\n'.join(render(tl, a.summary)))
     print('\n'.join(harness_use(tl, a.since, a.until)))
 

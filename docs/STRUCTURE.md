@@ -51,7 +51,7 @@ one-agent-harness\
    │  ├─ diagnose\                       FILL-IN   root cause before fixing
    │  ├─ prepare\                        FILL-IN   clarify before building, and plan if it's big
    │  ├─ voice\                          OPTIONAL  your voice (comments and chat); outside the core
-   │  └─ retro\                          OPTIONAL  READY: a session's retro, piece by piece with evidence; outside the core
+   │  └─ retro\                          OPTIONAL  READY: a session's retro, piece by piece with evidence, and the day's summary (day.md); outside the core
    ├─ agents\
    │  └─ reviewer.agent.md               READY     the only agent: in-depth review, conventions included, never edits
    ├─ checklists\security.md             ADJUST    read only by the reviewer (axis 3); outside every catalogue

@@ -26,6 +26,7 @@ Nothing more: not what you checked, not where to look, not a list of things to r
 - **Approver, manual (one pass):** if a fix changes logic (not just a text, a comment or a name; a new guard, a condition or a calculation **are** logic), don't rerun the reviewer on your own: say it in the table (what went unreviewed, and whether it touches a shared file) and ask the user whether they want another pass over it. If the reviewer recommended a second pass, say so in the same question; if it said it isn't needed, don't offer it. If it runs, it covers what the fixes changed, not the whole diff.
   <!-- CHOOSE: the approver's mode. Manual (above) suits a human who reviews the diff anyway: one pass is enough. For an unattended flow, swap the bullet above for this one:
   - **Approver, automatic (in rounds):** after your fixes, launch the reviewer again with the same task, scoped to what the fixes changed. Repeat until no 🔴 or 🟠 are left, **at most 3 rounds**; then stop and tell the user what's still open. Findings outside the task never enter the loop: they go to the table. Each round goes in the table. -->
+- **If fixing a finding means touching files outside the diff** (e.g. other copies of the same function), don't apply it: it goes to the table as a proposal, with those files, and the user decides.
 - **If a finding clashes with something the user decided in the session** (a name, a location, an approach), don't apply it: it goes to the table, next to what they decided, and they choose.
 - **If a finding goes to another ticket**, give it already written in the table: title and two lines of description.
 - **Tell the user every finding, in a table:** finding · severity (blocking, important, minor) · status (fixed; not, and why; already decided). One per row, the ones you don't fix too, and the reviewer's **questions** (💭) as well, with what you saw or "not looked at". Before closing, check the table against the reviewer's report: none must be left out.
@@ -70,6 +71,6 @@ Only now, with the reviewer done and its fixes made, **and as soon as they are**
 | ⚪ | analysed and waiting to start: you've given the plan and wait for the user's yes, or a factory session stopped at `before-code` |
 | 🔴 | stuck: you can't go on without the user (3 failed fixes, an unresolved blocker, something only they can give you). Say in the message what you need. An ordinary question isn't 🔴: just ask |
 | 🟠 | pending: the user says they're leaving it, at any moment, not just when closing. When it's picked up and closed, it goes to 🟢 |
-| 🟢 | closed and fine: reviewer settled, fixes made and, if they asked for it, retro finished |
+| 🟢 | closed and fine: reviewer settled, fixes made and, if they asked for it, retro finished. Never when you ask the retro question: if the user answers with another correction, no circle until it's done |
 
 If your tool can't rename, say so once.

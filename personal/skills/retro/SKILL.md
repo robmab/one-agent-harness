@@ -1,6 +1,6 @@
 ---
 name: retro
-description: "Retrospective of a session: how the harness worked, piece by piece and with evidence from the log, and what to change for next time. Use when: the user asks for it ('do a retro', 'how did the harness do?', 'harness report') or says yes when it's offered at closing. NOT during the work, nor on your own initiative."
+description: "Retrospective of a session: how the harness worked, piece by piece and with evidence from the log, and what to change for next time. Use when: the user asks for it ('do a retro', 'how did the harness do?', 'harness report', 'the day's summary') or says yes when it's offered at closing. NOT during the work, nor on your own initiative."
 ---
 
 # Retro
@@ -35,6 +35,10 @@ If your tool has no subagents, do the retro yourself following `report.md`, and 
 - **Save it as is, with your file-creating tool** (not PowerShell 5.1's `Set-Content`/`Out-File`, which breaks accented characters) in `<HARNESS>\personal\retros\YYYY-MM-DD-<tool>.md` (if it exists, add `-2`, `-3`…). **Build the name before creating it**, listing that day's files (`Get-ChildItem` or `ls`), and save it as soon as it arrives, before answering the user. The history is what shows a piece failing **several sessions in a row**, not just once.
 - **To the user:** the verdict and the improvement candidates, by severity, and the report's path.
 - **Nothing changes on its own:** the retro proposes and the user decides. Don't touch the harness, not even the obvious, without their yes.
+
+## 3. The day's summary
+
+When the user asks for the day (or several days, or a month) instead of one session, you do it yourself, from the retros and the logs: follow `day.md`, next to this file.
 
 ---
 Adapted from `retro` in [mattpocock/skills](https://github.com/mattpocock/skills) @ `a7d038f` (2026-09-24) (MIT): the subagent, the piece-by-piece evidence and the history are this harness's own.
